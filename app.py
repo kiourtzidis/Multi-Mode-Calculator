@@ -26,7 +26,12 @@ class App:
         self.mode_frame.pack(side='top', fill='both', expand=True)
 
         self.windows = {
-            'Basic': BasicUI(self.mode_frame, self.button_click, self.history_click),
+            'Basic': BasicUI(
+                self.mode_frame,
+                self.button_click,
+                self.history_click,
+                self.history_delete
+            ),
             'Scientific': ScientificUI(self.mode_frame),
             'Temperature': TemperatureUI(self.mode_frame),
             'Currency': CurrencyUI(self.mode_frame)
@@ -48,7 +53,6 @@ class App:
         )
 
         self.mode_selector.pack(pady=10)
-
 
         self.current_window = self.windows['Basic']
         self.current_window.pack(fill='both', expand=True)
@@ -89,6 +93,7 @@ class App:
 
     
     def history_click(self, expression):
+
         logic = self.calculator_logic
         ui = self.current_window
 
@@ -96,3 +101,13 @@ class App:
         logic.calculated = False
 
         ui.update_typing_display(expression, logic.calculated) 
+
+
+    def history_delete(self, line, outer_frame):
+
+        try:
+            self.calculator_logic.history.remove(line)
+        except ValueError:
+            pass
+        
+        outer_frame.destroy() 
