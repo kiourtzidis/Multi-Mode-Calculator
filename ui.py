@@ -142,10 +142,10 @@ class BasicUI(ctk.CTkFrame):
                 justify='left',
                 fg_color='#444444',
                 text_color='#BFBFBF',
-                font=ctk.CTkFont(size=22)
+                font=ctk.CTkFont(size=24)
             )
         
-        item_label.grid(row=0, column=0, sticky='nsew', padx=(5,0), pady=2)
+        item_label.grid(row=0, column=0, sticky='nsew', padx=(5, 0), pady=(1, 0))
 
         delete_button = ctk.CTkButton(
             item_frame,
@@ -158,7 +158,7 @@ class BasicUI(ctk.CTkFrame):
             command=lambda l=line, f=outer: self.history_delete_callback(l, f)
         )
         
-        delete_button.grid(row=0, column=1, sticky='e', padx=(10,5), pady=2)
+        delete_button.grid(row=0, column=1, sticky='e', padx=(10, 5), pady=(1, 0))
 
         item_label.configure(cursor='hand2')
         delete_button.configure(cursor='hand2')
