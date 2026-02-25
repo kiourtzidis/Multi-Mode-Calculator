@@ -53,7 +53,6 @@ class App:
             dropdown_text_color='white',
             text_color='white'
         )
-
         self.mode_selector.pack(pady=10)
 
         self.current_window = self.windows['Basic']
@@ -95,7 +94,7 @@ class App:
 
 
     def copy_item(self, line):
-        
+
         self.root.clipboard_clear()
         self.root.clipboard_append(line)
 

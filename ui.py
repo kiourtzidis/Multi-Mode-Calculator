@@ -159,7 +159,6 @@ class BasicUI(ctk.CTkFrame):
                 text_color='#BFBFBF',
                 font=ctk.CTkFont(size=24)
             )
-        
         item_label.grid(row=0, column=0, sticky='nsew', padx=(5, 0), pady=(1, 0))
 
         copy_button = ctk.CTkButton(
@@ -171,9 +170,7 @@ class BasicUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 14),
             command=lambda l=line: self.copy_callback(l)
         )
-
-        copy_button.grid(row=0, column=1, sticky='e', padx=(5, 0))        
-
+        copy_button.grid(row=0, column=1, sticky='e', padx=(5, 0))
 
         delete_button = ctk.CTkButton(
             item_frame,
@@ -184,7 +181,6 @@ class BasicUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 14),
             command=lambda l=line, f=outer: self.history_delete_callback(l, f)
         )
-        
         delete_button.grid(row=0, column=2, sticky='e', padx=(10, 5), pady=(1, 0))
 
         item_label.configure(cursor='hand2')
@@ -193,8 +189,10 @@ class BasicUI(ctk.CTkFrame):
         item_label.bind('<Enter>', lambda e: item_label.configure(text_color='#FFFFFF'))
         item_label.bind('<Leave>', lambda e: item_label.configure(text_color='#BBBBBB'))
         item_label.bind('<Button-1>', lambda e, exp=expression: self.history_callback(exp))
+
         copy_button.bind('<Enter>', lambda e: copy_button.configure(text_color='#FFFFFF'))
         copy_button.bind('<Leave>', lambda e: copy_button.configure(text_color='#BBBBBB'))
+
         delete_button.bind('<Enter>', lambda e: delete_button.configure(text_color='#FFFFFF'))
         delete_button.bind('<Leave>', lambda e: delete_button.configure(text_color='#BBBBBB'))
         
@@ -207,6 +205,7 @@ class BasicUI(ctk.CTkFrame):
             canvas.yview_moveto(1.0)
 
         self.history_scroll.after(0, scroll_to_bottom) 
+
 
     def clear_history_display(self):
         for frame in list(self.history_scroll.winfo_children()):
