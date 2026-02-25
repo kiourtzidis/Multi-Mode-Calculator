@@ -35,7 +35,7 @@ class BasicUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 14),
             command=self.history_clear_callback
         )
-        self.clear_history_button.grid(row=0, column=0, sticky='w', padx=4, pady=(4, 2))
+        self.clear_history_button.grid(row=0, column=0, sticky='nsew', padx=4, pady=(4, 2))
         self.clear_history_button.configure(cursor='hand2')
 
         self.history_scroll = ctk.CTkScrollableFrame(self.history_frame, fg_color='#3C3C3C')
