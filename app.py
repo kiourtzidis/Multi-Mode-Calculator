@@ -55,6 +55,9 @@ class App:
         )
         self.mode_selector.pack(pady=10)
 
+        self.mode_selector.bind('<Enter>', lambda e: e.widget.configure(cursor='arrow'))
+        self.mode_selector.bind('<Leave>', lambda e: e.widget.configure(cursor='arrow'))
+
         self.current_window = self.windows['Basic']
         self.current_window.pack(fill='both', expand=True)
         self.root.geometry(f'{self.current_window.width}x{self.current_window.height}')
