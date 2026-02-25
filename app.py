@@ -94,7 +94,6 @@ class App:
 
 
     def copy_item(self, line):
-
         self.root.clipboard_clear()
         self.root.clipboard_append(line)
 
@@ -121,6 +120,5 @@ class App:
 
 
     def history_clear(self):
-
         self.calculator_logic.clear_history()
         self.current_window.clear_history_display() 
