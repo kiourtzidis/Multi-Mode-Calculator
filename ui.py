@@ -184,6 +184,7 @@ class BasicUI(ctk.CTkFrame):
         delete_button.grid(row=0, column=2, sticky='e', padx=(10, 5), pady=(1, 0))
 
         item_label.configure(cursor='hand2')
+        copy_button.configure(cursor='hand2')
         delete_button.configure(cursor='hand2')
 
         item_label.bind('<Enter>', lambda e: item_label.configure(text_color='#FFFFFF'))
