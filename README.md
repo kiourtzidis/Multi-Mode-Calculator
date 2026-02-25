@@ -5,5 +5,4 @@ Multi-Mode Calculator made in Python with the CustomTKinter library.
 
 ##Planned Features
 - Clear History Button
-- Clear Individual History Item Button
 - Scientific, Temperature, Currency Modes 
