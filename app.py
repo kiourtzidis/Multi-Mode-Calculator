@@ -31,7 +31,8 @@ class App:
                 self.button_click,
                 self.history_click,
                 self.history_delete,
-                self.history_clear
+                self.history_clear,
+                self.copy_item
             ),
             'Scientific': ScientificUI(self.mode_frame),
             'Temperature': TemperatureUI(self.mode_frame),
@@ -91,6 +92,12 @@ class App:
             logic.append(symbol)
 
         ui.update_typing_display(logic.expression, logic.calculated) 
+
+
+    def copy_item(self, line):
+        
+        self.root.clipboard_clear()
+        self.root.clipboard_append(line)
 
     
     def history_click(self, expression):

@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 class BasicUI(ctk.CTkFrame):
 
-    def __init__(self, parent, button_callback, history_callback, history_delete_callback, history_clear_callback):
+    def __init__(self, parent, button_callback, history_callback, history_delete_callback, history_clear_callback, copy_callback):
 
         super().__init__(parent, fg_color='#1F1F1F')
 
@@ -13,6 +13,7 @@ class BasicUI(ctk.CTkFrame):
         self.history_callback = history_callback
         self.history_delete_callback = history_delete_callback
         self.history_clear_callback = history_clear_callback
+        self.copy_callback = copy_callback
 
         self.grid_rowconfigure(0, weight=5)
         self.grid_rowconfigure(1, weight=0)
@@ -147,6 +148,7 @@ class BasicUI(ctk.CTkFrame):
         item_frame.grid_rowconfigure(0, weight=1)
         item_frame.grid_columnconfigure(0, weight=1)
         item_frame.grid_columnconfigure(1, weight=0)
+        item_frame.grid_columnconfigure(2, weight=0)
 
         item_label = ctk.CTkLabel(
                 item_frame,
@@ -160,6 +162,19 @@ class BasicUI(ctk.CTkFrame):
         
         item_label.grid(row=0, column=0, sticky='nsew', padx=(5, 0), pady=(1, 0))
 
+        copy_button = ctk.CTkButton(
+            item_frame,
+            text="⧉",
+            width=24,
+            height=24,
+            fg_color='#444444',
+            font=('Jetbrains Mono', 14),
+            command=lambda l=line: self.copy_callback(l)
+        )
+
+        copy_button.grid(row=0, column=1, sticky='e', padx=(5, 0))        
+
+
         delete_button = ctk.CTkButton(
             item_frame,
             text='✕',
@@ -170,16 +185,19 @@ class BasicUI(ctk.CTkFrame):
             command=lambda l=line, f=outer: self.history_delete_callback(l, f)
         )
         
-        delete_button.grid(row=0, column=1, sticky='e', padx=(10, 5), pady=(1, 0))
+        delete_button.grid(row=0, column=2, sticky='e', padx=(10, 5), pady=(1, 0))
 
         item_label.configure(cursor='hand2')
         delete_button.configure(cursor='hand2')
 
         item_label.bind('<Enter>', lambda e: item_label.configure(text_color='#FFFFFF'))
         item_label.bind('<Leave>', lambda e: item_label.configure(text_color='#BBBBBB'))
+        item_label.bind('<Button-1>', lambda e, exp=expression: self.history_callback(exp))
+        copy_button.bind('<Enter>', lambda e: copy_button.configure(text_color='#FFFFFF'))
+        copy_button.bind('<Leave>', lambda e: copy_button.configure(text_color='#BBBBBB'))
         delete_button.bind('<Enter>', lambda e: delete_button.configure(text_color='#FFFFFF'))
         delete_button.bind('<Leave>', lambda e: delete_button.configure(text_color='#BBBBBB'))
-        item_label.bind('<Button-1>', lambda e, exp=expression: self.history_callback(exp))
+        
         separator = ctk.CTkFrame(outer, height=1, fg_color='#555555')
         separator.pack(fill='x', pady=(0, 6))
 
