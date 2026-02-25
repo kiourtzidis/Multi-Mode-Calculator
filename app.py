@@ -30,7 +30,8 @@ class App:
                 self.mode_frame,
                 self.button_click,
                 self.history_click,
-                self.history_delete
+                self.history_delete,
+                self.history_clear
             ),
             'Scientific': ScientificUI(self.mode_frame),
             'Temperature': TemperatureUI(self.mode_frame),
@@ -111,3 +112,9 @@ class App:
             pass
         
         outer_frame.destroy() 
+
+
+    def history_clear(self):
+
+        self.calculator_logic.clear_history()
+        self.current_window.clear_history_display() 

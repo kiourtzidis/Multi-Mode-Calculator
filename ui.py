@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 class BasicUI(ctk.CTkFrame):
 
-    def __init__(self, parent, button_callback, history_callback, history_delete_callback):
+    def __init__(self, parent, button_callback, history_callback, history_delete_callback, history_clear_callback):
 
         super().__init__(parent, fg_color='#1F1F1F')
 
@@ -12,6 +12,7 @@ class BasicUI(ctk.CTkFrame):
         self.button_callback = button_callback
         self.history_callback = history_callback
         self.history_delete_callback = history_delete_callback
+        self.history_clear_callback = history_clear_callback
 
         self.grid_rowconfigure(0, weight=5)
         self.grid_rowconfigure(1, weight=0)
@@ -20,12 +21,24 @@ class BasicUI(ctk.CTkFrame):
 
         self.history_frame = ctk.CTkFrame(self, fg_color='#3C3C3C')
         self.history_frame.grid(row=0, column=0, sticky='nsew', padx=10, pady=(8, 4))
-        self.history_frame.grid_rowconfigure(0, weight=1)
-        self.history_frame.grid_rowconfigure(1, weight=0)
+        self.history_frame.grid_rowconfigure(0, weight=0)
+        self.history_frame.grid_rowconfigure(1, weight=1)
         self.history_frame.grid_columnconfigure(0, weight=1)
 
+        self.clear_history_button = ctk.CTkButton(
+            self.history_frame,
+            text="Clear History",
+            height=28,
+            fg_color='#262626',
+            hover_color='#323232',
+            font=('Jetbrains Mono', 14),
+            command=self.history_clear_callback
+        )
+        self.clear_history_button.grid(row=0, column=0, sticky='w', padx=4, pady=(4, 2))
+        self.clear_history_button.configure(cursor='hand2')
+
         self.history_scroll = ctk.CTkScrollableFrame(self.history_frame, fg_color='#3C3C3C')
-        self.history_scroll.grid(row=0, column=0, sticky='nsew', padx=10, pady=10)
+        self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=10)
 
         self.typing_frame = ctk.CTkFrame(self, fg_color='#2E2E2E')
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
@@ -153,7 +166,6 @@ class BasicUI(ctk.CTkFrame):
             width=24,
             height=24,
             fg_color='#444444',
-            hover_color='#555555',
             font=('Jetbrains Mono', 14),
             command=lambda l=line, f=outer: self.history_delete_callback(l, f)
         )
@@ -165,8 +177,9 @@ class BasicUI(ctk.CTkFrame):
 
         item_label.bind('<Enter>', lambda e: item_label.configure(text_color='#FFFFFF'))
         item_label.bind('<Leave>', lambda e: item_label.configure(text_color='#BBBBBB'))
+        delete_button.bind('<Enter>', lambda e: delete_button.configure(text_color='#FFFFFF'))
+        delete_button.bind('<Leave>', lambda e: delete_button.configure(text_color='#BBBBBB'))
         item_label.bind('<Button-1>', lambda e, exp=expression: self.history_callback(exp))
-
         separator = ctk.CTkFrame(outer, height=1, fg_color='#555555')
         separator.pack(fill='x', pady=(0, 6))
 
@@ -176,6 +189,10 @@ class BasicUI(ctk.CTkFrame):
             canvas.yview_moveto(1.0)
 
         self.history_scroll.after(0, scroll_to_bottom) 
+
+    def clear_history_display(self):
+        for frame in list(self.history_scroll.winfo_children()):
+            frame.destroy()
 
 class ScientificUI(ctk.CTkFrame):
 

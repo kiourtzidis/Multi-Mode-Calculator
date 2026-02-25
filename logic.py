@@ -86,6 +86,10 @@ class CalculatorLogic:
             self.expression = 'Error'
             self.calculated = False 
             return None, 'Error'
+        
+
+    def clear_history(self):
+        self.history.clear()
 
 
 class TemperatureLogic:
