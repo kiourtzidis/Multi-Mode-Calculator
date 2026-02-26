@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 class BasicUI(ctk.CTkFrame):
 
-    def __init__(self, parent, button_callback, history_callback, history_delete_callback, history_clear_callback, copy_callback):
+    def __init__(self, parent, button_callback, history_callback, history_copy_callback, history_delete_callback, history_clear_callback):
 
         super().__init__(parent, fg_color='#1F1F1F')
 
@@ -11,9 +11,9 @@ class BasicUI(ctk.CTkFrame):
 
         self.button_callback = button_callback
         self.history_callback = history_callback
+        self.history_copy_callback = history_copy_callback 
         self.history_delete_callback = history_delete_callback
         self.history_clear_callback = history_clear_callback
-        self.copy_callback = copy_callback
 
         self.grid_rowconfigure(0, weight=5)
         self.grid_rowconfigure(1, weight=0)
@@ -28,7 +28,7 @@ class BasicUI(ctk.CTkFrame):
 
         self.clear_history_button = ctk.CTkButton(
             self.history_frame,
-            text="Clear History",
+            text='Clear History',
             height=28,
             fg_color='#262626',
             hover_color='#323232',
@@ -43,7 +43,13 @@ class BasicUI(ctk.CTkFrame):
 
         self.typing_frame = ctk.CTkFrame(self, fg_color='#2E2E2E')
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
-        self.typing_entry = ctk.CTkEntry(self.typing_frame, font=('Jetbrains Mono', 34), fg_color='#2E2E2E', height=40, state='readonly', border_width=0)
+        self.typing_entry = ctk.CTkEntry(
+            self.typing_frame, 
+            font=('Jetbrains Mono', 34), 
+            fg_color='#2E2E2E', 
+            height=40, 
+            state='readonly', 
+            border_width=0)
         self.typing_entry.pack(fill='both', padx=10, ipady=10)
         self.typing_entry._entry.configure(cursor='arrow')
 
@@ -103,7 +109,7 @@ class BasicUI(ctk.CTkFrame):
                     text=symbol, 
                     font=('Jetbrains Mono', 20), 
                     fg_color='#262626', 
-                    hover_color="#C42B2B", 
+                    hover_color='#C42B2B', 
                     command=lambda s=symbol: self.button_callback(s))
             else:
                 button = ctk.CTkButton(
@@ -164,12 +170,12 @@ class BasicUI(ctk.CTkFrame):
 
         copy_button = ctk.CTkButton(
             item_frame,
-            text="⧉",
+            text='⧉',
             width=24,
             height=24,
             fg_color='#444444',
             font=('Jetbrains Mono', 14),
-            command=lambda l=line: self.copy_callback(l)
+            command=lambda l=line: self.history_copy_callback(l)
         )
         copy_button.grid(row=0, column=1, sticky='e', padx=(5, 0))
 

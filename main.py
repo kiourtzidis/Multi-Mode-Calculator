@@ -5,12 +5,12 @@ def main():
 
     root = ctk.CTk()
     
-    root.title("Multi-Mode Calculator")
-    root.geometry("360x615")
+    root.title('Multi-Mode Calculator')
+    root.geometry('360x615')
 
     app = App(root)
 
     root.mainloop()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main() 
