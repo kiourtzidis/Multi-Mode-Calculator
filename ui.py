@@ -6,6 +6,8 @@ class BasicUI(ctk.CTkFrame):
 
         super().__init__(parent, fg_color='#1F1F1F')
 
+        self.max_history_chars = 15
+
         self.width = 360
         self.height = 615
 
@@ -168,6 +170,9 @@ class BasicUI(ctk.CTkFrame):
             )
         item_label.grid(row=0, column=0, sticky='nsew', padx=(5, 0), pady=(1, 0))
 
+        formatted_line = self.format_history_item(line)
+        item_label.configure(text=formatted_line)
+
         copy_button = ctk.CTkButton(
             item_frame,
             text='⧉',
@@ -212,7 +217,15 @@ class BasicUI(ctk.CTkFrame):
             canvas.update_idletasks()
             canvas.yview_moveto(1.0)
 
-        self.history_scroll.after(0, scroll_to_bottom) 
+        self.history_scroll.after(0, scroll_to_bottom)
+
+
+    def format_history_item(self, line):
+
+        if len(line) > self.max_history_chars:
+            line = line[:self.max_history_chars-1] + '…'
+
+        return line
 
 
     def clear_history_display(self):
