@@ -32,7 +32,7 @@ class BasicUI(ctk.CTkFrame):
             self.history_frame,
             text='Clear History',
             height=28,
-            fg_color='#262626',
+            fg_color='#2A2A2A',
             hover_color='#323232',
             font=('Jetbrains Mono', 14),
             command=self.history_clear_callback
