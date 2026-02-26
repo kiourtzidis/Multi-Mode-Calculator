@@ -1,6 +1,11 @@
 import customtkinter as ctk
-from ui import BasicUI, ScientificUI, TemperatureUI, CurrencyUI
-from logic import CalculatorLogic, TemperatureLogic, CurrencyLogic
+from ui.basic_ui import BasicUI
+from ui.scientific_ui import ScientificUI
+from ui.temperature_ui import TemperatureUI
+from ui.currency_ui import CurrencyUI
+from logic.calculator_logic import CalculatorLogic
+from logic.temperature_logic import TemperatureLogic
+from logic.currency_logic import CurrencyLogic
 
 class App:
 

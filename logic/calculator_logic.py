@@ -90,11 +90,3 @@ class CalculatorLogic:
 
     def clear_history(self):
         self.history.clear()
-
-
-class TemperatureLogic:
-    pass    
-
-
-class CurrencyLogic:
-    pass

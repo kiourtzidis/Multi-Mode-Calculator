@@ -1,0 +1,2 @@
+class TemperatureLogic:
+    pass
