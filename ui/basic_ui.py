@@ -47,7 +47,7 @@ class BasicUI(ctk.CTkFrame):
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
         self.typing_entry = ctk.CTkEntry(
             self.typing_frame, 
-            font=('Jetbrains Mono', 34), 
+            font=('Jetbrains Mono', 24), 
             fg_color='#2E2E2E', 
             height=40, 
             state='readonly', 
@@ -193,7 +193,7 @@ class BasicUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 14),
             command=lambda l=line, f=outer: self.history_delete_callback(l, f)
         )
-        delete_button.grid(row=0, column=2, sticky='e', padx=(10, 5), pady=(1, 0))
+        delete_button.grid(row=0, column=2, sticky='e', padx=(5, 0))
 
         item_label.configure(cursor='hand2')
         copy_button.configure(cursor='hand2')
