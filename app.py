@@ -41,6 +41,11 @@ class App:
             ),
             'Scientific': ScientificUI(
                 self.mode_frame,
+                self.button_click,
+                self.history_click,
+                self.history_copy,
+                self.history_delete,
+                self.history_clear,
                 self.toggle_angle
             ),
             'Temperature': TemperatureUI(self.mode_frame),
