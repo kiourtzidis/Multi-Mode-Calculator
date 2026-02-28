@@ -40,3 +40,8 @@ class ScientificUI(ctk.CTkFrame):
             scrollbar_button_hover_color='#999999', 
             border_width=0)
         self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=10)
+
+        self.typing_frame = ctk.CTkFrame(self, fg_color='#2E2E2E')
+        self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
+
+        
