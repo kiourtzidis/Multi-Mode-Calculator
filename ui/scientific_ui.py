@@ -32,3 +32,11 @@ class ScientificUI(ctk.CTkFrame):
         )
         self.clear_history_button.grid(row=0, column=0, sticky='nsew', padx=4, pady=(4, 2))
         self.clear_history_button.configure(cursor='hand2')
+
+        self.history_scroll = ctk.CTkScrollableFrame(
+            self.history_frame, 
+            fg_color='#3C3C3C',
+            scrollbar_button_color='#777777',
+            scrollbar_button_hover_color='#999999', 
+            border_width=0)
+        self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=10)
