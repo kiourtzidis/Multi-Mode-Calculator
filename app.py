@@ -39,7 +39,10 @@ class App:
                 self.history_delete,
                 self.history_clear
             ),
-            'Scientific': ScientificUI(self.mode_frame),
+            'Scientific': ScientificUI(
+                self.mode_frame,
+                self.toggle_angle
+            ),
             'Temperature': TemperatureUI(self.mode_frame),
             'Currency': CurrencyUI(self.mode_frame)
         }
@@ -135,4 +138,17 @@ class App:
         logic = self.calculator_logic
 
         ui.clear_history_display()
-        logic.clear_history()  
+        logic.clear_history()
+
+
+    def toggle_angle(self):
+        
+        ui = self.current_window
+        logic = self.calculator_logic
+
+        logic.toggle_angle_mode()
+
+        if logic.angle_mode == 'DEG':
+            ui.angle_switch.configure(text='DEG')
+        else:
+            ui.angle_switch.configure(text='RAD')

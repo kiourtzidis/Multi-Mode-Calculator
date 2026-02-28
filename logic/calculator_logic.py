@@ -6,6 +6,7 @@ class CalculatorLogic:
         self.calculated = False
         self.history = []
         self.operators = ('+', '-', '×', '÷', 'mod', 'div')
+        self.angle_mode = 'DEG'
 
     
     def clear(self):
@@ -90,3 +91,7 @@ class CalculatorLogic:
 
     def clear_history(self):
         self.history.clear()
+
+    
+    def toggle_angle_mode(self):
+        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'

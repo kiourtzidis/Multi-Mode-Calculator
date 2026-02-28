@@ -2,7 +2,7 @@ import customtkinter as ctk
 
 class ScientificUI(ctk.CTkFrame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, angle_callback):
 
         super().__init__(parent, fg_color='#1F1F1F')
 
@@ -10,6 +10,8 @@ class ScientificUI(ctk.CTkFrame):
 
         self.width = 720
         self.height = 615
+
+        self.angle_callback = angle_callback
 
         self.grid_rowconfigure(0, weight=5)
         self.grid_rowconfigure(1, weight=0)
@@ -51,8 +53,20 @@ class ScientificUI(ctk.CTkFrame):
             height=40, 
             state='readonly', 
             border_width=0)
-        self.typing_entry.pack(fill='both', padx=10, ipady=10)
+        self.typing_entry.pack(side = 'left', fill='both', padx=10, ipady=10)
         self.typing_entry._entry.configure(cursor='arrow')
+
+        self.angle_switch = ctk.CTkButton(
+            self.typing_frame,
+            text='DEG',
+            width=60,
+            fg_color='#262626',
+            hover_color='#3A3A3A',
+            font=('Jetbrains Mono', 24),
+            command=self.angle_callback
+        )
+        self.angle_switch.pack(side='right', fill='both', padx=10, pady=10)
+        self.angle_switch.configure(cursor='hand2')
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
         self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(4,8))
