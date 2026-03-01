@@ -91,8 +91,6 @@ class BasicUI(ctk.CTkFrame):
         )
                                                 
         for i, (symbol, type) in enumerate(buttons):
-            row = i // 4
-            column = i % 4
 
             if type == 'number':
                 button = ctk.CTkButton(
@@ -128,7 +126,7 @@ class BasicUI(ctk.CTkFrame):
                     command=lambda s=symbol: self.button_callback(s))
 
             button.configure(cursor='hand2')
-            button.grid(row=row, column=column, sticky='nsew', padx=5, pady=5)
+            button.grid(row=i // 4, column=i % 4 , sticky='nsew', padx=5, pady=5)
 
         for i in range(5): 
             self.buttons_frame.grid_rowconfigure(i, weight=1) 
