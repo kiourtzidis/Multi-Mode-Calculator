@@ -197,7 +197,7 @@ class ScientificUI(ctk.CTkFrame):
                 button = ctk.CTkButton(
                     self.scientific_frame,
                     text=label,
-                    font=('JetBrains Mono', 18),
+                    font=('JetBrains Mono', 20),
                     fg_color='#262626' if label != '⇄' else '#3C3C3C',
                     hover_color='#323232' if label != '⇄' else '#4A4A4A'
                 )
