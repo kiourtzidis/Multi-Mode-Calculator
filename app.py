@@ -31,23 +31,8 @@ class App:
         self.mode_frame.pack(side='top', fill='both', expand=True)
 
         self.windows = {
-            'Basic': BasicUI(
-                self.mode_frame,
-                self.button_click,
-                self.history_click,
-                self.history_copy,
-                self.history_delete,
-                self.history_clear
-            ),
-            'Scientific': ScientificUI(
-                self.mode_frame,
-                self.button_click,
-                self.history_click,
-                self.history_copy,
-                self.history_delete,
-                self.history_clear,
-                self.toggle_angle
-            ),
+            'Basic': BasicUI(self.mode_frame, self.calculator_logic),
+            'Scientific': ScientificUI(self.mode_frame, self.calculator_logic),
             'Temperature': TemperatureUI(self.mode_frame),
             'Currency': CurrencyUI(self.mode_frame)
         }
@@ -88,72 +73,3 @@ class App:
         self.root.geometry(f'{width}x{height}') 
 
         self.root.resizable(width=False, height=False) 
-
-
-    def button_click(self, symbol):
-
-        ui = self.current_window
-        logic = self.calculator_logic
-
-        if symbol == 'C':
-            logic.clear()
-        elif symbol == '⌫':
-            logic.backspace()
-        elif symbol == '=':
-            expression, result = logic.calculate()
-            if expression:
-                ui.add_history_item(expression, result)
-        else:
-            logic.append(symbol)
-
-        ui.update_typing_display(logic.expression, logic.calculated)
-
-    
-    def history_click(self, expression):
-
-        ui = self.current_window
-        logic = self.calculator_logic
-
-        logic.expression = expression
-        logic.calculated = False
-
-        ui.update_typing_display(expression, logic.calculated) 
-
-    
-    def history_copy(self, line):
-        self.root.clipboard_clear()
-        self.root.clipboard_append(line)
-
-
-    def history_delete(self, line, outer_frame):
-
-        logic = self.calculator_logic
-        
-        try:
-            logic.history.remove(line)
-        except ValueError:
-            pass
-        
-        outer_frame.destroy() 
-
-
-    def history_clear(self):
-
-        ui = self.current_window
-        logic = self.calculator_logic
-
-        ui.clear_history_display()
-        logic.clear_history()
-
-
-    def toggle_angle(self):
-        
-        ui = self.current_window
-        logic = self.calculator_logic
-
-        logic.toggle_angle_mode()
-
-        if logic.angle_mode == 'DEG':
-            ui.angle_switch.configure(text='DEG')
-        else:
-            ui.angle_switch.configure(text='RAD')
