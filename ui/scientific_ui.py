@@ -155,7 +155,7 @@ class ScientificUI(CalculatorUI):
                     font=('JetBrains Mono', 20),
                     fg_color='#262626' if text != '⇄' else '#3C3C3C',
                     hover_color='#323232' if text != '⇄' else '#4A4A4A',
-                    command=lambda item=labels: self._scientific_click(item)
+                    command=lambda l=labels: self._scientific_click(l)
                 )
                 button.configure(cursor='hand2')
                 button.grid(row=r, column=c, sticky='nsew', padx=5, pady=5)
@@ -170,16 +170,16 @@ class ScientificUI(CalculatorUI):
             self.scientific_frame.grid_columnconfigure(c, weight=1)
 
 
-    def _scientific_click(self, item):
+    def _scientific_click(self, labels):
 
-        if item == '⇄':
+        if labels == '⇄':
             self.toggle_functions()
             return
 
-        if isinstance(item, tuple):
-            symbol = item[1] if self.toggle_state else item[0]
+        if isinstance(labels, tuple):
+            symbol = labels[1] if self.toggle_state else labels[0]
         else:
-            symbol = item
+            symbol = labels
 
         self.handle_symbol(symbol)
 
