@@ -154,7 +154,8 @@ class ScientificUI(CalculatorUI):
                     text=text,
                     font=('JetBrains Mono', 20),
                     fg_color='#262626' if text != '⇄' else '#3C3C3C',
-                    hover_color='#323232' if text != '⇄' else '#4A4A4A'
+                    hover_color='#323232' if text != '⇄' else '#4A4A4A',
+                    command=lambda item=labels: self._scientific_click(item)
                 )
                 button.configure(cursor='hand2')
                 button.grid(row=r, column=c, sticky='nsew', padx=5, pady=5)
