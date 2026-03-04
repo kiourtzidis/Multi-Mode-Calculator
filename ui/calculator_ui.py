@@ -2,13 +2,13 @@ import customtkinter as ctk
 
 class CalculatorUI(ctk.CTkFrame):
     
-    def __init__(self, parent, logic, width, height):
+    def __init__(self, parent, logic, width, height, max_history_chars):
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.logic = logic
         self.width = width
         self.height = height
-        self.max_history_chars = 15
+        self.max_history_chars = max_history_chars
 
         self.grid_rowconfigure(0, weight=5)
         self.grid_rowconfigure(1, weight=0)
@@ -56,6 +56,7 @@ class CalculatorUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 24), 
             fg_color='#2E2E2E',
             height=40,
+            width=5000,
             state='readonly', 
             border_width=0)
         self.typing_entry.pack(side='left', fill='both', padx=10, ipady=10)
