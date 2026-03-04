@@ -13,7 +13,7 @@ class ScientificUI(CalculatorUI):
         self._build_angle_switch()
         self._build_buttons()
 
-    
+
     def _build_angle_switch(self):
 
         self.angle_switch = ctk.CTkButton(
@@ -25,8 +25,8 @@ class ScientificUI(CalculatorUI):
             font=('Jetbrains Mono', 24),
             command=self.toggle_angle
         )
-        self.angle_switch.pack(side='right', fill='both', padx=10, pady=10)
-        self.angle_switch.configure(cursor='hand2')
+        self.angle_switch.pack(side='right', fill='x', padx=10, pady=10)
+        self.angle_switch.configure(cursor='hand2')    
 
 
     def _build_buttons(self):
