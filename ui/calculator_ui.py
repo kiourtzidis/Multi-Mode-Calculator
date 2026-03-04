@@ -47,6 +47,7 @@ class CalculatorUI(ctk.CTkFrame):
             border_width=0)
         self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=10)
 
+
     def _build_display(self):
 
         self.typing_frame = ctk.CTkFrame(self, fg_color='#2E2E2E')

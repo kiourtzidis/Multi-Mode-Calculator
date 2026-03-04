@@ -58,6 +58,7 @@ class App:
 
         self.current_window = self.windows['Basic']
         self.current_window.pack(fill='both')
+        
         self.root.geometry(f'{self.current_window.width}x{self.current_window.height}')
         self.root.resizable(False, False)
 
