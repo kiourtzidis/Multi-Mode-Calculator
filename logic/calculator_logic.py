@@ -5,20 +5,18 @@ class CalculatorLogic:
         self.expression = ''
         self.calculated = False
         self.history = []
-        self.operators = ('+', '-', '×', '÷', 'mod', 'div')
         self.angle_mode = 'DEG'
+        self.operators = ('+', '-', '×', '÷', 'mod', 'div')
 
-    
+
     def clear(self):
         self.expression = ''
         self.calculated = False
 
-    
 
     def backspace(self):
         self.expression = self.expression[:-1]
         self.calculated = False
-
 
 
     def append(self, symbol):
