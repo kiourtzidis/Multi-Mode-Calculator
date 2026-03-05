@@ -4,7 +4,6 @@ class CalculatorLogic:
 
         self.expression = ''
         self.calculated = False
-        self.history = []
         self.angle_mode = 'DEG'
         self.operators = ('+', '-', '×', '÷', 'mod', 'div')
 
@@ -72,8 +71,6 @@ class CalculatorLogic:
 
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
-
-            self.history.append(f'{expression} = {result}')
             
             self.expression = str(result)
             self.calculated = True
@@ -85,10 +82,6 @@ class CalculatorLogic:
             self.expression = 'Error'
             self.calculated = False 
             return None, 'Error'
-        
-
-    def clear_history(self):
-        self.history.clear()
 
     
     def toggle_angle_mode(self):

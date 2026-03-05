@@ -173,17 +173,15 @@ class CalculatorUI(ctk.CTkFrame):
 
 
     def format_history_item(self, line):
+
         if len(line) > self.max_history_chars:
             return line[:self.max_history_chars - 1] + '…'
         return line
 
 
     def history_clear(self):
-
         for frame in list(self.history_scroll.winfo_children()):
             frame.destroy()
-
-        self.logic.clear_history()
 
 
     def history_click(self, expression):
@@ -199,10 +197,4 @@ class CalculatorUI(ctk.CTkFrame):
 
 
     def history_delete(self, line, outer_frame):
-        
-        try:
-            self.logic.history.remove(line)
-        except ValueError:
-            pass
-        
         outer_frame.destroy()

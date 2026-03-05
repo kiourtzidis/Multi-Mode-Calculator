@@ -71,6 +71,6 @@ class App:
 
         width = self.current_window.width
         height = self.current_window.height
-        self.root.geometry(f'{width}x{height}') 
+        self.root.geometry(f'{width}x{height}')
 
         self.root.resizable(width=False, height=False) 
