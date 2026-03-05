@@ -57,7 +57,7 @@ class CalculatorUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 24), 
             fg_color='#2E2E2E',
             height=40,
-            width=5000,
+            width=500,
             state='readonly', 
             border_width=0)
         self.typing_entry.pack(side='left', fill='both', padx=10, ipady=10)
