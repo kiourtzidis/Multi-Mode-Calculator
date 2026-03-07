@@ -87,7 +87,7 @@ class CalculatorUI(ctk.CTkFrame):
 
         self.typing_entry.configure(state='normal')
         self.typing_entry.delete(0, 'end')
-        self.typing_entry.insert(0, self.logic.expression)
+        self.typing_entry.insert(0, self.logic.display_expression)
 
         if self.logic.calculated:
             self.typing_entry.configure(font=ctk.CTkFont(size=24, weight='bold'))
@@ -186,7 +186,7 @@ class CalculatorUI(ctk.CTkFrame):
 
     def history_click(self, expression):
 
-        self.logic.expression = expression
+        self.logic.display_expression = expression
         self.logic.calculated = False
         self.update_typing_display()
 

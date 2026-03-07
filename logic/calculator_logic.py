@@ -1,88 +1,209 @@
+import math
+
 class CalculatorLogic:
 
     def __init__(self):
 
-        self.expression = ''
+        self.display_expression = ''
+        self.eval_expression = ''
         self.calculated = False
         self.angle_mode = 'DEG'
+        self.eval_functions = {**math.__dict__, 'cbrt': self.cbrt}
         self.operators = ('+', '-', '×', '÷', 'mod', 'div')
+        self.convert_buttons = {
+            '×': {
+                'append': '×',
+                'calculate': '*'
+            },
+            '÷': {
+                'append': '÷',
+                'calculate': '/'
+            },
+            'div': {
+                'append': ' div ',
+                'calculate': '//'
+            },
+            'mod': {
+                'append': ' mod ',
+                'calculate': '%'
+            },
+            '!': {
+                'append': '',
+                'calculate': '' # Will add later
+            },
+            'sin': {
+                'append': 'sin(',
+                'calculate': 'sin('
+            },
+            'cos': {
+                'append': 'cos(',
+                'calculate': 'cos('
+            },
+            'tan': {
+                'append': 'tan(',
+                'calculate': 'tan('
+            },
+            'arcsin': {
+                'append': 'arcsin(',
+                'calculate': 'asin('
+            },
+            'arccos': {
+                'append': 'arccos(',
+                'calculate': 'acos('
+            },
+            'arctan': {
+                'append': 'arctan(',
+                'calculate': 'atan('
+            },
+            'log': {
+                'append': 'log(',
+                'calculate': 'log10('
+            },
+            'ln': {
+                'append': 'ln(',
+                'calculate': 'log('
+            },
+            '|x|': {
+                'append': 'abs(', # Will improve absolute value dislay later 
+                'calculate': 'abs('
+            },
+            'log₂': {
+                'append': 'log₂(',
+                'calculate': 'log2('
+            },
+            'eˣ': {
+                'append': 'e^(',
+                'calculate': 'exp('
+            },
+            'x²': {
+                'append': '²',
+                'calculate': '**2'
+            },
+            'x³': {
+                'append': '³',
+                'calculate': '**3'
+            },
+            'xʸ': {
+                'append': '^',
+                'calculate': '**'
+            },
+            '√': {
+                'append': '√(',
+                'calculate': 'sqrt('
+            },
+            '∛': {
+                'append': '∛(',
+                'calculate': 'cbrt('
+            },
+            'ʸ√': {
+                'append': '',
+                'calculate': '' # Will add later
+            },
+            'π': {
+                'append': 'π',
+                'calculate': 'pi'
+            }
+        }
 
 
     def clear(self):
-        self.expression = ''
+        self.display_expression = ''
+        self.eval_expression = ''
         self.calculated = False
 
 
     def backspace(self):
-        self.expression = self.expression[:-1]
+        self.display_expression = self.display_expression[:-1]
+        self.eval_expression = self.eval_expression[:-1]
         self.calculated = False
 
+
+    def negate(self):
+
+        for operator in ('+', '-'):
+            if self.expression.rfind(operator) != -1:
+                '-' if operator == '+' else '+'
 
     def append(self, symbol):
 
-        if self.expression == 'Error':
-            self.expression = ''
+        if self.display_expression == 'Error':
+            self.display_expression = ''
+            self.eval_expression = ''
 
         if self.calculated:
-            if symbol.isdigit() or symbol == '.':
-                self.expression = ''
+            if symbol.isdigit() or symbol == '.':             
+                self.display_expression = ''
+                self.eval_expression = ''
 
         self.calculated = False
 
-        ends_with_operator = any(self.expression.endswith(op) for op in self.operators)
+        if symbol in self.convert_buttons:
+
+            display_symbol = self.convert_buttons[symbol]['append']
+            eval_symbol = self.convert_buttons[symbol]['calculate']
+
+        else:
+
+            display_symbol = symbol
+            eval_symbol = symbol
+
+        ends_with_operator = any(self.display_expression.endswith(operator) for operator in self.operators)
 
         if symbol in self.operators:
 
-            if self.expression == '' and symbol == '-':
-                self.expression = '-'
+            if self.display_expression == '' and symbol == '-':
+                self.display_expression = '-'
+                self.eval_expression = '-'
                 return
             
-            if self.expression == '':
+            if self.display_expression == '':
                 return
             
             if ends_with_operator:
                 
-                if symbol == '-' and not self.expression.endswith('-'):
-                    self.expression += '-' 
+                if symbol == '-' and not self.display_expression.endswith('-'):
+                    self.display_expression += '-'
+                    self.eval_expression += '-'
                     return
-                
+                              
                 return
 
-        if symbol == '.' and (self.expression == '' or not self.expression[-1].isdigit()):
-            self.expression += '0'
+        if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):
+            self.display_expression += '0'
+            self.eval_expression += '0'
 
-        self.expression += symbol
+        self.display_expression += display_symbol
+        self.eval_expression += eval_symbol
     
 
     def calculate(self):
 
         try:
-            
-            if not any(op in self.expression for op in self.operators):
-                return None, self.expression
 
-            original_expression = self.expression
+            original_expression = self.display_expression
 
-            expression = self.expression.replace(' ', '')
-            expression = expression.replace('×', '*').replace('÷', '/')
-            expression = expression.replace('mod', '%').replace('div', '//')
-
-            result = eval(expression)
-
+            result = eval(self.eval_expression, self.eval_functions)
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
             
-            self.expression = str(result)
+            self.display_expression = str(result)
+            self.eval_expression = str(result)
+
             self.calculated = True
 
-            return original_expression, self.expression
+            return original_expression, self.eval_expression
 
         except Exception:
 
-            self.expression = 'Error'
+            self.display_expression = 'Error'
+            self.eval_expression = ''
             self.calculated = False 
             return None, 'Error'
 
     
     def toggle_angle_mode(self):
-        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
+        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG' # Display changes, logic doesn't yet
+
+    
+    def cbrt(self, x):
+        return x ** (1/3) 
