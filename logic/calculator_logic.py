@@ -127,12 +127,6 @@ class CalculatorLogic:
         self.calculated = False
 
 
-    def negate(self):
-
-        for operator in ('+', '-'):
-            if self.expression.rfind(operator) != -1:
-                '-' if operator == '+' else '+'
-
     def append(self, symbol):
 
         if self.display_expression == 'Error':
