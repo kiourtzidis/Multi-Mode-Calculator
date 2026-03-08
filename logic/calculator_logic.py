@@ -195,8 +195,8 @@ class CalculatorLogic:
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
             
-            self.display_expression = str(result)
-            self.eval_expression = str(result)
+            self.display_expression = f'{result:.10g}'
+            self.eval_expression = f'{result:.10g}'
 
             self.calculated = True
 
@@ -211,7 +211,7 @@ class CalculatorLogic:
 
     
     def toggle_angle_mode(self):
-        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG' # Display changes, logic doesn't yet
+        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
 
     
     def cbrt(self, x):
