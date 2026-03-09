@@ -134,7 +134,10 @@ class CalculatorLogic:
             self.eval_expression = ''
 
         if self.calculated:
-            if symbol.isdigit() or symbol == '.':             
+            if symbol.isdigit() or symbol in (
+                '.', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 
+                'log', 'ln', '|x|', 'log₂', 'eˣ', '√', '∛', 'ʸ√', 'e', 'π'
+                ):             
                 self.display_expression = ''
                 self.eval_expression = ''
 
