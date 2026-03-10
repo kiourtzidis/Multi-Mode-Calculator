@@ -19,7 +19,15 @@ class CalculatorLogic:
             'arccos': self.arccos,
             'arctan': self.arctan
             }
-        self.convert_buttons = {
+        self.buttons = {
+            '+': {
+                'append': '+',
+                'calculate': '+'
+            },
+            '-': {
+                'append': '-',
+                'calculate': '-'
+            },
             '×': {
                 'append': '×',
                 'calculate': '*'
@@ -35,6 +43,14 @@ class CalculatorLogic:
             'mod': {
                 'append': ' mod ',
                 'calculate': '%'
+            },
+            '(': {
+                'append': '(',
+                'calculate': '('
+            },
+            ')': {
+                'append': ')',
+                'calculate': ')'
             },
             '!': {
                 'append': '',
@@ -111,6 +127,10 @@ class CalculatorLogic:
             'π': {
                 'append': 'π',
                 'calculate': 'pi'
+            },
+            'e': {
+                'append': 'e',
+                'calculate': 'e'
             }
         }
 
@@ -143,10 +163,10 @@ class CalculatorLogic:
 
         self.calculated = False
 
-        if symbol in self.convert_buttons:
+        if symbol in self.buttons:
 
-            display_symbol = self.convert_buttons[symbol]['append']
-            eval_symbol = self.convert_buttons[symbol]['calculate']
+            display_symbol = self.buttons[symbol]['append']
+            eval_symbol = self.buttons[symbol]['calculate']
 
         else:
 
@@ -189,6 +209,16 @@ class CalculatorLogic:
             original_expression = self.display_expression
 
             result = eval(self.eval_expression, self.eval_functions)
+
+            found = False
+            for button in self.buttons:
+                if self.display_expression.find(button) != -1:
+                    found = True
+                    break
+
+            if not found:
+                return None, None
+
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
             
