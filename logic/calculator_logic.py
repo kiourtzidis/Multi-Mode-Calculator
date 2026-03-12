@@ -89,7 +89,7 @@ class CalculatorLogic:
                 'calculate': 'log('
             },
             '|x|': {
-                'append': 'abs(', # Will improve absolute value dislay later 
+                'append': '|', 
                 'calculate': 'abs('
             },
             'log₂': {
@@ -163,6 +163,19 @@ class CalculatorLogic:
 
         self.calculated = False
 
+        if symbol == '|x|':
+
+            count = self.display_expression.count('|')
+
+            self.display_expression += '|'
+
+            if count % 2 == 0:
+                self.eval_expression += 'abs('
+            else:
+                self.eval_expression += ')'
+            
+            return
+
         if symbol in self.buttons:
 
             display_symbol = self.buttons[symbol]['append']
@@ -208,8 +221,6 @@ class CalculatorLogic:
 
             original_expression = self.display_expression
 
-            result = eval(self.eval_expression, self.eval_functions)
-
             found = False
             for button in self.buttons:
                 if self.display_expression.find(button) != -1:
@@ -218,6 +229,8 @@ class CalculatorLogic:
 
             if not found:
                 return None, None
+            
+            result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
@@ -242,7 +255,7 @@ class CalculatorLogic:
 
     
     def cbrt(self, x):
-        return x ** (1/3) 
+        return x ** (1/3)
     
 
     def sin(self, x):
