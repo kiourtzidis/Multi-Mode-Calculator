@@ -4,4 +4,4 @@ Multi-Mode Calculator made in Python with the CustomTKinter library.
 - Basic Calculator Mode
 
 ##Planned Features
-- Scientific, Temperature, Currency Modes 
+- Scientific, Temperature, Currency Modes
