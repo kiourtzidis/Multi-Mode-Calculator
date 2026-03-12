@@ -220,14 +220,15 @@ class CalculatorLogic:
         try:
 
             original_expression = self.display_expression
+            
+            if self.eval_expression in ('pi', 'e'):
+                contains_operation = True
+            else:
+                contains_operation = any(operator in self.eval_expression for operator in (
+                    '+', '-', '*', '/', '%', '//', '**', '('
+                ))
 
-            found = False
-            for button in self.buttons:
-                if self.display_expression.find(button) != -1:
-                    found = True
-                    break
-
-            if not found:
+            if not contains_operation:
                 return None, None
             
             result = eval(self.eval_expression, self.eval_functions)
