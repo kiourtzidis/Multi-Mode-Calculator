@@ -163,19 +163,6 @@ class CalculatorLogic:
 
         self.calculated = False
 
-        if symbol == '|x|':
-
-            count = self.display_expression.count('|')
-
-            self.display_expression += '|'
-
-            if count % 2 == 0:
-                self.eval_expression += 'abs('
-            else:
-                self.eval_expression += ')'
-            
-            return
-
         if symbol in self.buttons:
 
             display_symbol = self.buttons[symbol]['append']
@@ -211,6 +198,45 @@ class CalculatorLogic:
             self.display_expression += '0'
             self.eval_expression += '0'
 
+        if symbol == '|x|':
+
+            count = self.display_expression.count('|')
+
+            self.display_expression += '|'
+
+            if count % 2 == 0:
+                if self.eval_expression[-1].isdigit() or self.eval_expression[-1] in (')', 'i', 'e'):
+                    self.eval_expression += '*abs('
+                else:
+                    self.eval_expression += 'abs('
+            else:
+                self.eval_expression += ')'
+            
+            return
+        
+        try:
+
+            prev_char = self.eval_expression[-1]
+
+            if self.eval_expression and not (prev_char.isdigit() and eval_symbol[0].isdigit()):
+
+                left_value = (
+                    prev_char.isdigit()
+                    or prev_char in (')', 'i', 'e')
+                )
+
+                right_value = (
+                    eval_symbol[0].isdigit()
+                    or eval_symbol.startswith(('(', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 'log', 'log2', 'log10', 'sqrt', 'cbrt', 'abs', 'exp', 'pi', 'e'))
+                )
+
+                if left_value and right_value:
+                    self.eval_expression += '*'
+
+        except IndexError:
+            pass
+            
+                
         self.display_expression += display_symbol
         self.eval_expression += eval_symbol
     
@@ -230,7 +256,7 @@ class CalculatorLogic:
 
             if not contains_operation:
                 return None, None
-            
+
             result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
