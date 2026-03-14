@@ -1,4 +1,5 @@
 import math
+from . import math_functions
 
 class CalculatorLogic:
 
@@ -11,13 +12,14 @@ class CalculatorLogic:
         self.operators = ('+', '-', '×', '÷', 'mod', 'div')
         self.eval_functions = {
             **math.__dict__,
-            'cbrt': self.cbrt,
-            'sin': self.sin,
-            'cos': self.cos,
-            'tan': self.tan,
-            'arcsin': self.arcsin,
-            'arccos': self.arccos,
-            'arctan': self.arctan
+            **math_functions.__dict__,
+            
+            'sin': lambda x: math_functions.sin(x, self.angle_mode),
+            'cos': lambda x: math_functions.cos(x, self.angle_mode),
+            'tan': lambda x: math_functions.tan(x, self.angle_mode),
+            'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
+            'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
+            'arctan': lambda x: math_functions.arctan(x, self.angle_mode)
             }
         self.buttons = {
             '+': {
@@ -279,46 +281,3 @@ class CalculatorLogic:
     
     def toggle_angle_mode(self):
         self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
-
-    
-    def cbrt(self, x):
-        return x ** (1/3)
-    
-
-    def sin(self, x):
-        if self.angle_mode == 'DEG':
-            x = math.radians(x)
-        return round(math.sin(x), 12)
-
-
-    def cos(self, x):
-        if self.angle_mode == 'DEG':
-            x = math.radians(x)
-        return round(math.cos(x), 12)
-    
-
-    def tan(self, x):
-        if self.angle_mode == 'DEG':
-            x = math.radians(x)
-        return round(math.tan(x), 12)
-    
-
-    def arcsin(self, x):
-        result = math.asin(x)
-        if self.angle_mode == 'DEG':
-            result = math.degrees(result)
-        return round(result, 12)    
-
-
-    def arccos(self, x):
-        result = math.acos(x)
-        if self.angle_mode == 'DEG':
-            result = math.degrees(result)
-        return round(result, 12)    
-
-
-    def arctan(self, x):
-        result = math.atan(x)
-        if self.angle_mode == 'DEG':
-            result = math.degrees(result)
-        return round(result, 12)
