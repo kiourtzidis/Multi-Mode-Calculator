@@ -231,12 +231,13 @@ class CalculatorLogic:
             
             original_expression = self.display_expression
             
-            if self.eval_expression in ('pi', 'e'):
-                contains_operation = True
-            else:
-                contains_operation = any(operator in self.eval_expression for operator in (
+            check_expression = self.eval_expression.lstrip('-')
+            
+            contains_operation = (
+                check_expression in ('pi', 'e') 
+                or any(operator in check_expression for operator in (
                     '+', '-', '*', '/', '%', '//', '**', '('
-                ))
+                )))
 
             if not contains_operation:
                 return None, None
