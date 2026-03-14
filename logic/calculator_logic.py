@@ -13,7 +13,7 @@ class CalculatorLogic:
         self.eval_functions = {
             **math.__dict__,
             **math_functions.__dict__,
-            
+
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
             'tan': lambda x: math_functions.tan(x, self.angle_mode),
@@ -104,11 +104,11 @@ class CalculatorLogic:
             },
             'x²': {
                 'append': '²',
-                'calculate': '**2'
+                'calculate': '**(2)'
             },
             'x³': {
                 'append': '³',
-                'calculate': '**3'
+                'calculate': '**(3)'
             },
             'xʸ': {
                 'append': '^',
@@ -207,46 +207,20 @@ class CalculatorLogic:
             self.display_expression += '|'
 
             if count % 2 == 0:
-                if self.eval_expression[-1].isdigit() or self.eval_expression[-1] in (')', 'i', 'e'):
-                    self.eval_expression += '*abs('
-                else:
-                    self.eval_expression += 'abs('
+                self.eval_expression += 'abs('
             else:
                 self.eval_expression += ')'
             
             return
-        
-        try:
-
-            prev_char = self.eval_expression[-1]
-
-            if self.eval_expression and not (prev_char.isdigit() and eval_symbol[0].isdigit()):
-
-                left_value = (
-                    prev_char.isdigit()
-                    or prev_char in (')', 'i', 'e')
-                )
-
-                right_value = (
-                    eval_symbol[0].isdigit()
-                    or eval_symbol.startswith(('(', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 'log', 'log2', 'log10', 'sqrt', 'cbrt', 'abs', 'exp', 'pi', 'e'))
-                )
-
-                if left_value and right_value:
-                    self.eval_expression += '*'
-
-        except IndexError:
-            pass
             
-                
         self.display_expression += display_symbol
-        self.eval_expression += eval_symbol
+        self.eval_expression += eval_symbol 
     
 
     def calculate(self):
 
         try:
-
+            
             original_expression = self.display_expression
             
             if self.eval_expression in ('pi', 'e'):
@@ -258,18 +232,20 @@ class CalculatorLogic:
 
             if not contains_operation:
                 return None, None
-
-            result = eval(self.eval_expression, self.eval_functions)
+            
+            expression = self.add_implicit_multiplication(self.eval_expression)
+            
+            result = eval(expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
             
             self.display_expression = f'{result:.10g}'
-            self.eval_expression = f'{result:.10g}'
+            expression = f'{result:.10g}'
 
             self.calculated = True
 
-            return original_expression, self.eval_expression
+            return original_expression, expression
 
         except Exception:
 
@@ -277,6 +253,44 @@ class CalculatorLogic:
             self.eval_expression = ''
             self.calculated = False 
             return None, 'Error'
+
+
+    def add_implicit_multiplication(self, expression):
+
+        result = ''
+
+        for i in range(len(expression)):
+
+            current_char = expression[i]
+            result += current_char
+
+            if i < len(expression) - 1:
+
+                next_char = expression[i+1]
+                
+                if current_char.isdigit() and next_char.isdigit():
+                    continue
+
+                left_value = (
+                    current_char.isdigit() 
+                    or current_char == ')'
+                )
+                
+                right_value = (
+                    next_char.isdigit()
+                    or next_char.isalpha() 
+                    or next_char == '('
+                )
+
+                if left_value and right_value:
+                    result += '*'
+
+        if 'log10*' in result:
+            result = result.replace('log10*', 'log10')
+        if 'log2*' in result:
+            result = result.replace('log2*', 'log2')
+
+        return result
 
     
     def toggle_angle_mode(self):
