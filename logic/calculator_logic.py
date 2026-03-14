@@ -200,6 +200,14 @@ class CalculatorLogic:
             self.display_expression += '0'
             self.eval_expression += '0'
 
+        try:
+
+            if symbol not in self.operators and self.display_expression[-1] in ('²', '³'):
+                self.display_expression += '×'
+
+        except IndexError:
+            pass
+
         if symbol == '|x|':
 
             count = self.display_expression.count('|')
@@ -233,19 +241,19 @@ class CalculatorLogic:
             if not contains_operation:
                 return None, None
             
-            expression = self.add_implicit_multiplication(self.eval_expression)
+            self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
             
-            result = eval(expression, self.eval_functions)
+            result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
             
             self.display_expression = f'{result:.10g}'
-            expression = f'{result:.10g}'
+            self.eval_expression = f'{result:.10g}'
 
             self.calculated = True
 
-            return original_expression, expression
+            return original_expression, self.eval_expression
 
         except Exception:
 
@@ -255,14 +263,14 @@ class CalculatorLogic:
             return None, 'Error'
 
 
-    def add_implicit_multiplication(self, expression):
+    def _add_implicit_multiplication(self, expression):
 
-        result = ''
+        processed_expression = ''
 
         for i in range(len(expression)):
 
             current_char = expression[i]
-            result += current_char
+            processed_expression += current_char
 
             if i < len(expression) - 1:
 
@@ -283,14 +291,14 @@ class CalculatorLogic:
                 )
 
                 if left_value and right_value:
-                    result += '*'
+                    processed_expression += '*'
 
-        if 'log10*' in result:
-            result = result.replace('log10*', 'log10')
-        if 'log2*' in result:
-            result = result.replace('log2*', 'log2')
+        if 'log10*' in processed_expression:
+            processed_expression = processed_expression.replace('log10*', 'log10')
+        if 'log2*' in processed_expression:
+            processed_expression = processed_expression.replace('log2*', 'log2')
 
-        return result
+        return processed_expression
 
     
     def toggle_angle_mode(self):
