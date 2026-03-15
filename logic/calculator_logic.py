@@ -151,7 +151,7 @@ class CalculatorLogic:
             return
         
         display_token, eval_token = self.tokens.pop()
-        
+
         self.display_expression = self.display_expression[:-len(display_token)]
         self.eval_expression = self.eval_expression[:-len(eval_token)]
 
@@ -208,6 +208,7 @@ class CalculatorLogic:
         try:
 
             if symbol not in self.operators and self.display_expression[-1] in ('²', '³'):
+                self.tokens.append(('×', '*'))
                 self.display_expression += '×'
 
         except IndexError:
@@ -221,8 +222,10 @@ class CalculatorLogic:
 
             if count % 2 == 0:
                 self.eval_expression += 'abs('
+                self.tokens.append(('|', 'abs('))
             else:
                 self.eval_expression += ')'
+                self.tokens.append(('|', ')'))
             
             return
         
