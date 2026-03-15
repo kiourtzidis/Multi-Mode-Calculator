@@ -9,7 +9,8 @@ class CalculatorLogic:
         self.eval_expression = ''
         self.calculated = False
         self.angle_mode = 'DEG'
-        self.operators = ('+', '-', '×', '÷', 'mod', 'div')
+        self.tokens = []
+        self.operators = ('+', '-', '×', '÷', 'div', 'mod')
         self.eval_functions = {
             **math.__dict__,
             **math_functions.__dict__,
@@ -138,15 +139,21 @@ class CalculatorLogic:
 
 
     def clear(self):
+        self.tokens.clear()
         self.display_expression = ''
         self.eval_expression = ''
         self.calculated = False
 
 
     def backspace(self):
-        self.display_expression = self.display_expression[:-1]
-        self.eval_expression = self.eval_expression[:-1]
-        self.calculated = False
+
+        if not self.tokens:
+            return
+        
+        display_token, eval_token = self.tokens.pop()
+        
+        self.display_expression = self.display_expression[:-len(display_token)]
+        self.eval_expression = self.eval_expression[:-len(eval_token)]
 
 
     def append(self, symbol):
@@ -166,12 +173,10 @@ class CalculatorLogic:
         self.calculated = False
 
         if symbol in self.buttons:
-
             display_symbol = self.buttons[symbol]['append']
             eval_symbol = self.buttons[symbol]['calculate']
 
         else:
-
             display_symbol = symbol
             eval_symbol = symbol
 
@@ -220,6 +225,8 @@ class CalculatorLogic:
                 self.eval_expression += ')'
             
             return
+        
+        self.tokens.append((display_symbol, eval_symbol))
             
         self.display_expression += display_symbol
         self.eval_expression += eval_symbol 
@@ -258,10 +265,15 @@ class CalculatorLogic:
 
         except Exception:
 
+            self.tokens.clear()
             self.display_expression = 'Error'
             self.eval_expression = ''
             self.calculated = False 
             return None, 'Error'
+        
+
+    def toggle_angle_mode(self):
+        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
 
 
     def _add_implicit_multiplication(self, expression):
@@ -300,7 +312,3 @@ class CalculatorLogic:
             processed_expression = processed_expression.replace('log2*', 'log2')
 
         return processed_expression
-
-    
-    def toggle_angle_mode(self):
-        self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
