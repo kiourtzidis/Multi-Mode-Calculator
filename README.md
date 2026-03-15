@@ -1,7 +1,7 @@
 Multi-Mode Calculator made in Python with the CustomTKinter library.
 
 ##Current Features
-- Basic Calculator Mode
+- Basic, Scientific(Not Finished) Modes
 
 ##Planned Features
-- Scientific, Temperature, Currency Modes
+- Temperature, Currency Modes
