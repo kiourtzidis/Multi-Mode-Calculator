@@ -193,15 +193,14 @@ class CalculatorLogic:
                 return
             
             if ends_with_operator:
-                
                 if symbol == '-' and not self.display_expression.endswith('-'):
                     self.display_expression += '-'
                     self.eval_expression += '-'
-                    return
-                              
+                    return              
                 return
 
         if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):
+            self.tokens.append(('0', '0'))
             self.display_expression += '0'
             self.eval_expression += '0'
 
