@@ -56,8 +56,8 @@ class CalculatorLogic:
                 'calculate': ')'
             },
             '!': {
-                'append': '',
-                'calculate': '' # Will add later
+                'append': '!',
+                'calculate': ''
             },
             'sin': {
                 'append': 'sin(',
@@ -93,7 +93,7 @@ class CalculatorLogic:
             },
             '|x|': {
                 'append': '|', 
-                'calculate': 'abs('
+                'calculate': ''
             },
             'log₂': {
                 'append': 'log₂(',
@@ -213,6 +213,50 @@ class CalculatorLogic:
         except IndexError:
             pass
 
+        if symbol == '!':
+
+            if not self.eval_expression:
+                return
+
+            i = len(self.eval_expression) - 1
+            operand = ''
+
+            if self.eval_expression[i].isdigit():
+                while i >= 0 and self.eval_expression[i].isdigit():
+                    operand = self.eval_expression[i] + operand
+                    i -= 1
+
+            elif self.eval_expression[i] == ')':
+                bracket_count = 0
+
+                while i >= 0:
+                    char = self.eval_expression[i]
+                    operand = char + operand
+
+                    if char == ')':
+                        bracket_count += 1
+                    elif char == '(':
+                        bracket_count -= 1
+
+                    i -= 1
+
+                    if bracket_count == 0:
+                        break
+
+            else:
+
+                return
+
+            self.eval_expression = self.eval_expression[:-len(operand)-1]
+            self.eval_expression += f'factorial({operand})'
+
+            self.display_expression += '!'
+
+            self.tokens.append(('!', 'factorial('))
+
+            return
+
+
         if symbol == '|x|':
 
             count = self.display_expression.count('|')
@@ -245,14 +289,19 @@ class CalculatorLogic:
             contains_operation = (
                 check_expression in ('pi', 'e') 
                 or any(operator in check_expression for operator in (
-                    '+', '-', '*', '/', '%', '//', '**', '('
+                    '+', '-', '*', '/', '//', '%', '**', '('
                 )))
 
             if not contains_operation:
                 return None, None
             
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-            
+            print('eval: ', self.eval_expression)
+            x = self.eval_expression 
+            try:
+                print(eval(x, self.eval_functions))
+            except Exception as e:
+                print('eval failed: ', e)
             result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
