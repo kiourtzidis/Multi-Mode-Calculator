@@ -243,8 +243,11 @@ class CalculatorLogic:
                     if bracket_count == 0:
                         break
 
-            else:
+                while i >= 0 and self.eval_expression[i].isalpha():
+                    operand = self.eval_expression[i] + operand
+                    i -= 1
 
+            else:
                 return
 
             self.eval_expression = self.eval_expression[:-len(operand)-1]

@@ -1,5 +1,13 @@
 import math
 
+def factorial(x):
+    if isinstance(x, float):
+        if abs(x - round(x)) < 1e-10:
+            x = int(round(x))
+
+    return math.factorial(x)
+
+
 def cbrt(x):
     return x ** (1/3)
     
