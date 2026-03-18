@@ -206,7 +206,10 @@ class CalculatorLogic:
 
         try:
 
-            if symbol not in self.operators and self.display_expression[-1] in ('²', '³'):
+            if (
+            symbol not in ('(', ')', '!', 'xʸ', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 'log', 'log₂', 'ln')
+            and self.display_expression[-1] in ('²', '³')
+            ):
                 self.tokens.append(('×', '*'))
                 self.display_expression += '×'
 
