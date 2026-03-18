@@ -200,19 +200,23 @@ class CalculatorLogic:
                     return              
                 return
 
-        if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):
-            self.tokens.append(('0', '0'))
+        if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):    
             self.display_expression += '0'
             self.eval_expression += '0'
+            self.tokens.append(('0', '0'))
 
         try:
 
             if (
-            symbol not in ('(', ')', '!', 'xʸ', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 'log', 'log₂', 'ln')
+            symbol not in ('(', ')', '!', 'x²', 'x³', 'xʸ', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('²', '³')
-            ):
-                self.tokens.append(('×', '*'))
+            ):      
                 self.display_expression += '×'
+                self.tokens.append(('×', '*'))
+
+            elif symbol in ('x²', 'x³') and self.display_expression[-1] in ('²', '³'):
+                self.display_expression += '^'
+                self.tokens.append(('^', '**'))
 
         except IndexError:
             pass
