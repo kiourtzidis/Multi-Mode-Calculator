@@ -169,6 +169,7 @@ class CalculatorLogic:
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''
+            
 
         self.calculated = False
 
@@ -312,7 +313,9 @@ class CalculatorLogic:
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
 
-            self.tokens.clear()
+            for char in str(result):
+                self.tokens.append((char, char))
+
             self.calculated = True
 
             return original_expression, self.eval_expression
