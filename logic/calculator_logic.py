@@ -299,12 +299,7 @@ class CalculatorLogic:
                 return None, None
             
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-            print('eval: ', self.eval_expression)
-            x = self.eval_expression 
-            try:
-                print(eval(x, self.eval_functions))
-            except Exception as e:
-                print('eval failed: ', e)
+            
             result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
