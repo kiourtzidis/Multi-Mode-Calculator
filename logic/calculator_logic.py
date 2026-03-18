@@ -256,6 +256,7 @@ class CalculatorLogic:
             self.display_expression += '!'
 
             self.tokens.append(('!', 'factorial('))
+            self.tokens.append((')', ')'))
 
             return
 
@@ -299,7 +300,11 @@ class CalculatorLogic:
                 return None, None
             
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-            
+            print(f'{self.tokens}\ndisplay: ', self.display_expression)
+            try:
+                print('eval: ', self.eval_expression)
+            except Exception as e:
+                print('eval failed:', e)
             result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
