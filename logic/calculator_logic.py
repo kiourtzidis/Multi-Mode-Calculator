@@ -222,7 +222,7 @@ class CalculatorLogic:
             operand = ''
 
             if self.eval_expression[i].isdigit():
-                while i >= 0 and self.eval_expression[i].isdigit():
+                while i >= 0 and self.eval_expression[i].isdigit() or self.eval_expression[i] == '.':
                     operand = self.eval_expression[i] + operand
                     i -= 1
 
@@ -250,7 +250,7 @@ class CalculatorLogic:
             else:
                 return
 
-            self.eval_expression = self.eval_expression[:-len(operand)-1]
+            self.eval_expression = self.eval_expression[:-len(operand)]
             self.eval_expression += f'factorial({operand})'
 
             self.display_expression += '!'
@@ -300,7 +300,7 @@ class CalculatorLogic:
                 return None, None
             
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-            
+
             result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
