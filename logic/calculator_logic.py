@@ -9,6 +9,7 @@ class CalculatorLogic:
         self.eval_expression = ''
         self.calculated = False
         self.angle_mode = 'DEG'
+        self.last_result = None
         self.tokens = []
         self.operators = ('+', '-', '×', '÷', 'div', 'mod')
         self.eval_functions = {
@@ -159,7 +160,7 @@ class CalculatorLogic:
             },
             'Ans': {
                 'append': 'Ans',
-                'calculate': 'last_result'
+                'calculate': 'self.last_result'
             }
         }
 
@@ -191,7 +192,7 @@ class CalculatorLogic:
         if self.calculated:
             if symbol.isdigit() or symbol in (
                 '.', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 
-                'log', 'ln', '|x|', 'log₂', 'eˣ', '√', '∛', 'ʸ√', 'e', 'π'
+                'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''
@@ -235,21 +236,22 @@ class CalculatorLogic:
             self.eval_expression += '0'
             self.tokens.append(('0', '0'))
 
-        try:
-
+        if self.display_expression:
             if (
-            symbol not in ('(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'log', 'log₂', 'ln')
+            symbol not in ('(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('¹', '²', '³')
             ):      
                 self.display_expression += '×'
                 self.tokens.append(('×', '*'))
-
             elif symbol in ('x⁻¹', 'x²', 'x³') and self.display_expression[-1] in ('¹', '²', '³'):
                 self.display_expression += '^'
                 self.tokens.append(('^', '**'))
 
-        except IndexError:
-            pass
+            if self.tokens[-1][0] == 'Ans':
+                if symbol.isdigit() or symbol in ('sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'log', 'log₂', 'ln', 'π', 'e' ):
+                    self.display_expression += '×'
+                    self.eval_expression += '*'
+                    self.tokens.append(('×', '*'))
 
         if symbol == '!':
 
@@ -314,6 +316,20 @@ class CalculatorLogic:
             
             return
         
+        if symbol == 'Ans':
+            if self.last_result:
+                if self.display_expression and self.display_expression[-1] not in self.operators:
+                    self.display_expression += '×Ans'
+                    self.eval_expression += '*' + self.last_result
+                    self.tokens.append(('×', '*'))
+                    self.tokens.append(('Ans', f'{self.last_result}'))
+                else:
+                    self.display_expression += 'Ans'
+                    self.eval_expression += self.last_result
+                    self.tokens.append(('Ans', f'{self.last_result}'))
+
+            return
+        
         self.tokens.append((display_symbol, eval_symbol))
             
         self.display_expression += display_symbol
@@ -338,7 +354,8 @@ class CalculatorLogic:
                 return None, None
             
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-
+            print(self.tokens)
+            print(self.eval_expression)
             result = eval(self.eval_expression, self.eval_functions)
 
             if isinstance(result, float) and result.is_integer():
@@ -346,6 +363,7 @@ class CalculatorLogic:
             
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
+            self.last_result = self.eval_expression
 
             for char in str(result):
                 self.tokens.append((char, char))
