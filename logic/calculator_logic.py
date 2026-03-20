@@ -18,9 +18,11 @@ class CalculatorLogic:
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
             'tan': lambda x: math_functions.tan(x, self.angle_mode),
+            'cot': lambda x: math_functions.cot(x, self.angle_mode),
             'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
             'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
-            'arctan': lambda x: math_functions.arctan(x, self.angle_mode)
+            'arctan': lambda x: math_functions.arctan(x, self.angle_mode),
+            'arccot': lambda x: math_functions.arccot(x, self.angle_mode),
             }
         self.buttons = {
             '+': {
@@ -188,7 +190,7 @@ class CalculatorLogic:
 
         if self.calculated:
             if symbol.isdigit() or symbol in (
-                '.', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 
+                '.', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 
                 'log', 'ln', '|x|', 'log₂', 'eˣ', '√', '∛', 'ʸ√', 'e', 'π'
                 ):             
                 self.display_expression = ''

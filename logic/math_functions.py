@@ -28,6 +28,12 @@ def tan(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
     return round(math.tan(x), 12)
+
+
+def cot(x, angle_mode):
+    if angle_mode == 'DEG':
+        x = math.radians(x)
+    return round(1/math.tan(x), 12)
     
 
 def arcsin(x, angle_mode):
@@ -46,6 +52,13 @@ def arccos(x, angle_mode):
 
 def arctan(x, angle_mode):
     result = math.atan(x)
+    if angle_mode == 'DEG':
+        result = math.degrees(result)
+    return round(result, 12)
+
+
+def arccot(x, angle_mode):
+    result = math.atan(1/x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
     return round(result, 12)
