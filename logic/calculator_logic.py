@@ -224,6 +224,10 @@ class CalculatorLogic:
                     return              
                 return
 
+        if symbol in ('%', '‰'):
+            if self.display_expression.endswith(('%', '‰')):
+                return
+
         if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):    
             self.display_expression += '0'
             self.eval_expression += '0'
