@@ -117,22 +117,27 @@ class ScientificUI(CalculatorUI):
         scientific_buttons = (
         (('(', 'parenthesis'),
          (')', 'parenthesis'),
-         ('!', 'function')),
+         ('!', 'function'),
+         ('f(x)', 'functions')),
 
-        ((('sin', 'arcsin'), 'function'),
-         (('cos', 'arccos'), 'function'),
-         (('tan', 'arctan'), 'function')),
+        ((('sin', 'sin⁻¹'), 'function'),
+         (('cos', 'cos⁻¹'), 'function'),
+         (('tan', 'tan⁻¹'), 'function'),
+         (('cot', 'cot⁻¹'), 'function')),
 
         ((('log', 'log₂'), 'function'),
-         (('ln', 'eˣ'), 'function'),
-         (('|x|', '±'), 'function')),
+         (('ln', 'a×b'), 'function'),
+         (('|x|', '±'), 'function'),
+         (('%', '‰'), 'percentage')),
 
         ((('x²', '√'), 'function'),
          (('x³', '∛'), 'function'),
-         (('xʸ', 'ⁿ√'), 'function')),
+         (('xʸ', '×10ʸ'), 'function'),
+         (('x⁻¹', 'i'), 'function')),
 
         (('π', 'constant'),
          ('e', 'constant'),
+         ('Ans', 'constant'),
          ('⇄', 'toggle'))
         )
 
