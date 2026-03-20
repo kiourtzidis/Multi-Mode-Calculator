@@ -232,13 +232,13 @@ class CalculatorLogic:
         try:
 
             if (
-            symbol not in ('(', ')', '!', 'x²', 'x³', 'xʸ', 'sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan', 'log', 'log₂', 'ln')
-            and self.display_expression[-1] in ('²', '³')
+            symbol not in ('(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'log', 'log₂', 'ln')
+            and self.display_expression[-1] in ('¹', '²', '³')
             ):      
                 self.display_expression += '×'
                 self.tokens.append(('×', '*'))
 
-            elif symbol in ('x²', 'x³') and self.display_expression[-1] in ('²', '³'):
+            elif symbol in ('x⁻¹', 'x²', 'x³') and self.display_expression[-1] in ('¹', '²', '³'):
                 self.display_expression += '^'
                 self.tokens.append(('^', '**'))
 
