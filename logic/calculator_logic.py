@@ -71,17 +71,25 @@ class CalculatorLogic:
                 'append': 'tan(',
                 'calculate': 'tan('
             },
-            'arcsin': {
-                'append': 'arcsin(',
+            'cot': {
+                'append': 'cot(',
+                'calculate': 'cot('
+            },
+            'sin⁻¹': {
+                'append': 'sin⁻¹(',
                 'calculate': 'arcsin('
             },
-            'arccos': {
-                'append': 'arccos(',
+            'cos⁻¹': {
+                'append': 'cos⁻¹(',
                 'calculate': 'arccos('
             },
-            'arctan': {
-                'append': 'arctan(',
+            'tan⁻¹': {
+                'append': 'tan⁻¹(',
                 'calculate': 'arctan('
+            },
+            'cot⁻¹': {
+                'append': 'cot⁻¹(',
+                'calculate': 'arccot('
             },
             'log': {
                 'append': 'log(',
@@ -95,13 +103,17 @@ class CalculatorLogic:
                 'append': '|', 
                 'calculate': ''
             },
+            '%': {
+                'append': '%',
+                'calculate': '*(1/100)'
+            },
             'log₂': {
                 'append': 'log₂(',
                 'calculate': 'log2('
             },
-            'eˣ': {
-                'append': 'e^(',
-                'calculate': 'exp('
+            '‰': {
+                'append': '‰',
+                'calculate': '*(1/1000)'
             },
             'x²': {
                 'append': '²',
@@ -115,6 +127,10 @@ class CalculatorLogic:
                 'append': '^',
                 'calculate': '**'
             },
+            'x⁻¹': {
+                'append': '⁻¹',
+                'calculate': '**(-1)'
+            },
             '√': {
                 'append': '√(',
                 'calculate': 'sqrt('
@@ -123,9 +139,13 @@ class CalculatorLogic:
                 'append': '∛(',
                 'calculate': 'cbrt('
             },
-            'ʸ√': {
-                'append': '',
-                'calculate': '' # Will add later
+            '×10ʸ': {
+                'append': '×10^',
+                'calculate': '*10**'
+            },
+            'i': {
+                'append': 'i',
+                'calculate': 'j'
             },
             'π': {
                 'append': 'π',
@@ -134,6 +154,10 @@ class CalculatorLogic:
             'e': {
                 'append': 'e',
                 'calculate': 'e'
+            },
+            'Ans': {
+                'append': 'Ans',
+                'calculate': 'last_result'
             }
         }
 
