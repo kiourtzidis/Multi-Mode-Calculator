@@ -238,7 +238,7 @@ class CalculatorLogic:
 
         if self.display_expression:
             if (
-            symbol not in ('(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'log', 'log₂', 'ln')
+            symbol not in ('+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('¹', '²', '³')
             ):      
                 self.display_expression += '×'
