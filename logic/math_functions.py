@@ -15,50 +15,64 @@ def cbrt(x):
 def sin(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
-    return round(math.sin(x), 12)
+    return _clean(math.sin(x))
 
 
 def cos(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
-    return round(math.cos(x), 12)
+    return _clean(math.cos(x))
     
 
 def tan(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
-    return round(math.tan(x), 12)
+    c = math.cos(x)
+    if abs(c) < 1e-12:
+        raise ValueError('Error')
+    return _clean(math.tan(x))
 
 
 def cot(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
-    return round(1/math.tan(x), 12)
+    s = math.sin(x)
+    if abs(x) < 1e-12:
+        raise ValueError('Error')
+    return _clean(math.cos(x)/s)
     
 
 def arcsin(x, angle_mode):
     result = math.asin(x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
-    return round(result, 12)    
+    return _clean(result)    
 
 
 def arccos(x, angle_mode):
     result = math.acos(x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
-    return round(result, 12)    
+    return _clean(result)    
 
 
 def arctan(x, angle_mode):
     result = math.atan(x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
-    return round(result, 12)
+    return _clean(result)
 
 
 def arccot(x, angle_mode):
-    result = math.atan(1/x)
+    result = math.atan2(1, x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
-    return round(result, 12)
+    return _clean(result)
+
+
+def _clean(x):
+    if abs(x) < 1e-12:
+        return 0
+    elif abs(x - round(x) < 1e-12):
+        return int(round(x))
+    return round(x, 12)
