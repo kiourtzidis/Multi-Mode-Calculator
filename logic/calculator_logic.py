@@ -227,7 +227,7 @@ class CalculatorLogic:
                     return              
                 return
 
-        if symbol in ('%', '‰'):
+        if symbol.isdigit() or symbol in ('%', '‰'):
             if self.display_expression.endswith(('%', '‰')):
                 return
 
