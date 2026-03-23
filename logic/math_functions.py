@@ -37,7 +37,7 @@ def cot(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
     s = math.sin(x)
-    if abs(x) < 1e-12:
+    if abs(s) < 1e-12:
         raise ValueError('Error')
     return _clean(math.cos(x)/s)
     
@@ -71,8 +71,8 @@ def arccot(x, angle_mode):
 
 
 def _clean(x):
-    if abs(x) < 1e-12:
+    if abs(x) < 1e-10:
         return 0
-    elif abs(x - round(x) < 1e-12):
+    elif abs(x - round(x) < 1e-10):
         return int(round(x))
     return round(x, 12)

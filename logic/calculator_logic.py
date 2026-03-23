@@ -354,9 +354,9 @@ class CalculatorLogic:
                 return None, None
             
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-            print(self.tokens)
-            print(self.eval_expression)
+            
             result = eval(self.eval_expression, self.eval_functions)
+            result = self._clean_result(result)
 
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
@@ -421,3 +421,13 @@ class CalculatorLogic:
             processed_expression = processed_expression.replace('log2*', 'log2')
 
         return processed_expression
+
+
+    def _clean_result(self, result):
+        if isinstance(result, float):
+            if abs(result) < 1e-10:
+                return 0
+            if abs(result - round(result)) < 1e-10:
+                return int(round(result))
+            return round(result, 12)
+        return result
