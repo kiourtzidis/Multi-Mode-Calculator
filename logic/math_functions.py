@@ -73,6 +73,6 @@ def arccot(x, angle_mode):
 def _clean(x):
     if abs(x) < 1e-10:
         return 0
-    elif abs(x - round(x) < 1e-10):
+    elif abs(x - round(x)) < 1e-10:
         return int(round(x))
     return round(x, 12)
