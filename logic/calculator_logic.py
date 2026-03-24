@@ -247,11 +247,14 @@ class CalculatorLogic:
                 self.display_expression += '^'
                 self.tokens.append(('^', '**'))
 
-            if self.tokens[-1][0] == 'Ans':
-                if symbol.isdigit() or symbol in ('sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'log', 'log₂', 'ln', 'π', 'e' ):
-                    self.display_expression += '×'
-                    self.eval_expression += '*'
-                    self.tokens.append(('×', '*'))
+            try:
+                if self.tokens[-1][0] == 'Ans':
+                    if symbol.isdigit() or symbol in ('sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'log', 'log₂', 'ln', 'π', 'e' ):
+                        self.display_expression += '×'
+                        self.eval_expression += '*'
+                        self.tokens.append(('×', '*'))
+            except IndexError:
+                pass
 
         if symbol == '!':
 
