@@ -300,6 +300,41 @@ class CalculatorLogic:
 
             return
 
+        if symbol == 'a×b':
+
+            number = ''
+            
+            for char in self.eval_expression[::-1]:
+                if char.isdigit() or char == '.':
+                    number = char + number
+                else:
+                    break
+
+            if '.' in number:
+                number = float(number)
+            else:
+                number = int(number)
+
+            factorized = math_functions.factorize(number)
+
+            if factorized:
+                number = str(number)
+
+                self.display_expression = self.display_expression[:-len(number)]
+                self.display_expression += factorized
+
+                self.eval_expression = self.eval_expression[:-len(number)]
+                self.eval_expression += factorized.replace('×', '*')
+
+                for char in number:
+                    self.tokens.remove((char, char))
+                for char in factorized:
+                    self.tokens.append((char, char))
+            else:
+                return
+            
+            return
+
 
         if symbol == '|x|':
 

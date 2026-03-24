@@ -8,6 +8,36 @@ def factorial(x):
     return math.factorial(x)
 
 
+def factorize(number):
+        
+        if number == 0:
+            return None
+        
+        if number == 1:
+            return 1
+        
+        if isinstance(number, float):
+            if number.is_integer():
+                number = int(number)
+            else:
+                return None
+        
+        if number < 0:
+            number = abs(number)
+
+        factors = []
+
+        possible_factor = 2
+        while number > 1:
+            if number % possible_factor == 0:
+                factors.append(f'{possible_factor}')
+                number //= possible_factor
+            else:
+                possible_factor += 1
+
+        return '×'.join(factors)
+
+
 def cbrt(x):
     return x ** (1/3)
     
