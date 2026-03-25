@@ -7,6 +7,7 @@ class ScientificUI(CalculatorUI):
 
         super().__init__(parent, logic, width=620, height=615, max_history_chars=35)
 
+        self.fx_menu = None
         self.toggle_state = False
         self.secondary_buttons = {}
 
@@ -165,6 +166,9 @@ class ScientificUI(CalculatorUI):
                 button.configure(cursor='hand2')
                 button.grid(row=r, column=c, sticky='nsew', padx=5, pady=5)
 
+                if text == 'f(x) ▾':
+                    self.fx_button = button
+
                 if isinstance(labels, tuple):
                     self.secondary_buttons[button] =  labels
 
@@ -180,6 +184,10 @@ class ScientificUI(CalculatorUI):
         if labels == '⇄':
             self.toggle_functions()
             return
+        
+        if labels == 'f(x) ▾':
+            self.toggle_fx_menu()
+            return
 
         if isinstance(labels, tuple):
             symbol = labels[1] if self.toggle_state else labels[0]
@@ -187,6 +195,52 @@ class ScientificUI(CalculatorUI):
             symbol = labels
 
         self.handle_symbol(symbol)
+
+
+    def _open_fx_menu(self):
+
+        self.fx_menu = ctk.CTkToplevel(self)
+
+        self.fx_menu.overrideredirect(True)
+
+        x = self.fx_button.winfo_rootx()
+        y = self.fx_button.winfo_rooty() + self.fx_button.winfo_height()
+        self.fx_menu.geometry(f'150x250+{x}+{y}')
+
+        fx_scroll = ctk.CTkScrollableFrame(
+            self.fx_menu,
+            fg_color='#1F1F1F',
+            scrollbar_button_color= '#555555',
+            scrollbar_button_hover_color='#666666'
+        )
+        fx_scroll.pack(fill='both', expand=True, padx=10, pady=10)
+
+        functions = ('round', 'floor', 'ceil', 'trunc', 'sinh', 'cosh', 'tanh')
+
+        for func in functions:
+            button = ctk.CTkButton(
+                fx_scroll,
+                text=f'{func}(x)',
+                fg_color='#1F1F1F',
+                hover_color='#323232',
+                text_color='#FFFFFF',
+                corner_radius=0,
+                height=32,
+                font=('Jetbrains Mono', 20),
+                command=lambda f=func: self._insert_function(f)
+            )
+            button.pack(fill='x')
+
+    
+    def _close_fx_menu(self):
+        if self.fx_menu is not None and self.fx_menu.winfo_exists():
+            self.fx_menu.destroy()
+        self.fx_menu = None
+
+
+    def _insert_function(self, func):
+            self.typing_entry.insert('end', f'{func}(')
+            self._close_fx_menu()
 
 
     def toggle_angle(self):
@@ -197,6 +251,14 @@ class ScientificUI(CalculatorUI):
             self.angle_switch.configure(text='DEG')
         else:
             self.angle_switch.configure(text='RAD')
+
+
+    def toggle_fx_menu(self):
+
+        if self.fx_menu is None or not self.fx_menu.winfo_exists():
+            self._open_fx_menu()
+        else:
+            self._close_fx_menu()
 
 
     def toggle_functions(self):
