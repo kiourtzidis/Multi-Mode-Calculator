@@ -70,6 +70,24 @@ def cot(x, angle_mode):
     if abs(s) < 1e-12:
         raise ValueError('Error')
     return _clean(math.cos(x)/s)
+
+
+def sec(x, angle_mode):
+    if angle_mode == 'DEG':
+        x = math.radians(x)
+    c = math.cos(x)
+    if abs(c) < 1e-12:
+        raise ValueError('Error')
+    return _clean(1/c)
+
+
+def csc(x, angle_mode):
+    if angle_mode == 'DEG':
+        x = math.radians(x)
+    s = math.sin(x)
+    if abs(s) < 1e-12:
+        raise ValueError('Error')
+    return _clean(1/s)
     
 
 def arcsin(x, angle_mode):

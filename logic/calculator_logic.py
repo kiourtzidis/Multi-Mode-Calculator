@@ -19,6 +19,8 @@ class CalculatorLogic:
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
             'tan': lambda x: math_functions.tan(x, self.angle_mode),
+            'sec': lambda x: math_functions.sec(x, self.angle_mode),
+            'csc': lambda x: math_functions.csc(x, self.angle_mode),
             'cot': lambda x: math_functions.cot(x, self.angle_mode),
             'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
             'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
@@ -178,6 +180,14 @@ class CalculatorLogic:
                 'append': 'trunc(',
                 'calculate': 'trunc('
             },
+            'sec': {
+                'append': 'sec(',
+                'calculate': 'sec('
+            },
+            'csc': {
+                'append': 'csc(',
+                'calculate': 'csc('
+            },
             'sinh': {
                 'append': 'sinh(',
                 'calculate': 'sinh('
@@ -220,7 +230,7 @@ class CalculatorLogic:
         if self.calculated:
             if symbol.isdigit() or symbol in (
                 '.', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
-                'sinh', 'cosh', 'tanh', 'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
+                'sinh', 'cosh', 'tanh', 'sec', 'csc', 'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''
@@ -266,10 +276,9 @@ class CalculatorLogic:
         if self.display_expression:
             if (
             symbol not in (
-            '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³',
-            'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'cot', 
-            'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'sinh', 'cosh', 'tanh',
-            'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln')
+            '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹',
+            'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
+            'sinh', 'cosh', 'tanh', 'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('¹', '²', '³')
             ):      
                 self.display_expression += '×'
@@ -281,7 +290,7 @@ class CalculatorLogic:
             try:
                 if self.tokens[-1][0] == 'Ans':
                     if symbol.isdigit() or symbol in (
-                    'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
+                    'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
                     'sinh', 'cosh', 'tanh', 'round', 'floor', 'ceil', 'trunc',
                     'log', 'log₂', 'ln', 'π', 'e'):
                         self.display_expression += '×'
