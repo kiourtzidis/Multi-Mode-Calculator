@@ -154,6 +154,27 @@ def arccot(x, angle_mode):
     return _clean(result)
 
 
+def arcsinh(x, angle_mode):
+    result = math.asinh(x)
+    if angle_mode == 'DEG':
+        result = math.degrees(result)
+    return _clean(result)
+
+
+def arccosh(x, angle_mode):
+    result = math.acosh(x)
+    if angle_mode == 'DEG':
+        result = math.degrees(result)
+    return _clean(result)
+
+
+def arctanh(x, angle_mode):
+    result = math.atanh(x)
+    if angle_mode == 'DEG':
+        result = math.degrees(result)
+    return _clean(result)
+
+
 def _clean(x):
     if abs(x) < 1e-10:
         return 0
