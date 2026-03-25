@@ -237,6 +237,7 @@ class ScientificUI(CalculatorUI):
                 command=lambda f=function: self._insert_function(f)
             )
             button.pack(fill='x')
+            button.configure(cursor='hand2')
 
     
     def _close_fx_menu(self):
