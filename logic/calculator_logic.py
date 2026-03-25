@@ -25,6 +25,8 @@ class CalculatorLogic:
             'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
             'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
             'arctan': lambda x: math_functions.arctan(x, self.angle_mode),
+            'arcsec': lambda x: math_functions.arcsec(x, self.angle_mode),
+            'arccsc': lambda x: math_functions.arccsc(x, self.angle_mode),
             'arccot': lambda x: math_functions.arccot(x, self.angle_mode),
             }
         self.buttons = {
@@ -199,6 +201,14 @@ class CalculatorLogic:
             'tanh': {
                 'append': 'tanh(',
                 'calculate': 'tanh('
+            },
+            'sec⁻¹': {
+                'append': 'sec⁻¹(',
+                'calculate': 'arcsec('
+            },
+            'csc⁻¹': {
+                'append': 'csc⁻¹(',
+                'calculate': 'arccsc('
             }
         }
 
@@ -229,8 +239,8 @@ class CalculatorLogic:
 
         if self.calculated:
             if symbol.isdigit() or symbol in (
-                '.', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
-                'sinh', 'cosh', 'tanh', 'sec', 'csc', 'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
+                '.', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
+                'sinh', 'cosh', 'tanh', 'sec⁻¹', 'csc⁻¹', 'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''

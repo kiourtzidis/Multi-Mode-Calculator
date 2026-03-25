@@ -63,15 +63,6 @@ def tan(x, angle_mode):
     return _clean(math.tan(x))
 
 
-def cot(x, angle_mode):
-    if angle_mode == 'DEG':
-        x = math.radians(x)
-    s = math.sin(x)
-    if abs(s) < 1e-12:
-        raise ValueError('Error')
-    return _clean(math.cos(x)/s)
-
-
 def sec(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
@@ -88,6 +79,15 @@ def csc(x, angle_mode):
     if abs(s) < 1e-12:
         raise ValueError('Error')
     return _clean(1/s)
+
+
+def cot(x, angle_mode):
+    if angle_mode == 'DEG':
+        x = math.radians(x)
+    s = math.sin(x)
+    if abs(s) < 1e-12:
+        raise ValueError('Error')
+    return _clean(math.cos(x)/s)
     
 
 def arcsin(x, angle_mode):
@@ -106,6 +106,24 @@ def arccos(x, angle_mode):
 
 def arctan(x, angle_mode):
     result = math.atan(x)
+    if angle_mode == 'DEG':
+        result = math.degrees(result)
+    return _clean(result)
+
+
+def arcsec(x, angle_mode):
+    if abs(x) < 1:
+        raise ValueError('Error')
+    result = math.acos(1/x)
+    if angle_mode == 'DEG':
+        result = math.degrees(result)
+    return _clean(result)
+
+
+def arccsc(x, angle_mode):
+    if abs(x) < 1:
+        raise ValueError('Error')
+    result = math.asin(1/x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
     return _clean(result)
