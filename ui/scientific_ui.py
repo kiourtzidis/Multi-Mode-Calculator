@@ -118,7 +118,7 @@ class ScientificUI(CalculatorUI):
         (('(', 'parenthesis'),
          (')', 'parenthesis'),
          ('!', 'function'),
-         ('f(x)', 'functions')),
+         ('f(x) ▾', 'functions')),
 
         ((('sin', 'sin⁻¹'), 'function'),
          (('cos', 'cos⁻¹'), 'function'),
