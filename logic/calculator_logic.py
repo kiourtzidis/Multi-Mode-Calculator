@@ -265,7 +265,10 @@ class CalculatorLogic:
 
         if self.display_expression:
             if (
-            symbol not in ('+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'sinh', 'cosh', 'tanh',
+            symbol not in (
+            '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³',
+            'xʸ', 'x⁻¹', 'sin', 'cos', 'tan', 'cot', 
+            'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'sinh', 'cosh', 'tanh',
             'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('¹', '²', '³')
             ):      
@@ -277,8 +280,10 @@ class CalculatorLogic:
 
             try:
                 if self.tokens[-1][0] == 'Ans':
-                    if symbol.isdigit() or symbol in ('sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 'sinh', 'cosh', 'tanh',
-                    'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln', 'π', 'e' ):
+                    if symbol.isdigit() or symbol in (
+                    'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
+                    'sinh', 'cosh', 'tanh', 'round', 'floor', 'ceil', 'trunc',
+                    'log', 'log₂', 'ln', 'π', 'e'):
                         self.display_expression += '×'
                         self.eval_expression += '*'
                         self.tokens.append(('×', '*'))
