@@ -161,6 +161,34 @@ class CalculatorLogic:
             'Ans': {
                 'append': 'Ans',
                 'calculate': 'self.last_result'
+            },
+            'round': {
+                'append': 'round(',
+                'calculate': 'round('
+            },
+            'floor': {
+                'append': 'floor(',
+                'calculate': 'floor('
+            },
+            'ceil': {
+                'append': 'ceil(',
+                'calculate': 'ceil('
+            },
+            'trunc': {
+                'append': 'trunc(',
+                'calculate': 'trunc('
+            },
+            'sinh': {
+                'append': 'sinh(',
+                'calculate': 'sinh('
+            },
+            'cosh': {
+                'append': 'cosh(',
+                'calculate': 'cosh('
+            },
+            'tanh': {
+                'append': 'tanh(',
+                'calculate': 'tanh('
             }
         }
 
@@ -191,12 +219,11 @@ class CalculatorLogic:
 
         if self.calculated:
             if symbol.isdigit() or symbol in (
-                '.', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹', 
-                'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
+                '.', 'sin', 'cos', 'tan', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
+                'sinh', 'cosh', 'tanh', 'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''
-            
 
         self.calculated = False
 

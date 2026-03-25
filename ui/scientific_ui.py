@@ -217,17 +217,17 @@ class ScientificUI(CalculatorUI):
 
         functions = ('round', 'floor', 'ceil', 'trunc', 'sinh', 'cosh', 'tanh')
 
-        for func in functions:
+        for function in functions:
             button = ctk.CTkButton(
                 fx_scroll,
-                text=f'{func}(x)',
+                text=f'{function}(x)',
                 fg_color='#1F1F1F',
                 hover_color='#323232',
                 text_color='#FFFFFF',
                 corner_radius=0,
                 height=32,
                 font=('Jetbrains Mono', 20),
-                command=lambda f=func: self._insert_function(f)
+                command=lambda f=function: self._insert_function(f)
             )
             button.pack(fill='x')
 
@@ -238,8 +238,8 @@ class ScientificUI(CalculatorUI):
         self.fx_menu = None
 
 
-    def _insert_function(self, func):
-            self.typing_entry.insert('end', f'{func}(')
+    def _insert_function(self, function):
+            self.handle_symbol(function)
             self._close_fx_menu()
 
 
