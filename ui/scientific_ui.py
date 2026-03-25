@@ -203,8 +203,14 @@ class ScientificUI(CalculatorUI):
 
         self.fx_menu.overrideredirect(True)
 
-        x = self.fx_button.winfo_rootx()
-        y = self.fx_button.winfo_rooty() + self.fx_button.winfo_height()
+        button_x = self.fx_button.winfo_rootx()
+        button_y = self.fx_button.winfo_rooty()
+        button_width = self.fx_button.winfo_width()
+        button_height = self.fx_button.winfo_height()
+
+        x = button_x + (button_width // 2) - (150 // 2)
+        y = button_y + button_height
+
         self.fx_menu.geometry(f'150x250+{x}+{y}')
 
         fx_scroll = ctk.CTkScrollableFrame(
