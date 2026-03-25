@@ -119,7 +119,7 @@ class ScientificUI(CalculatorUI):
         (('(', 'parenthesis'),
          (')', 'parenthesis'),
          ('!', 'function'),
-         ('f(x) ▾', 'functions')),
+         ('Ans', 'constant')),
 
         ((('sin', 'sin⁻¹'), 'function'),
          (('cos', 'cos⁻¹'), 'function'),
@@ -138,7 +138,7 @@ class ScientificUI(CalculatorUI):
 
         (('π', 'constant'),
          ('e', 'constant'),
-         ('Ans', 'constant'),
+         ('f(x) ▾', 'functions'),
          ('⇄', 'toggle'))
         )
 
