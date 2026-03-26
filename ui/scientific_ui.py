@@ -222,7 +222,7 @@ class ScientificUI(CalculatorUI):
         fx_scroll.pack(fill='both', expand=True, padx=10, pady=10)
 
         functions = ('round', 'floor', 'ceil', 'trunc', 'sec', 'csc', 'sinh', 'cosh', 'tanh',
-        'sec⁻¹', 'csc⁻¹', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹')
+        'coth', 'sech', 'csch', 'sec⁻¹', 'csc⁻¹', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹')
 
         for function in functions:
             button = ctk.CTkButton(

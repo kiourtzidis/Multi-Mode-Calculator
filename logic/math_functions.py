@@ -106,6 +106,24 @@ def tanh(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
     return _clean(math.tanh(x))
+
+
+def coth(x):
+    s = math.sinh(x)
+    if abs(s) < 1e-12:
+        raise ValueError('Error')
+    return _clean(math.cosh(x)/s)
+
+
+def sech(x):
+    return _clean(1/math.cosh(x))
+
+
+def csch(x):
+    s = math.sinh(x)
+    if abs(s) < 1e-12:
+        raise ValueError('Error')
+    return _clean(1/s)
     
 
 def arcsin(x, angle_mode):
