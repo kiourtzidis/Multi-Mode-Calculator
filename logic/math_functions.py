@@ -181,6 +181,24 @@ def arctanh(x, angle_mode):
     return _clean(result)
 
 
+def arcsech(x):  
+    if x <= 0 or x > 1:  
+        raise ValueError('Error')  
+    return _clean(math.log((1+math.sqrt(1-x**2))/x))
+
+
+def arccsch(x):  
+    if x == 0:  
+        raise ValueError('Error')  
+    return _clean(math.log(1/x+math.sqrt(1/(x**2)+1)))
+
+
+def arccoth(x):  
+    if abs(x) <= 1:  
+        raise ValueError('Error')  
+    return _clean(0.5*math.log((x+1)/(x-1)))
+
+
 def _clean(x):
     if abs(x) < 1e-10:
         return 0

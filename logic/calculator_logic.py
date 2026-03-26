@@ -239,6 +239,18 @@ class CalculatorLogic:
             'tanh⁻¹': {
                 'append': 'tanh⁻¹(',
                 'calculate': 'arctanh('
+            },
+            'sech⁻¹': {
+                'append': 'sech⁻¹(',
+                'calculate': 'arcsech('
+            },
+            'csch⁻¹': {
+                'append': 'csch⁻¹(',
+                'calculate': 'arccsch('
+            },
+            'coth⁻¹': {
+                'append': 'coth⁻¹(',
+                'calculate': 'arccoth('
             }
         }
 
@@ -271,7 +283,7 @@ class CalculatorLogic:
             if symbol.isdigit() or symbol in (
                 '.', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
                 'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sec⁻¹', 'csc⁻¹', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹',
-                'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
+                'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''
@@ -320,7 +332,7 @@ class CalculatorLogic:
             '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹',
             'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
             'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
-            'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln')
+            'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('¹', '²', '³')
             ):      
                 self.display_expression += '×'
@@ -334,7 +346,8 @@ class CalculatorLogic:
                     if symbol.isdigit() or symbol in (
                     'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
                     'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
-                    'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln', 'π', 'e'):
+                    'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'log', 'log₂', 'ln', 'π', 'e'
+                    ):
                         self.display_expression += '×'
                         self.eval_expression += '*'
                         self.tokens.append(('×', '*'))
