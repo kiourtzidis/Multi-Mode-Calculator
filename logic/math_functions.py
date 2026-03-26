@@ -90,15 +90,15 @@ def cot(x, angle_mode):
     return _clean(math.cos(x)/s)
 
 
-def sinh(x, angle_mode):
+def sinh(x):
     return _clean(math.sinh(x))
 
 
-def cosh(x, angle_mode):
+def cosh(x):
     return _clean(math.cosh(x))
 
 
-def tanh(x, angle_mode):
+def tanh(x):
     return _clean(math.tanh(x))
 
 
@@ -166,17 +166,17 @@ def arccot(x, angle_mode):
     return _clean(result)
 
 
-def arcsinh(x, angle_mode):
+def arcsinh(x):
     result = math.asinh(x)
     return _clean(result)
 
 
-def arccosh(x, angle_mode):
+def arccosh(x):
     result = math.acosh(x)
     return _clean(result)
 
 
-def arctanh(x, angle_mode):
+def arctanh(x):
     result = math.atanh(x)
     return _clean(result)
 

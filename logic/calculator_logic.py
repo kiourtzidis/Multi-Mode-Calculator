@@ -22,18 +22,12 @@ class CalculatorLogic:
             'sec': lambda x: math_functions.sec(x, self.angle_mode),
             'csc': lambda x: math_functions.csc(x, self.angle_mode),
             'cot': lambda x: math_functions.cot(x, self.angle_mode),
-            'sinh': lambda x: math_functions.sinh(x, self.angle_mode),
-            'cosh': lambda x: math_functions.cosh(x, self.angle_mode),
-            'tanh': lambda x: math_functions.tanh(x, self.angle_mode),
             'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
             'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
             'arctan': lambda x: math_functions.arctan(x, self.angle_mode),
             'arcsec': lambda x: math_functions.arcsec(x, self.angle_mode),
             'arccsc': lambda x: math_functions.arccsc(x, self.angle_mode),
             'arccot': lambda x: math_functions.arccot(x, self.angle_mode),
-            'arcsinh': lambda x: math_functions.arcsinh(x, self.angle_mode),
-            'arccosh': lambda x: math_functions.arccosh(x, self.angle_mode),
-            'arctanh': lambda x: math_functions.arctanh(x, self.angle_mode)
             }
         self.buttons = {
             '+': {
