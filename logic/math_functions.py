@@ -168,22 +168,16 @@ def arccot(x, angle_mode):
 
 def arcsinh(x, angle_mode):
     result = math.asinh(x)
-    if angle_mode == 'DEG':
-        result = math.degrees(result)
     return _clean(result)
 
 
 def arccosh(x, angle_mode):
     result = math.acosh(x)
-    if angle_mode == 'DEG':
-        result = math.degrees(result)
     return _clean(result)
 
 
 def arctanh(x, angle_mode):
     result = math.atanh(x)
-    if angle_mode == 'DEG':
-        result = math.degrees(result)
     return _clean(result)
 
 
