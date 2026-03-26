@@ -91,20 +91,14 @@ def cot(x, angle_mode):
 
 
 def sinh(x, angle_mode):
-    if angle_mode == 'DEG':
-        x = math.radians(x)
     return _clean(math.sinh(x))
 
 
 def cosh(x, angle_mode):
-    if angle_mode == 'DEG':
-        x = math.radians(x)
     return _clean(math.cosh(x))
 
 
 def tanh(x, angle_mode):
-    if angle_mode == 'DEG':
-        x = math.radians(x)
     return _clean(math.tanh(x))
 
 
