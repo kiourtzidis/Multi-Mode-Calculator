@@ -143,7 +143,7 @@ class CalculatorUI(ctk.CTkFrame):
             height=24,
             fg_color='#444444',
             font=('Jetbrains Mono', 14),
-            command=lambda l=line, f=outer: self.history_delete(l, f)
+            command=lambda f=outer: self.history_delete(f)
         )
         delete_button.grid(row=0, column=2, sticky='e', padx=(5, 0))
 
@@ -186,9 +186,28 @@ class CalculatorUI(ctk.CTkFrame):
 
     def history_click(self, expression):
 
-        self.logic.display_expression = expression
-        self.logic.calculated = False
-        self.update_typing_display()
+        self.logic.clear()
+
+        i = 0
+        while i < len(expression):
+            
+            matched = False
+            for symbol in sorted(self.logic.buttons.keys(), key=len, reverse=True):
+                if expression[i:i+len(symbol)] == symbol:
+                    self.logic.append(symbol)
+                    i += len(symbol)
+                    matched = True
+                    break
+
+            if matched:
+                continue
+
+            
+            self.logic.append(expression[i])
+            i += 1
+
+            self.logic.calculated = False
+            self.update_typing_display()
 
 
     def history_copy(self, line):
@@ -196,5 +215,5 @@ class CalculatorUI(ctk.CTkFrame):
         self.clipboard_append(line)
 
 
-    def history_delete(self, line, outer_frame):
-        outer_frame.destroy()
+    def history_delete(self, frame):
+        frame.destroy()
