@@ -167,18 +167,15 @@ def arccot(x, angle_mode):
 
 
 def arcsinh(x):
-    result = math.asinh(x)
-    return _clean(result)
+    return _clean(math.asinh(x))
 
 
 def arccosh(x):
-    result = math.acosh(x)
-    return _clean(result)
+    return _clean(math.acosh(x))
 
 
 def arctanh(x):
-    result = math.atanh(x)
-    return _clean(result)
+    return _clean(math.atanh(x))
 
 
 def arcsech(x):  

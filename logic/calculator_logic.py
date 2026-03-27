@@ -27,7 +27,7 @@ class CalculatorLogic:
             'arctan': lambda x: math_functions.arctan(x, self.angle_mode),
             'arcsec': lambda x: math_functions.arcsec(x, self.angle_mode),
             'arccsc': lambda x: math_functions.arccsc(x, self.angle_mode),
-            'arccot': lambda x: math_functions.arccot(x, self.angle_mode),
+            'arccot': lambda x: math_functions.arccot(x, self.angle_mode)
             }
         self.buttons = {
             '+': {
