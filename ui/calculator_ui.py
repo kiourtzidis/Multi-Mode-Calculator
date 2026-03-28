@@ -201,7 +201,22 @@ class CalculatorUI(ctk.CTkFrame):
         self.logic.display_expression = display_expression
         self.logic.eval_expression = eval_expression
 
-        self.logic.tokens = [(display_expression, eval_expression)]
+        i = 0
+        while i < len(display_expression):
+            
+            matched = False
+            for symbol in sorted(self.logic.buttons, key=len, reverse=True):
+                if display_expression[i:i+len(symbol)] == symbol:
+                    self.logic.tokens.append((symbol, symbol))
+                    i += len(symbol)
+                    matched = True
+                    break
+
+            if matched:
+                continue
+            
+            self.logic.tokens.append((display_expression[i], eval_expression[i]))
+            i += 1
 
         self.logic.calculated = False
 
