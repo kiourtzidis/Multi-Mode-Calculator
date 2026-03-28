@@ -8,6 +8,10 @@ def factorial(x):
     return math.factorial(x)
 
 
+def frac(x):
+    return _clean(x - math.floor(x))
+
+
 def gamma(x):
     return _clean(math.gamma(x))
 
