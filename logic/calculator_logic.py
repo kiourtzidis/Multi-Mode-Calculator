@@ -22,6 +22,7 @@ class CalculatorLogic:
             'sec': lambda x: math_functions.sec(x, self.angle_mode),
             'csc': lambda x: math_functions.csc(x, self.angle_mode),
             'cot': lambda x: math_functions.cot(x, self.angle_mode),
+
             'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
             'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
             'arctan': lambda x: math_functions.arctan(x, self.angle_mode),
@@ -62,10 +63,6 @@ class CalculatorLogic:
                 'append': ')',
                 'calculate': ')'
             },
-            '!': {
-                'append': '!',
-                'calculate': ''
-            },
             'sin': {
                 'append': 'sin(',
                 'calculate': 'sin('
@@ -105,10 +102,6 @@ class CalculatorLogic:
             'ln': {
                 'append': 'ln(',
                 'calculate': 'log('
-            },
-            '|x|': {
-                'append': '|', 
-                'calculate': ''
             },
             '%': {
                 'append': '%',
@@ -161,10 +154,6 @@ class CalculatorLogic:
             'e': {
                 'append': 'e',
                 'calculate': 'e'
-            },
-            'Ans': {
-                'append': 'Ans',
-                'calculate': 'self.last_result'
             },
             'round': {
                 'append': 'round(',
