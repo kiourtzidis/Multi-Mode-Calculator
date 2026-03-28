@@ -448,7 +448,9 @@ class CalculatorLogic:
         
         if symbol == 'Ans':
             if self.last_result:
-                if self.display_expression and self.display_expression[-1] not in self.operators:
+                if self.display_expression and (
+                self.display_expression[-1] not in self.operators and self.display_expression[-1] != '('
+                ):
                     self.display_expression += '×Ans'
                     self.eval_expression += '*' + self.last_result
                     self.tokens.append(('×', '*'))
