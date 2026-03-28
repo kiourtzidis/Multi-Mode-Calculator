@@ -8,6 +8,10 @@ def factorial(x):
     return math.factorial(x)
 
 
+def gamma(x):
+    return _clean(math.gamma(x))
+
+
 def factorize(number):
         
         if number == 0:
@@ -39,7 +43,7 @@ def factorize(number):
 
 
 def cbrt(x):
-    return x ** (1/3)
+    return _clean(x ** (1/3))
     
 
 def sin(x, angle_mode):
