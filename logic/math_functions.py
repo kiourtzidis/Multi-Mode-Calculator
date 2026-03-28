@@ -12,6 +12,14 @@ def gamma(x):
     return _clean(math.gamma(x))
 
 
+def sign(x):
+    if x > 0:
+        return 1
+    elif x < 0:
+        return -1
+    return 0
+
+
 def factorize(number):
         
         if number == 0:
