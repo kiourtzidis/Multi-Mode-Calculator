@@ -16,6 +16,10 @@ def gamma(x):
     return _clean(math.gamma(x))
 
 
+def lgamma(x):
+    return _clean(math.lgamma(x))
+
+
 def sign(x):
     if x > 0:
         return 1

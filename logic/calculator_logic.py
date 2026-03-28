@@ -194,6 +194,10 @@ class CalculatorLogic:
                 'append': 'gamma(',
                 'calculate': 'gamma('
             },
+            'lgamma': {
+                'append': 'lgamma(',
+                'calculate': 'lgamma('
+            },
             'sec': {
                 'append': 'sec(',
                 'calculate': 'sec('
@@ -290,7 +294,7 @@ class CalculatorLogic:
                 '.', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
                 'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sec⁻¹', 'csc⁻¹', 'sinh⁻¹', 'cosh⁻¹', 
                 'tanh⁻¹', 'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 
-                'sign', 'gamma', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
+                'sign', 'gamma', 'lgamma', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
                 self.display_expression = ''
                 self.eval_expression = ''
@@ -340,7 +344,7 @@ class CalculatorLogic:
             'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
             'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
             'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign', 
-            'gamma', 'log', 'log₂', 'ln')
+            'gamma', 'lgamma', 'log', 'log₂', 'ln')
             and self.display_expression[-1] in ('¹', '²', '³')
             ):      
                 self.display_expression += '×'
@@ -355,7 +359,7 @@ class CalculatorLogic:
                     'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
                     'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
                     'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign',
-                    'gamma', 'log', 'log₂', 'ln', 'π', 'e'
+                    'gamma', 'lgamma', 'log', 'log₂', 'ln', 'π', 'e'
                     ):
                         self.display_expression += '×'
                         self.eval_expression += '*'
