@@ -180,8 +180,16 @@ class CalculatorUI(ctk.CTkFrame):
 
 
     def history_clear(self):
+
         for frame in list(self.history_scroll.winfo_children()):
             frame.destroy()
+
+        def scroll_to_top():
+            canvas = self.history_scroll._parent_canvas
+            canvas.update_idletasks()
+            canvas.yview_moveto(0.0)
+
+        self.history_scroll.after(0, scroll_to_top)
 
 
     def history_click(self, expression):
@@ -190,9 +198,9 @@ class CalculatorUI(ctk.CTkFrame):
 
         i = 0
         while i < len(expression):
-            
+
             matched = False
-            for symbol in sorted(self.logic.buttons.keys(), key=len, reverse=True):
+            for symbol in sorted(self.logic.buttons, key=len, reverse=True):
                 if expression[i:i+len(symbol)] == symbol:
                     self.logic.append(symbol)
                     i += len(symbol)
@@ -202,7 +210,6 @@ class CalculatorUI(ctk.CTkFrame):
             if matched:
                 continue
 
-            
             self.logic.append(expression[i])
             i += 1
 
