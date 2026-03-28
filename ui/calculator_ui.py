@@ -73,9 +73,11 @@ class CalculatorUI(ctk.CTkFrame):
             self.logic.backspace()
 
         elif symbol == '=':
+            original_eval = self.logic.eval_expression
+
             expression, result = self.logic.calculate()
             if expression:
-                self.add_history_item(expression, result)
+                self.add_history_item(expression, result, original_eval)
 
         else:
             self.logic.append(symbol)
@@ -97,7 +99,7 @@ class CalculatorUI(ctk.CTkFrame):
         self.typing_entry.configure(state='readonly')
 
 
-    def add_history_item(self, expression, result):
+    def add_history_item(self, expression, result, eval_expression):
         
         line = f'{expression} = {result}'
 
@@ -153,7 +155,7 @@ class CalculatorUI(ctk.CTkFrame):
 
         item_label.bind('<Enter>', lambda e: item_label.configure(text_color='#FFFFFF'))
         item_label.bind('<Leave>', lambda e: item_label.configure(text_color='#BBBBBB'))
-        item_label.bind('<Button-1>', lambda e, exp=expression: self.history_click(exp))
+        item_label.bind('<Button-1>', lambda e, exp=expression, eval_exp=eval_expression: self.history_click(exp, eval_exp))
 
         copy_button.bind('<Enter>', lambda e: copy_button.configure(text_color='#FFFFFF'))
         copy_button.bind('<Leave>', lambda e: copy_button.configure(text_color='#BBBBBB'))
@@ -192,49 +194,16 @@ class CalculatorUI(ctk.CTkFrame):
         self.history_scroll.after(0, scroll_to_top)
 
 
-    def history_click(self, expression):
+    def history_click(self, display_expression, eval_expression):
 
         self.logic.tokens.clear()
-        self.logic.display_expression = expression
-        self.logic.eval_expression = expression
+
+        self.logic.display_expression = display_expression
+        self.logic.eval_expression = eval_expression
+
+        self.logic.tokens = [(display_expression, eval_expression)]
 
         self.logic.calculated = False
-
-        i = 0
-        while i < len(expression):
-            char = expression[i]
-
-            if char.isalpha():
-                token = char
-                i += 1
-
-                while i < len(expression) and (
-                    expression[i].isalpha() or expression[i] in ('⁻', '¹', '₂', '³')
-                ):
-                    token += expression[i]
-                    i += 1
-
-                if i < len(expression) and expression[i] == '(':
-                    token += '('
-                    i += 1
-
-                self.logic.tokens.append((token, token))
-                continue
-
-            elif char.isdigit() or (char == '.' and i + 1 < len(expression) and expression[i+1].isdigit()):
-                num = char
-                i += 1
-
-                while i < len(expression) and (expression[i].isdigit() or expression[i] == '.'):
-                    num += expression[i]
-                    i += 1
-
-                self.logic.tokens.append((num, num))
-                continue
-
-            else:
-                self.logic.tokens.append((char, char))
-                i += 1
 
         self.update_typing_display()
 
