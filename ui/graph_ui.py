@@ -54,10 +54,28 @@ class GraphUI(ctk.CTkFrame):
 
     
     def _build_controls(self):
-        self.controls_frame = ctk.CTkFrame(self, fg_color='#2E2E2E', height=70)
+        self.controls_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=70)
         self.controls_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=(8, 4))
+
+        self.controls_frame.grid_columnconfigure(0, weight=1)
+        self.controls_frame.grid_columnconfigure(1, weight=1)
+        self.controls_frame.grid_columnconfigure(2, weight=1)
+
+        self.function_entry = ctk.CTkEntry(
+            self.controls_frame, 
+            font=('Jetbrains Mono', 16),
+            fg_color='#2E2E2E',
+            height=40,
+            placeholder_text="Enter function…"
+        )
+        self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=10, pady=10)
+        self.function_entry.bind('<Return>', lambda e: self.plot_function())
 
 
     def _build_buttons(self):
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=165)
         self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=10)
+
+
+    def plot_function(self):
+        pass
