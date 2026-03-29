@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 
 class GraphUI(ctk.CTkFrame):
 
@@ -23,6 +25,32 @@ class GraphUI(ctk.CTkFrame):
 
         self.canvas_frame = ctk.CTkFrame(self, fg_color='#2E2E2E', width=self.width, height=300)
         self.canvas_frame.grid(row=0, column=0, sticky='nsew', padx=10, pady=(8, 4))
+
+        self.fig = Figure(figsize=(5, 3), dpi=100)
+        self.ax = self.fig.add_subplot(111)
+
+        self.ax.set_facecolor('#2E2E2E')
+        self.fig.patch.set_facecolor('#2E2E2E')
+        self.ax.grid(True, color='#444444')
+
+        self.ax.tick_params(colors='white')
+        self.ax.spines['bottom'].set_color('white')
+        self.ax.spines['top'].set_color('white')
+        self.ax.spines['left'].set_color('white')
+        self.ax.spines['right'].set_color('white')
+
+        self.ax.title.set_color('white')
+        self.ax.yaxis.label.set_color('white')
+        self.ax.xaxis.label.set_color('white')
+
+        self.ax.set_xlim(-10, 10)
+        self.ax.set_ylim(-10, 10)
+        self.ax.axhline(0, color='white', linewidth=1)
+        self.ax.axvline(0, color='white', linewidth=1)
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.canvas_frame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack(fill='both', expand=True)
 
     
     def _build_controls(self):
