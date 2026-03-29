@@ -69,8 +69,19 @@ class GraphUI(ctk.CTkFrame):
             placeholder_text="Enter function…"
         )
         self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=10, pady=10)
+        self.function_entry.configure(cursor='xterm')
         self.function_entry.bind('<Return>', lambda e: self.plot_function())
 
+        self.plot_button = ctk.CTkButton(
+            self.controls_frame,
+            text='Plot',
+            font=('Jetbrains Mono', 14),
+            fg_color='#2A2A2A',
+            hover_color='#323232',
+            command=self.plot_function
+        )
+        self.plot_button.grid(row=1, column=0, sticky='nsew', padx=10, pady=(0, 10))
+        self.plot_button.configure(cursor='hand2')
 
     def _build_buttons(self):
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=165)
