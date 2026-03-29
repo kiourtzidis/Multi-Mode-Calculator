@@ -83,10 +83,25 @@ class GraphUI(ctk.CTkFrame):
         self.plot_button.grid(row=1, column=0, sticky='nsew', padx=10, pady=(0, 10))
         self.plot_button.configure(cursor='hand2')
 
+        self.clear_button = ctk.CTkButton(
+            self.controls_frame,
+            text='Clear',
+            font=('Jetbrains Mono', 14),
+            fg_color='#2A2A2A',
+            hover_color='#323232',
+            command=self.clear_functions
+        )
+        self.clear_button.grid(row=1, column=1, sticky='nsew', padx=10, pady=(0, 10))
+        self.clear_button.configure(cursor='hand2')
+
     def _build_buttons(self):
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=165)
         self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=10)
 
 
     def plot_function(self):
+        pass
+
+
+    def clear_functions(self):
         pass
