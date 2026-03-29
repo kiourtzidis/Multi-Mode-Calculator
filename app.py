@@ -1,9 +1,11 @@
 import customtkinter as ctk
 from ui.basic_ui import BasicUI
 from ui.scientific_ui import ScientificUI
+from ui.graph_ui import GraphUI
 from ui.temperature_ui import TemperatureUI
 from ui.currency_ui import CurrencyUI
 from logic.calculator_logic import CalculatorLogic
+from logic.graph_logic import GraphLogic
 from logic.temperature_logic import TemperatureLogic
 from logic.currency_logic import CurrencyLogic
 
@@ -19,6 +21,7 @@ class App:
 
         self.expression = ''
         self.calculator_logic = CalculatorLogic()
+        self.graph_logic = GraphLogic()
         self.temperature_logic = TemperatureLogic()
         self.currency_logic = CurrencyLogic()
 
@@ -33,6 +36,7 @@ class App:
         self.windows = {
             'Basic': BasicUI(self.mode_frame, self.calculator_logic),
             'Scientific': ScientificUI(self.mode_frame, self.calculator_logic),
+            'Graph': GraphUI(self.mode_frame),
             'Temperature': TemperatureUI(self.mode_frame),
             'Currency': CurrencyUI(self.mode_frame)
         }

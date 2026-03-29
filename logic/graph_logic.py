@@ -1,0 +1,2 @@
+class GraphLogic:
+        pass
