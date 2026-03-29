@@ -59,7 +59,6 @@ class GraphUI(ctk.CTkFrame):
 
         self.controls_frame.grid_columnconfigure(0, weight=1)
         self.controls_frame.grid_columnconfigure(1, weight=1)
-        self.controls_frame.grid_columnconfigure(2, weight=1)
 
         self.function_entry = ctk.CTkEntry(
             self.controls_frame, 
@@ -68,7 +67,7 @@ class GraphUI(ctk.CTkFrame):
             height=40,
             placeholder_text="Enter function…"
         )
-        self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=10, pady=10)
+        self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=10)
         self.function_entry.configure(cursor='xterm')
         self.function_entry.bind('<Return>', lambda e: self.plot_function())
 
@@ -80,7 +79,7 @@ class GraphUI(ctk.CTkFrame):
             hover_color='#323232',
             command=self.plot_function
         )
-        self.plot_button.grid(row=1, column=0, sticky='nsew', padx=10, pady=(0, 10))
+        self.plot_button.grid(row=1, column=0, sticky='nsew', padx=2, pady=(0, 10))
         self.plot_button.configure(cursor='hand2')
 
         self.clear_button = ctk.CTkButton(
@@ -91,7 +90,7 @@ class GraphUI(ctk.CTkFrame):
             hover_color='#323232',
             command=self.clear_functions
         )
-        self.clear_button.grid(row=1, column=1, sticky='nsew', padx=10, pady=(0, 10))
+        self.clear_button.grid(row=1, column=1, sticky='nsew', padx=2, pady=(0, 10))
         self.clear_button.configure(cursor='hand2')
 
     def _build_buttons(self):
