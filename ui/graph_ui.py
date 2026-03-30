@@ -142,30 +142,31 @@ class GraphUI(ctk.CTkFrame):
                 else:
                     text = labels
 
-                if type in ('operator', 'decimal', 'function', 'parenthesis', 'variable', 'constant'):
+                if type == 'clear':
                         button = ctk.CTkButton(
                             self.buttons_frame,
                             text=text, 
                             font=('Jetbrains Mono', 20), 
-                            fg_color='#262626', 
-                            hover_color='#323232' 
+                            fg_color='#E07B1A', 
+                            hover_color='#FF944D'
                         )
-                elif type == 'clear':
-                    button = ctk.CTkButton(
-                        self.buttons_frame,
-                        text=text, 
-                        font=('Jetbrains Mono', 20), 
-                        fg_color='#E07B1A', 
-                        hover_color='#FF944D', 
-                        command=self.clear_functions)
-                else:
+                elif type == 'toggle':
                     button = ctk.CTkButton(
                         self.buttons_frame,
                         text=text, 
                         font=('Jetbrains Mono', 20), 
                         fg_color='#3C3C3C', 
                         hover_color='#4A4A4A', 
-                        command=self.toggle_functions)
+                        command=self.toggle_functions
+                        )
+                else:
+                    button = ctk.CTkButton(
+                        self.buttons_frame,
+                        text=text, 
+                        font=('Jetbrains Mono', 20), 
+                        fg_color='#262626', 
+                        hover_color='#323232'
+                        )
 
                 button.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
                 button.configure(cursor='hand2')
