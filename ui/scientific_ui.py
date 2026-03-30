@@ -5,7 +5,7 @@ class ScientificUI(CalculatorUI):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, logic, width=620, height=615, max_history_chars=35)
+        super().__init__(parent, logic, width=620, height=595, max_history_chars=35)
 
         self.fx_menu = None
         self.toggle_state = False
@@ -105,7 +105,7 @@ class ScientificUI(CalculatorUI):
                     command=lambda s=symbol: self.handle_symbol(s))
 
             button.configure(cursor='hand2')
-            button.grid(row=i // 4, column=i % 4, sticky='nsew', padx=5, pady=5)
+            button.grid(row=i // 4, column=i % 4, sticky='nsew', padx=2, pady=2)
 
         for i in range(5): 
             self.basic_frame.grid_rowconfigure(i, weight=1) 
@@ -164,7 +164,7 @@ class ScientificUI(CalculatorUI):
                     command=lambda l=labels: self._scientific_click(l)
                 )
                 button.configure(cursor='hand2')
-                button.grid(row=r, column=c, sticky='nsew', padx=5, pady=5)
+                button.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
 
                 if text == 'f(x) ▾':
                     self.fx_button = button

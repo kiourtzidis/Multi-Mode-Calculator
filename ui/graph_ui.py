@@ -9,8 +9,7 @@ class GraphUI(ctk.CTkFrame):
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.width = 500
-        self.height = 630
-
+        self.height = 620
         self.toggle_state = False
         self.secondary_buttons = {}
 
@@ -98,7 +97,7 @@ class GraphUI(ctk.CTkFrame):
 
     def _build_buttons(self):
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=170)
-        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=2)
+        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(0, 8))
 
         graph_buttons = (
             (('C', 'clear'),
