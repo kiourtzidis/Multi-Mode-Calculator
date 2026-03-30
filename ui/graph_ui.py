@@ -36,6 +36,7 @@ class GraphUI(ctk.CTkFrame):
         self.ax.grid(True, color='#444444')
 
         self.ax.tick_params(colors='white')
+        self.ax.tick_params(labelsize=7)
 
         self.ax.spines['top'].set_visible(False)
         self.ax.spines['right'].set_visible(False)
