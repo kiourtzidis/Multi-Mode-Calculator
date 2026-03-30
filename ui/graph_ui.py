@@ -9,7 +9,10 @@ class GraphUI(ctk.CTkFrame):
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.width = 500
-        self.height = 620
+        self.height = 630
+
+        self.toggle_state = False
+        self.secondary_buttons = {}
 
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=0)
@@ -65,7 +68,7 @@ class GraphUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 16),
             fg_color='#2E2E2E',
             height=40,
-            placeholder_text="Enter function…"
+            placeholder_text='Enter function…'
         )
         self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=10)
         self.function_entry.configure(cursor='xterm')
@@ -79,7 +82,7 @@ class GraphUI(ctk.CTkFrame):
             hover_color='#323232',
             command=self.plot_function
         )
-        self.plot_button.grid(row=1, column=0, sticky='nsew', padx=2, pady=(0, 10))
+        self.plot_button.grid(row=1, column=0, sticky='nsew', padx=2, pady=(0, 2))
         self.plot_button.configure(cursor='hand2')
 
         self.clear_button = ctk.CTkButton(
@@ -90,12 +93,91 @@ class GraphUI(ctk.CTkFrame):
             hover_color='#323232',
             command=self.clear_functions
         )
-        self.clear_button.grid(row=1, column=1, sticky='nsew', padx=2, pady=(0, 10))
+        self.clear_button.grid(row=1, column=1, sticky='nsew', padx=2, pady=(0, 2))
         self.clear_button.configure(cursor='hand2')
 
     def _build_buttons(self):
-        self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=165)
-        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=10)
+        self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=170)
+        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=2)
+
+        graph_buttons = (
+            (('C', 'clear'),
+             ('.', 'decimal'),
+             ('+', 'operator'),
+             ('-', 'operator'),
+             ('×', 'operator'),
+             ('÷', 'operator')),
+
+            ((('sin', 'sin⁻¹'), 'function'),
+             (('cos', 'cos⁻¹'), 'function'),
+             (('tan', 'tan⁻¹'), 'function'),
+             (('sec', 'sec⁻¹'), 'function'),
+             (('csc', 'csc⁻¹'), 'function'),
+             (('cot', 'cot⁻¹'), 'function')),
+
+            ((('x²', '√'), 'function'),
+             (('x³', '∛'), 'function'),
+             (('xʸ', '|x|'), 'function'),
+             (('log', '10ˣ'), 'function'),
+             (('log₂', '2ˣ'), 'function'),
+             (('ln', 'eˣ'), 'function')),
+
+            (('(', 'parenthesis'),
+             (')', 'parenthesis'),
+             ('x', 'variable'),
+             ('π', 'constant'),
+             ('e', 'constant'),
+             ('⇄', 'toggle'))
+        )
+
+        self.toggle_state = False
+        self.secondary_buttons = {}
+
+        for r, row in enumerate(graph_buttons):
+            for c, btn in enumerate(row):
+
+                labels, type = btn
+
+                if isinstance(labels, tuple):
+                    text = labels[0]
+                else:
+                    text = labels
+
+                if type in ('operator', 'decimal', 'function', 'parenthesis', 'variable', 'constant'):
+                        button = ctk.CTkButton(
+                            self.buttons_frame,
+                            text=text, 
+                            font=('Jetbrains Mono', 20), 
+                            fg_color='#262626', 
+                            hover_color='#323232' 
+                        )
+                elif type == 'clear':
+                    button = ctk.CTkButton(
+                        self.buttons_frame,
+                        text=text, 
+                        font=('Jetbrains Mono', 20), 
+                        fg_color='#E07B1A', 
+                        hover_color='#FF944D', 
+                        command=self.clear_functions)
+                else:
+                    button = ctk.CTkButton(
+                        self.buttons_frame,
+                        text=text, 
+                        font=('Jetbrains Mono', 20), 
+                        fg_color='#3C3C3C', 
+                        hover_color='#4A4A4A', 
+                        command=self.toggle_functions)
+
+                button.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
+                button.configure(cursor='hand2')
+
+                if isinstance(labels, tuple):
+                    self.secondary_buttons[button] =  labels
+
+        for r in range(len(graph_buttons)):
+            self.buttons_frame.grid_rowconfigure(r, weight=1)
+        for c in range(6):
+            self.buttons_frame.grid_columnconfigure(c, weight=1)
 
 
     def plot_function(self):
@@ -104,3 +186,12 @@ class GraphUI(ctk.CTkFrame):
 
     def clear_functions(self):
         pass
+
+
+    def toggle_functions(self):
+
+        self.toggle_state = not self.toggle_state
+    
+        for button, labels in self.secondary_buttons.items():
+            new_button = labels[1] if self.toggle_state else labels[0]
+            button.configure(text=new_button)
