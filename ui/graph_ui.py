@@ -36,10 +36,17 @@ class GraphUI(ctk.CTkFrame):
         self.ax.grid(True, color='#444444')
 
         self.ax.tick_params(colors='white')
+
+        self.ax.spines['top'].set_visible(False)
+        self.ax.spines['right'].set_visible(False)
+
+        self.ax.spines['bottom'].set_position('zero')
+        self.ax.spines['left'].set_position('zero')
+
         self.ax.spines['bottom'].set_color('white')
-        self.ax.spines['top'].set_color('white')
         self.ax.spines['left'].set_color('white')
-        self.ax.spines['right'].set_color('white')
+        self.ax.spines['bottom'].set_linewidth(1)
+        self.ax.spines['left'].set_linewidth(1)
 
         self.ax.title.set_color('white')
         self.ax.yaxis.label.set_color('white')
@@ -47,8 +54,6 @@ class GraphUI(ctk.CTkFrame):
 
         self.ax.set_xlim(-10, 10)
         self.ax.set_ylim(-10, 10)
-        self.ax.axhline(0, color='white', linewidth=1)
-        self.ax.axvline(0, color='white', linewidth=1)
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.canvas_frame)
         self.canvas.draw()
