@@ -413,10 +413,13 @@ class CalculatorLogic:
                 else:
                     break
 
-            if '.' in number:
-                number = float(number)
+            if number:
+                if '.' in number:
+                    number = float(number)
+                else:
+                    number = int(number)
             else:
-                number = int(number)
+                return
 
             factorized = math_functions.factorize(number)
 

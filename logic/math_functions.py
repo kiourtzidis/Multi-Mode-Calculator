@@ -29,34 +29,32 @@ def sign(x):
 
 
 def factorize(number):
-        
-        if number == 0:
+
+    if number == 0:
+        return None
+    elif number == 1:
+        return 1
+                
+    if isinstance(number, float):
+        if number.is_integer():
+            number = int(number)
+        else:
             return None
-        
-        if number == 1:
-            return 1
-        
-        if isinstance(number, float):
-            if number.is_integer():
-                number = int(number)
-            else:
-                return None
-        
-        if number < 0:
-            number = abs(number)
+                
+    if number < 0:
+        number = abs(number)
 
-        factors = []
+    factors = []
 
-        possible_factor = 2
-        while number > 1:
-            if number % possible_factor == 0:
-                factors.append(f'{possible_factor}')
-                number //= possible_factor
-            else:
-                possible_factor += 1
+    possible_factor = 2
+    while number > 1:
+        if number % possible_factor == 0:
+            factors.append(f'{possible_factor}')
+            number //= possible_factor
+        else:
+            possible_factor += 1
 
-        return '×'.join(factors)
-
+    return '×'.join(factors)
 
 def cbrt(x):
     return _clean(x ** (1/3))
