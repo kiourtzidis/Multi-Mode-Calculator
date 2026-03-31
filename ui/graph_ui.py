@@ -84,6 +84,7 @@ class GraphUI(ctk.CTkFrame):
         self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=10)
         self.function_entry.configure(cursor='xterm')
         self.function_entry.bind('<Return>', lambda e: self.plot_function())
+        self.function_entry.bind('<KeyRelease>', self._sync_from_entry)
 
         self.plot_button = ctk.CTkButton(
             self.controls_frame,
@@ -161,7 +162,8 @@ class GraphUI(ctk.CTkFrame):
                             text=text, 
                             font=('Jetbrains Mono', 20), 
                             fg_color='#E07B1A', 
-                            hover_color='#FF944D'
+                            hover_color='#FF944D',
+                            command=lambda l=labels: self._graph_click(l)
                         )
                 elif type == 'toggle':
                     button = ctk.CTkButton(
@@ -170,7 +172,7 @@ class GraphUI(ctk.CTkFrame):
                         font=('Jetbrains Mono', 20), 
                         fg_color='#3C3C3C', 
                         hover_color='#4A4A4A', 
-                        command=self.toggle_functions
+                        command=lambda l=labels: self._graph_click(l)
                         )
                 else:
                     button = ctk.CTkButton(
@@ -178,7 +180,8 @@ class GraphUI(ctk.CTkFrame):
                         text=text, 
                         font=('Jetbrains Mono', 20), 
                         fg_color='#262626', 
-                        hover_color='#323232'
+                        hover_color='#323232',
+                        command=lambda l=labels: self._graph_click(l)
                         )
 
                 button.grid(row=r, column=c, sticky='nsew', padx=2, pady=2)
@@ -201,6 +204,22 @@ class GraphUI(ctk.CTkFrame):
         pass
 
 
+    def handle_symbol(self, symbol):
+
+        if symbol == 'C':
+            self.logic.clear()
+
+        else:
+            self.logic.append(symbol)
+
+        self.update_typing_display()
+
+
+    def update_typing_display(self):
+        self.function_entry.delete(0, 'end')
+        self.function_entry.insert(0, self.logic.display_expression)
+
+
     def toggle_functions(self):
 
         self.toggle_state = not self.toggle_state
@@ -208,3 +227,23 @@ class GraphUI(ctk.CTkFrame):
         for button, labels in self.secondary_buttons.items():
             new_button = labels[1] if self.toggle_state else labels[0]
             button.configure(text=new_button)
+
+
+    def _graph_click(self, labels):
+        
+        if labels == '⇄':
+            self.toggle_functions()
+            return
+    
+        if isinstance(labels, tuple):
+            symbol = labels[1] if self.toggle_state else labels[0]
+        else:
+            symbol = labels
+
+        self.handle_symbol(symbol)
+
+    
+    def _sync_from_entry(self, event=None):
+
+        text = self.function_entry.get()
+        self.logic.display_expression = text
