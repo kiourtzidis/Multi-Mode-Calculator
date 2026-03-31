@@ -4,10 +4,11 @@ from matplotlib.figure import Figure
 
 class GraphUI(ctk.CTkFrame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, logic):
         
         super().__init__(parent, fg_color='#1F1F1F')
 
+        self.logic = logic
         self.width = 500
         self.height = 620
         self.toggle_state = False
@@ -66,8 +67,9 @@ class GraphUI(ctk.CTkFrame):
 
     
     def _build_controls(self):
+
         self.controls_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=70)
-        self.controls_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=(8, 4))
+        self.controls_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=(4, 8))
 
         self.controls_frame.grid_columnconfigure(0, weight=1)
         self.controls_frame.grid_columnconfigure(1, weight=1)
@@ -106,6 +108,7 @@ class GraphUI(ctk.CTkFrame):
         self.clear_button.configure(cursor='hand2')
 
     def _build_buttons(self):
+
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=170)
         self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(0, 8))
 

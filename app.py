@@ -36,7 +36,7 @@ class App:
         self.windows = {
             'Basic': BasicUI(self.mode_frame, self.calculator_logic),
             'Scientific': ScientificUI(self.mode_frame, self.calculator_logic),
-            'Graph': GraphUI(self.mode_frame),
+            'Graph': GraphUI(self.mode_frame, self.graph_logic),
             'Temperature': TemperatureUI(self.mode_frame),
             'Currency': CurrencyUI(self.mode_frame)
         }
