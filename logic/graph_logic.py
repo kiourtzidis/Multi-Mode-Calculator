@@ -32,3 +32,11 @@ class GraphLogic(CalculatorLogic):
             'pi': np.pi,
             'e': np.e
         }
+            
+        def evaluate_graph(self, x):
+
+             try:
+                return eval(self.eval_expression, {'__builtins__': {}}, {**self.numpy_functions, 'x': x})
+             
+             except:
+                return None

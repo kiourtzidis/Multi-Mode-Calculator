@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import numpy as np
 
 class GraphUI(ctk.CTkFrame):
 
@@ -197,7 +198,20 @@ class GraphUI(ctk.CTkFrame):
 
 
     def plot_function(self):
-        pass
+
+        x = np.linspace(-10, 10, 400)
+
+        y = self.logic.evaluate_graph(x)
+
+        if y is None:
+            return
+
+        if np.isscalar(y):
+            y = np.full_like(x, y)
+
+        self.ax.plot(x, y)
+
+        self.canvas.draw()
 
 
     def clear_functions(self):
@@ -230,7 +244,7 @@ class GraphUI(ctk.CTkFrame):
 
 
     def _graph_click(self, labels):
-        
+
         if labels == '⇄':
             self.toggle_functions()
             return
