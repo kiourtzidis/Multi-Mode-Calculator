@@ -260,4 +260,6 @@ class GraphUI(ctk.CTkFrame):
     def _sync_from_entry(self, event=None):
 
         text = self.function_entry.get()
+
         self.logic.display_expression = text
+        self.logic.eval_expression = text
