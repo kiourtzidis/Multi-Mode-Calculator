@@ -23,13 +23,17 @@ class GraphLogic(CalculatorLogic):
                'arccos': sp.acos,
                'arctan': sp.atan,
 
-               'log': sp.log,
-               'log10': lambda x: sp.log(x, 10),
-               'log2': lambda x: sp.log(x, 2),
+               'arcsec': lambda x: sp.acos(1/x),
+               'arccsc': lambda x: sp.asin(1/x),
+               'arccot': lambda x: sp.atan(1/x),
 
                'sqrt': sp.sqrt,
                'abs': sp.Abs,
                'exp': sp.exp,
+
+               'log': sp.log,
+               'log10': lambda x: sp.log(x, 10),
+               'log2': lambda x: sp.log(x, 2),
 
                'pi': sp.pi,
                'e': sp.E
@@ -46,7 +50,6 @@ class GraphLogic(CalculatorLogic):
                f = lambdify(x_symbol, graph_expression, 'numpy')
 
                y = f(x)
-
 
                return y
 
