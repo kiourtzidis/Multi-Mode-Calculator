@@ -131,13 +131,17 @@ class CalculatorLogic:
                 'append': '⁻¹',
                 'calculate': '**(-1)'
             },
-            '2ˣ': {
-                'append': '2ˣ',
-                'calculate': '2**'
-            },
             '10ˣ': {
                 'append': '10ˣ',
-                'calculate': '10**'
+                'calculate': '10**x'
+            },
+            '2ˣ': {
+                'append': '2ˣ',
+                'calculate': '2**x'
+            },
+            'eˣ': {
+                'append': 'eˣ',
+                'calculate': 'exp(x)'
             },
             '√': {
                 'append': '√(',
