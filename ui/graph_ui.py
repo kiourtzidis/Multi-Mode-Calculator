@@ -33,34 +33,7 @@ class GraphUI(ctk.CTkFrame):
         self.fig = Figure(figsize=(5, 3), dpi=100)
         self.ax = self.fig.add_subplot(111)
 
-        self.ax.set_facecolor('#2E2E2E')
-        self.fig.patch.set_facecolor('#2E2E2E')
-        self.ax.grid(True, color='#444444')
-
-        self.ax.tick_params(
-            colors='#AAAAAA',
-            labelsize=8
-        )
-
-        self.ax.locator_params(nbins=5)
-
-        self.ax.spines['top'].set_visible(False)
-        self.ax.spines['right'].set_visible(False)
-
-        self.ax.spines['bottom'].set_position('zero')
-        self.ax.spines['left'].set_position('zero')
-
-        self.ax.spines['bottom'].set_color('white')
-        self.ax.spines['left'].set_color('white')
-        self.ax.spines['bottom'].set_linewidth(1)
-        self.ax.spines['left'].set_linewidth(1)
-
-        self.ax.title.set_color('white')
-        self.ax.yaxis.label.set_color('white')
-        self.ax.xaxis.label.set_color('white')
-
-        self.ax.set_xlim(-10, 10)
-        self.ax.set_ylim(-10, 10)
+        self._style_axes()
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.canvas_frame)
         self.canvas.draw()
@@ -215,7 +188,9 @@ class GraphUI(ctk.CTkFrame):
 
 
     def clear_functions(self):
-        pass
+        self.ax.clear()
+        self._style_axes()
+        self.canvas.draw()
 
 
     def handle_symbol(self, symbol):
@@ -256,7 +231,38 @@ class GraphUI(ctk.CTkFrame):
 
         self.handle_symbol(symbol)
 
-    
+
+    def _style_axes(self):
+
+        self.ax.set_facecolor('#2E2E2E')
+        self.fig.patch.set_facecolor('#2E2E2E')
+        self.ax.grid(True, color='#444444')
+
+        self.ax.tick_params(
+            colors='#AAAAAA',
+            labelsize=8
+        )
+
+        self.ax.locator_params(nbins=5)
+
+        self.ax.spines['top'].set_visible(False)
+        self.ax.spines['right'].set_visible(False)
+
+        self.ax.spines['bottom'].set_position('zero')
+        self.ax.spines['left'].set_position('zero')
+
+        self.ax.spines['bottom'].set_color('white')
+        self.ax.spines['left'].set_color('white')
+        self.ax.spines['bottom'].set_linewidth(1)
+        self.ax.spines['left'].set_linewidth(1)
+
+        self.ax.title.set_color('white')
+        self.ax.yaxis.label.set_color('white')
+        self.ax.xaxis.label.set_color('white')
+
+        self.ax.set_xlim(-10, 10)
+        self.ax.set_ylim(-10, 10)
+
     def _sync_from_entry(self, event=None):
 
         text = self.function_entry.get()
