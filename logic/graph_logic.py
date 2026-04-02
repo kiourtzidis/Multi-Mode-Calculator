@@ -38,17 +38,17 @@ class GraphLogic(CalculatorLogic):
         def evaluate_graph(self, x):
 
             try:
-               print("EXPR:", self.eval_expression)
                x_symbol = self.sympy_functions['x']
 
+               self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
                graph_expression = sympify(self.eval_expression, locals=self.sympy_functions)
-               print("SYMPY EXPR:", graph_expression)
+
                f = lambdify(x_symbol, graph_expression, 'numpy')
 
                y = f(x)
 
+
                return y
 
-            except Exception as e:
-               print("Error evaluating graph:", e)
+            except Exception:
                return None
