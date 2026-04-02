@@ -69,6 +69,9 @@ class App:
 
     def switch_mode(self, window):
 
+        if self.current_window == self.windows[window]:
+            return
+
         self.current_window.pack_forget()
         self.current_window = self.windows[window]
         self.current_window.pack(fill='both')
