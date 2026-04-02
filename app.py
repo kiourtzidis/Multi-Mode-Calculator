@@ -60,6 +60,12 @@ class App:
         self.mode_selector.bind('<Enter>', lambda e: e.widget.configure(cursor='arrow'))
         self.mode_selector.bind('<Leave>', lambda e: e.widget.configure(cursor='arrow'))
 
+        self.root.bind_all('<Control-Key-1>', lambda e: self.switch_mode('Basic'))
+        self.root.bind_all('<Control-Key-2>', lambda e: self.switch_mode('Scientific'))
+        self.root.bind_all('<Control-Key-3>', lambda e: self.switch_mode('Graph'))
+        self.root.bind_all('<Control-Key-4>', lambda e: self.switch_mode('Temperature'))
+        self.root.bind_all('<Control-Key-5>', lambda e: self.switch_mode('Currency'))
+
         self.current_window = self.windows['Basic']
         self.current_window.pack(fill='both')
         
@@ -79,5 +85,7 @@ class App:
         width = self.current_window.width
         height = self.current_window.height
         self.root.geometry(f'{width}x{height}')
+
+        self.mode_selector.set(window)
 
         self.root.resizable(width=False, height=False) 
