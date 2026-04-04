@@ -11,7 +11,7 @@ class GraphUI(ctk.CTkFrame):
 
         self.logic = logic
         self.width = 500
-        self.height = 620
+        self.height = 605
         self.toggle_state = False
         self.secondary_buttons = {}
 

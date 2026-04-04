@@ -5,7 +5,7 @@ class BasicUI(CalculatorUI):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, logic, width=360, height=600, max_history_chars=18)
+        super().__init__(parent, logic, width=360, height=580, max_history_chars=18)
         self._build_buttons()
 
     
