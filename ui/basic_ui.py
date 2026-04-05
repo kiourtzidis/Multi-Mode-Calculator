@@ -5,10 +5,10 @@ class BasicUI(CalculatorUI):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, logic, width=360, height=580, max_history_chars=18)
+        super().__init__(parent, logic, width=360, height=580, max_history_chars=17)
         self._build_buttons()
 
-    
+
     def _build_buttons(self):
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
@@ -40,7 +40,7 @@ class BasicUI(CalculatorUI):
             ('mod', 'operator'),
             ('=', 'equal')
         )
-                                                
+                                 
         for i, (symbol, type) in enumerate(basic_buttons):
 
             if type == 'number':
