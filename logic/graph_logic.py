@@ -44,12 +44,16 @@ class GraphLogic(CalculatorLogic):
             try:
                x_symbol = self.sympy_functions['x']
 
+               self.eval_expression = self.eval_expression.replace('^', '**')
                self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-               
+
                graph_expression = parse_expr(
                 self.eval_expression,
                 local_dict=self.sympy_functions,
-                global_dict={}
+                global_dict={
+                    'Integer': sp.Integer,
+                    'Float': sp.Float
+                }
             )
 
                f = lambdify(x_symbol, graph_expression, 'numpy')
@@ -58,5 +62,6 @@ class GraphLogic(CalculatorLogic):
 
                return y
 
-            except Exception:
+            except Exception as e:
+               print(f"Error evaluating graph expression: {e}")
                return None
