@@ -69,6 +69,5 @@ class GraphLogic(CalculatorLogic):
 
                return y
 
-            except Exception as e:
-               print(f"Error evaluating graph expression: {e}")
+            except Exception:
                return None
