@@ -1,5 +1,5 @@
 import sympy as sp
-from sympy import symbols, sympify, lambdify
+from sympy import symbols, lambdify, parse_expr
 from logic.calculator_logic import CalculatorLogic
 
 class GraphLogic(CalculatorLogic):
@@ -45,7 +45,12 @@ class GraphLogic(CalculatorLogic):
                x_symbol = self.sympy_functions['x']
 
                self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-               graph_expression = sympify(self.eval_expression, locals=self.sympy_functions)
+               
+               graph_expression = parse_expr(
+                self.eval_expression,
+                local_dict=self.sympy_functions,
+                global_dict={}
+            )
 
                f = lambdify(x_symbol, graph_expression, 'numpy')
 
