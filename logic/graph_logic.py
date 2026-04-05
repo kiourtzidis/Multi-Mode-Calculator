@@ -1,3 +1,4 @@
+import re
 import sympy as sp
 from sympy import symbols, lambdify, parse_expr
 from logic.calculator_logic import CalculatorLogic
@@ -38,7 +39,10 @@ class GraphLogic(CalculatorLogic):
                'pi': sp.pi,
                'e': sp.E
         }
-            
+
+            self.expression_pattern = re.compile(r'^[0-9x+\-*/().,^ a-zA-Z]+$')
+
+
         def evaluate_graph(self, x):
 
             try:
@@ -46,6 +50,9 @@ class GraphLogic(CalculatorLogic):
 
                self.eval_expression = self.eval_expression.replace('^', '**')
                self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
+
+               if not self.expression_pattern.match(self.eval_expression.replace(' ', '')):
+                  raise ValueError('Error')
 
                graph_expression = parse_expr(
                 self.eval_expression,
