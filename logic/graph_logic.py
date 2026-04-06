@@ -6,9 +6,9 @@ from logic.calculator_logic import CalculatorLogic
 class GraphLogic(CalculatorLogic):
 
         def __init__(self):
-            
+  
             super().__init__()
-            
+       
             self.sympy_functions = {
                'x': symbols('x'),
 
@@ -16,8 +16,8 @@ class GraphLogic(CalculatorLogic):
                'cos': sp.cos,
                'tan': sp.tan,
 
-               'sec': lambda x: 1/sp.cos(x),
                'csc': lambda x: 1/sp.sin(x),
+               'sec': lambda x: 1/sp.cos(x),
                'cot': lambda x: 1/sp.tan(x),
 
                'arcsin': sp.asin,
@@ -29,6 +29,7 @@ class GraphLogic(CalculatorLogic):
                'arccot': lambda x: sp.atan(1/x),
 
                'sqrt': sp.sqrt,
+               'cbrt': lambda x: sp.root(x, 3),
                'abs': sp.Abs,
                'exp': sp.exp,
 
