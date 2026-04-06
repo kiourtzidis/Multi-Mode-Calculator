@@ -199,13 +199,13 @@ class CalculatorLogic:
                 'append': 'lgamma(',
                 'calculate': 'lgamma('
             },
-            'sec': {
-                'append': 'sec(',
-                'calculate': 'sec('
-            },
             'csc': {
                 'append': 'csc(',
                 'calculate': 'csc('
+            },
+            'sec': {
+                'append': 'sec(',
+                'calculate': 'sec('
             },
             'sinh': {
                 'append': 'sinh(',
@@ -219,25 +219,25 @@ class CalculatorLogic:
                 'append': 'tanh(',
                 'calculate': 'tanh('
             },
-            'sech': {
-                'append': 'sech(',
-                'calculate': 'sech('
-            },
             'csch': {
                 'append': 'csch(',
                 'calculate': 'csch('
+            },
+            'sech': {
+                'append': 'sech(',
+                'calculate': 'sech('
             },
             'coth': {
                 'append': 'coth(',
                 'calculate': 'coth('
             },
-            'sec⁻¹': {
-                'append': 'sec⁻¹(',
-                'calculate': 'arcsec('
-            },
             'csc⁻¹': {
                 'append': 'csc⁻¹(',
                 'calculate': 'arccsc('
+            },
+            'sec⁻¹': {
+                'append': 'sec⁻¹(',
+                'calculate': 'arcsec('
             },
             'sinh⁻¹': {
                 'append': 'sinh⁻¹(',
@@ -251,13 +251,13 @@ class CalculatorLogic:
                 'append': 'tanh⁻¹(',
                 'calculate': 'arctanh('
             },
-            'sech⁻¹': {
-                'append': 'sech⁻¹(',
-                'calculate': 'arcsech('
-            },
             'csch⁻¹': {
                 'append': 'csch⁻¹(',
                 'calculate': 'arccsch('
+            },
+            'sech⁻¹': {
+                'append': 'sech⁻¹(',
+                'calculate': 'arcsech('
             },
             'coth⁻¹': {
                 'append': 'coth⁻¹(',

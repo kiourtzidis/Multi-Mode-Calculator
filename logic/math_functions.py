@@ -56,6 +56,7 @@ def factorize(number):
 
     return '×'.join(factors)
 
+
 def cbrt(x):
     return _clean(x ** (1/3))
     
@@ -81,15 +82,6 @@ def tan(x, angle_mode):
     return _clean(math.tan(x))
 
 
-def sec(x, angle_mode):
-    if angle_mode == 'DEG':
-        x = math.radians(x)
-    c = math.cos(x)
-    if abs(c) < 1e-12:
-        raise ValueError('Error')
-    return _clean(1/c)
-
-
 def csc(x, angle_mode):
     if angle_mode == 'DEG':
         x = math.radians(x)
@@ -97,6 +89,15 @@ def csc(x, angle_mode):
     if abs(s) < 1e-12:
         raise ValueError('Error')
     return _clean(1/s)
+
+
+def sec(x, angle_mode):
+    if angle_mode == 'DEG':
+        x = math.radians(x)
+    c = math.cos(x)
+    if abs(c) < 1e-12:
+        raise ValueError('Error')
+    return _clean(1/c)
 
 
 def cot(x, angle_mode):
@@ -120,22 +121,22 @@ def tanh(x):
     return _clean(math.tanh(x))
 
 
-def coth(x):
+def csch(x):
     s = math.sinh(x)
     if abs(s) < 1e-12:
         raise ValueError('Error')
-    return _clean(math.cosh(x)/s)
+    return _clean(1/s)
 
 
 def sech(x):
     return _clean(1/math.cosh(x))
 
 
-def csch(x):
+def coth(x):
     s = math.sinh(x)
     if abs(s) < 1e-12:
         raise ValueError('Error')
-    return _clean(1/s)
+    return _clean(math.cosh(x)/s)
     
 
 def arcsin(x, angle_mode):
@@ -159,19 +160,19 @@ def arctan(x, angle_mode):
     return _clean(result)
 
 
-def arcsec(x, angle_mode):
+def arccsc(x, angle_mode):
     if abs(x) < 1:
         raise ValueError('Error')
-    result = math.acos(1/x)
+    result = math.asin(1/x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
     return _clean(result)
 
 
-def arccsc(x, angle_mode):
+def arcsec(x, angle_mode):
     if abs(x) < 1:
         raise ValueError('Error')
-    result = math.asin(1/x)
+    result = math.acos(1/x)
     if angle_mode == 'DEG':
         result = math.degrees(result)
     return _clean(result)
@@ -196,16 +197,16 @@ def arctanh(x):
     return _clean(math.atanh(x))
 
 
-def arcsech(x):  
-    if x <= 0 or x > 1:  
-        raise ValueError('Error')  
-    return _clean(math.log((1+math.sqrt(1-x**2))/x))
-
-
 def arccsch(x):  
     if x == 0:  
         raise ValueError('Error')  
     return _clean(math.log(1/x+math.sqrt(1/(x**2)+1)))
+
+
+def arcsech(x):  
+    if x <= 0 or x > 1:  
+        raise ValueError('Error')  
+    return _clean(math.log((1+math.sqrt(1-x**2))/x))
 
 
 def arccoth(x):  
