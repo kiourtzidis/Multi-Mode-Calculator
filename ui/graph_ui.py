@@ -98,8 +98,8 @@ class GraphUI(ctk.CTkFrame):
             ((('sin', 'sin⁻¹'), 'function'),
              (('cos', 'cos⁻¹'), 'function'),
              (('tan', 'tan⁻¹'), 'function'),
-             (('sec', 'sec⁻¹'), 'function'),
              (('csc', 'csc⁻¹'), 'function'),
+             (('sec', 'sec⁻¹'), 'function'),
              (('cot', 'cot⁻¹'), 'function')),
 
             ((('x²', '√'), 'function'),
