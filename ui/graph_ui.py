@@ -10,7 +10,7 @@ class GraphUI(ctk.CTkFrame):
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.width = 500
-        self.height = 640
+        self.height = 605
         self.logic = logic
         self.toggle_state = False
         self.secondary_buttons = {}
@@ -235,8 +235,10 @@ class GraphUI(ctk.CTkFrame):
          if event.inaxes:
             x, y = event.xdata, event.ydata
             self.coords_label.configure(text=f'x={x:.2f}, y={y:.2f}')
+            self.canvas.get_tk_widget().config(cursor='cross')
          else:
             self.coords_label.configure(text='')
+            self.canvas.get_tk_widget().config(cursor='arrow')
 
 
     def _graph_click(self, labels):
