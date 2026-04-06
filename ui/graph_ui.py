@@ -9,15 +9,16 @@ class GraphUI(ctk.CTkFrame):
 
         super().__init__(parent, fg_color='#1F1F1F')
 
-        self.logic = logic
         self.width = 500
-        self.height = 605
+        self.height = 640
+        self.logic = logic
         self.toggle_state = False
         self.secondary_buttons = {}
 
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=0)
         self.grid_rowconfigure(2, weight=0)
+        self.grid_rowconfigure(3, weight=0)
         self.grid_columnconfigure(0, weight=1)
 
         self._build_canvas()
@@ -28,7 +29,7 @@ class GraphUI(ctk.CTkFrame):
     def _build_canvas(self):
 
         self.canvas_frame = ctk.CTkFrame(self, fg_color='#2E2E2E', width=self.width, height=300)
-        self.canvas_frame.grid(row=0, column=0, sticky='nsew', padx=10, pady=(8, 4))
+        self.canvas_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=(8, 4))
 
         self.fig = Figure(figsize=(5, 3), dpi=100)
         self.ax = self.fig.add_subplot(111)
@@ -39,11 +40,22 @@ class GraphUI(ctk.CTkFrame):
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(fill='both', expand=True)
 
+        self.coords_label = ctk.CTkLabel(
+            self.canvas_frame,
+            text='',
+            font=('Jetbrains Mono', 10),
+            fg_color='#2E2E2E',
+            text_color='#AAAAAA'
+        )
+        self.coords_label.place(relx=1.0, rely=0.0, anchor='ne', x=-5, y=5)
+
+        self.canvas.mpl_connect('motion_notify_event', self.on_hover)
+
 
     def _build_controls(self):
 
         self.controls_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=70)
-        self.controls_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=(4, 8))
+        self.controls_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(4, 8))
 
         self.controls_frame.grid_columnconfigure(0, weight=1)
         self.controls_frame.grid_columnconfigure(1, weight=1)
@@ -85,7 +97,7 @@ class GraphUI(ctk.CTkFrame):
     def _build_buttons(self):
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=170)
-        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(0, 8))
+        self.buttons_frame.grid(row=3, column=0, sticky='nsew', padx=10, pady=(0, 8))
 
         graph_buttons = (
             (('C', 'clear'),
@@ -216,6 +228,15 @@ class GraphUI(ctk.CTkFrame):
         for button, labels in self.secondary_buttons.items():
             new_button = labels[1] if self.toggle_state else labels[0]
             button.configure(text=new_button)
+
+
+    def on_hover(self, event):
+
+         if event.inaxes:
+            x, y = event.xdata, event.ydata
+            self.coords_label.configure(text=f'x={x:.2f}, y={y:.2f}')
+         else:
+            self.coords_label.configure(text='')
 
 
     def _graph_click(self, labels):
