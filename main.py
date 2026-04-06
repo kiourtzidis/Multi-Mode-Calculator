@@ -4,12 +4,9 @@ from app import App
 def main():
 
     root = ctk.CTk()
-    
     root.title('Multi-Mode Calculator')
-    root.geometry('360x615')
 
-    app = App(root)
-
+    App(root)
     root.mainloop()
 
 if __name__ == '__main__':
