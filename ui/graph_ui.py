@@ -1,12 +1,12 @@
 import customtkinter as ctk
+import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import numpy as np
 
 class GraphUI(ctk.CTkFrame):
 
     def __init__(self, parent, logic):
-        
+
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.logic = logic
@@ -39,7 +39,7 @@ class GraphUI(ctk.CTkFrame):
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(fill='both', expand=True)
 
-    
+
     def _build_controls(self):
 
         self.controls_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=70)
@@ -212,7 +212,7 @@ class GraphUI(ctk.CTkFrame):
     def toggle_functions(self):
 
         self.toggle_state = not self.toggle_state
-    
+
         for button, labels in self.secondary_buttons.items():
             new_button = labels[1] if self.toggle_state else labels[0]
             button.configure(text=new_button)
@@ -223,7 +223,7 @@ class GraphUI(ctk.CTkFrame):
         if labels == '⇄':
             self.toggle_functions()
             return
-    
+
         if isinstance(labels, tuple):
             symbol = labels[1] if self.toggle_state else labels[0]
         else:

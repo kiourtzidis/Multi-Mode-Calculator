@@ -277,7 +277,7 @@ class CalculatorLogic:
 
         if not self.tokens:
             return
-        
+
         display_token, eval_token = self.tokens.pop()
 
         self.display_expression = self.display_expression[:-len(display_token)]
@@ -318,10 +318,10 @@ class CalculatorLogic:
                 self.display_expression = '-'
                 self.eval_expression = '-'
                 return
-            
+
             if self.display_expression == '':
                 return
-            
+
             if ends_with_operator:
                 if symbol == '-' and not self.display_expression.endswith('-'):
                     self.display_expression += '-'
@@ -418,7 +418,7 @@ class CalculatorLogic:
         if symbol == 'a×b':
 
             number = ''
-            
+
             for char in self.eval_expression[::-1]:
                 if char.isdigit() or char == '.':
                     number = char + number
@@ -450,9 +450,8 @@ class CalculatorLogic:
                     self.tokens.append((char, char))
             else:
                 return
-            
-            return
 
+            return
 
         if symbol == '|x|':
 
@@ -466,9 +465,9 @@ class CalculatorLogic:
             else:
                 self.eval_expression += ')'
                 self.tokens.append(('|', ')'))
-            
+
             return
-        
+
         if symbol == 'Ans':
             if self.last_result:
                 if self.display_expression and (
@@ -484,21 +483,21 @@ class CalculatorLogic:
                     self.tokens.append(('Ans', f'{self.last_result}'))
 
             return
-        
+
         self.tokens.append((display_symbol, eval_symbol))
-            
+
         self.display_expression += display_symbol
         self.eval_expression += eval_symbol 
-    
+
 
     def calculate(self):
 
         try:
-            
+
             original_expression = self.display_expression
-            
+
             check_expression = self.eval_expression.lstrip('-')
-            
+
             contains_operation = (
                 check_expression in ('pi', 'e') 
                 or any(operator in check_expression for operator in (
@@ -507,15 +506,15 @@ class CalculatorLogic:
 
             if not contains_operation:
                 return None, None
-            
+
             self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-            
+
             result = eval(self.eval_expression, self.eval_functions)
             result = self._clean_result(result)
 
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
-            
+
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
             self.last_result = self.eval_expression
@@ -534,7 +533,7 @@ class CalculatorLogic:
             self.eval_expression = ''
             self.calculated = False 
             return None, 'Error'
-        
+
 
     def toggle_angle_mode(self):
         self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
@@ -552,7 +551,7 @@ class CalculatorLogic:
             if i < len(expression) - 1:
 
                 next_char = expression[i+1]
-                
+
                 if current_char.isdigit() and next_char.isdigit():
                     continue
 
@@ -560,7 +559,7 @@ class CalculatorLogic:
                     current_char.isdigit() 
                     or current_char == ')'
                 )
-                
+
                 right_value = (
                     next_char.isdigit()
                     or next_char.isalpha() 

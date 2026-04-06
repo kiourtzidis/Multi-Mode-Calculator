@@ -1,8 +1,9 @@
 import customtkinter as ctk
 
 class CalculatorUI(ctk.CTkFrame):
-    
+
     def __init__(self, parent, logic, width, height, max_history_chars):
+
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.logic = logic
@@ -18,7 +19,7 @@ class CalculatorUI(ctk.CTkFrame):
         self._build_history()
         self._build_display()
 
-    
+
     def _build_history(self):
 
         self.history_frame = ctk.CTkFrame(self, fg_color='#3C3C3C')
@@ -63,7 +64,7 @@ class CalculatorUI(ctk.CTkFrame):
         self.typing_entry.pack(side='left', fill='both', padx=10, ipady=10)
         self.typing_entry._entry.configure(cursor='arrow')
 
-    
+
     def handle_symbol(self, symbol):
 
         if symbol == 'C':
@@ -100,7 +101,7 @@ class CalculatorUI(ctk.CTkFrame):
 
 
     def add_history_item(self, expression, result, eval_expression):
-        
+
         line = f'{expression} = {result}'
 
         outer = ctk.CTkFrame(self.history_scroll, fg_color='#444444')
@@ -162,7 +163,7 @@ class CalculatorUI(ctk.CTkFrame):
 
         delete_button.bind('<Enter>', lambda e: delete_button.configure(text_color='#FFFFFF'))
         delete_button.bind('<Leave>', lambda e: delete_button.configure(text_color='#BBBBBB'))
-        
+
         separator = ctk.CTkFrame(outer, height=1, fg_color='#555555')
         separator.pack(fill='x', pady=(0, 6))
 
@@ -204,9 +205,9 @@ class CalculatorUI(ctk.CTkFrame):
 
         i = 0
         symbols = sorted(self.logic.buttons, key=len, reverse=True)
-        
+
         while i < len(display_expression):
-            
+
             for symbol in symbols:
                 if display_expression[i:i+len(symbol)] == symbol:
                     self.logic.tokens.append((symbol, symbol))

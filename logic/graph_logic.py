@@ -7,9 +7,9 @@ from logic.calculator_logic import CalculatorLogic
 class GraphLogic(CalculatorLogic):
 
         def __init__(self):
-  
+
             super().__init__()
-       
+
             self.sympy_functions = {
                'x': symbols('x'),
 
@@ -40,7 +40,7 @@ class GraphLogic(CalculatorLogic):
 
                'pi': sp.pi,
                'e': sp.E
-        }
+            }
 
             self.expression_pattern = re.compile(r'^[0-9x+\-*/().,^ a-zA-Z]+$')
 

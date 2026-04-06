@@ -13,7 +13,7 @@ class BasicUI(CalculatorUI):
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
         self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(4,12))
-        
+
         basic_buttons = (
             ('C', 'clear'),
             ('⌫', 'backspace'),
@@ -40,7 +40,7 @@ class BasicUI(CalculatorUI):
             ('mod', 'operator'),
             ('=', 'equal')
         )
-                                 
+                   
         for i, (symbol, type) in enumerate(basic_buttons):
 
             if type == 'number':
