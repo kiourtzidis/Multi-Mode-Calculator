@@ -1,6 +1,7 @@
 import re
 import sympy as sp
-from sympy import symbols, lambdify, parse_expr
+from sympy import symbols, lambdify
+from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
 from logic.calculator_logic import CalculatorLogic
 
 class GraphLogic(CalculatorLogic):
@@ -49,8 +50,7 @@ class GraphLogic(CalculatorLogic):
             try:
                x_symbol = self.sympy_functions['x']
 
-               self.eval_expression = self.eval_expression.replace('^', '**')
-               self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
+               transformations = standard_transformations + (implicit_multiplication_application, convert_xor)
 
                if not self.expression_pattern.match(self.eval_expression.replace(' ', '')):
                   raise ValueError('Error')
@@ -61,7 +61,8 @@ class GraphLogic(CalculatorLogic):
                 global_dict={
                     'Integer': sp.Integer,
                     'Float': sp.Float
-                }
+                },
+                transformations=transformations
             )
 
                f = lambdify(x_symbol, graph_expression, 'numpy')
