@@ -184,6 +184,8 @@ class GraphUI(ctk.CTkFrame):
 
     def plot_function(self):
 
+        self.logic.calculated = True
+
         x = np.linspace(-10, 10, 400)
 
         y = self.logic.evaluate_graph(x)
