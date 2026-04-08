@@ -292,5 +292,12 @@ class GraphUI(ctk.CTkFrame):
 
         text = self.function_entry.get()
 
-        self.logic.display_expression = text
-        self.logic.eval_expression = text
+        try:
+            display_expr, eval_expr = self.logic.parser.parse(text)
+
+            self.logic.display_expression = display_expr
+            self.logic.eval_expression = eval_expr
+
+        except Exception:
+            self.logic.display_expression = 'Error'
+            self.logic.eval_expression = ''
