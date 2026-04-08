@@ -1,5 +1,6 @@
 import math
 from . import math_functions
+from .parser import Parser
 
 class CalculatorLogic:
 
@@ -264,6 +265,7 @@ class CalculatorLogic:
                 'calculate': 'arccoth('
             }
         }
+        self.parser = Parser(self.buttons)
 
 
     def clear(self):
