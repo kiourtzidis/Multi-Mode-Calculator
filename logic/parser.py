@@ -1,56 +1,35 @@
 import re
+from .token import Token, TokenType
 
 class Parser:
 
-    def __init__(self, buttons_map):
+    def __init__(self):
 
-        self.buttons_map = buttons_map
-        self.sorted_tokens = sorted(buttons_map.keys(), key=len, reverse=True)
         self.expression_pattern = re.compile(r'^[0-9x+\-*/().,^ a-zA-Z]+$')
 
 
     def parse(self, expression):
 
-        expression = expression.replace(' ', '')
+        tokens = self.tokenize(expression)
 
-        if not expression:
-            return '' 
+        display = ''.join(t.display_value for t in tokens)
+        eval_str = ''.join(t.eval_value for t in tokens)
+
+        return display, eval_str
+
+
+    def tokenize(self, expression):
+
+        expression = expression.replace(' ', '')
 
         if not self.expression_pattern.match(expression):
             raise ValueError('Error')
 
-        display_expression = ''
-        eval_expression = ''
-
+        tokens = []
         i = 0
 
         while i < len(expression):
-            match = None
-
-            for token in self.sorted_tokens:
-                if expression.startswith(token, i):
-                    match = token
-                    break
-
-            if match:
-                display_expression += self.buttons_map[match]['append']
-                eval_expression += self.buttons_map[match]['calculate']
-                i += len(match)
-                continue
-
             char = expression[i]
-
-            if char == 'π':
-                display_expression += 'π'
-                eval_expression += 'pi'
-                i += 1
-                continue
-
-            if char == '^':
-                display_expression += '^'
-                eval_expression += '**'
-                i += 1
-                continue
 
             if char.isdigit() or char == '.':
                 num = char
@@ -58,9 +37,17 @@ class Parser:
                 while i < len(expression) and (expression[i].isdigit() or expression[i] == '.'):
                     num += expression[i]
                     i += 1
+                tokens.append(Token(TokenType.NUMBER, num, num))
+                continue
 
-                display_expression += num
-                eval_expression += num
+            if char in '+-*/^%':
+                tokens.append(Token(TokenType.OPERATOR, char, '**' if char == '^' else char))
+                i += 1
+                continue
+
+            if char in '()':
+                tokens.append(Token(TokenType.PARENTHESIS, char, char))
+                i += 1
                 continue
 
             if char.isalpha():
@@ -71,23 +58,13 @@ class Parser:
                     i += 1
 
                 if identifier == 'pi':
-                    display_expression += 'π'
-                    eval_expression += 'pi'
+                    tokens.append(Token(TokenType.CONSTANT, 'π', 'pi'))
                 elif identifier == 'e':
-                    display_expression += 'e'
-                    eval_expression += 'e'
+                    tokens.append(Token(TokenType.CONSTANT, 'e', 'e'))
                 else:
-                    display_expression += identifier
-                    eval_expression += identifier
-
+                    tokens.append(Token(TokenType.FUNCTION, identifier, identifier))
                 continue
 
-            if char in '+-*/(),%':
-                display_expression += char
-                eval_expression += char
-                i += 1
-                continue
+            raise ValueError(f'Error')
 
-            raise ValueError('Error')
-
-        return display_expression, eval_expression
+        return tokens

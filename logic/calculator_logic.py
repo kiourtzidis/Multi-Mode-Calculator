@@ -8,9 +8,10 @@ class CalculatorLogic:
 
         self.display_expression = ''
         self.eval_expression = ''
+        self.parser = Parser()
         self.calculated = False
-        self.angle_mode = 'DEG'
         self.last_result = None
+        self.angle_mode = 'DEG'
         self.tokens = []
         self.operators = ('+', '-', '×', '÷', 'div', 'mod')
         self.eval_functions = {
@@ -265,7 +266,6 @@ class CalculatorLogic:
                 'calculate': 'arccoth('
             }
         }
-        self.parser = Parser(self.buttons)
 
 
     def clear(self):
