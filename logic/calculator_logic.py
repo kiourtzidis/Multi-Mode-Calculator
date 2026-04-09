@@ -1,6 +1,7 @@
 import math
 from . import math_functions
 from .parser import Parser
+from .token import Token, TokenType
 
 class CalculatorLogic:
 
@@ -280,10 +281,10 @@ class CalculatorLogic:
         if not self.tokens:
             return
 
-        display_token, eval_token = self.tokens.pop()
+        self.tokens.pop()
 
-        self.display_expression = self.display_expression[:-len(display_token)]
-        self.eval_expression = self.eval_expression[:-len(eval_token)]
+        self.display_expression = ''.join(token.display_value for token in self.tokens)
+        self.eval_expression = ''.join(token.eval_value for token in self.tokens)
 
 
     def append(self, symbol):
