@@ -339,7 +339,7 @@ class CalculatorLogic:
                 return
 
         if symbol.isdigit() or symbol in ('%', '‰'):
-            if last.display_value in ('%', '‰'):
+            if last and last.display_value in ('%', '‰'):
                 return
 
         if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):    
