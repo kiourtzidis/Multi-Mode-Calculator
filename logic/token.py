@@ -1,11 +1,11 @@
-from enum import Enum
+from enum import Enum, auto
 
 class TokenType(Enum):
-    NUMBER = 1
-    CONSTANT = 2
-    OPERATOR = 3
-    PARENTHESIS = 4
-    FUNCTION = 5
+    NUMBER = auto()
+    CONSTANT = auto()
+    OPERATOR = auto()
+    PARENTHESIS = auto()
+    FUNCTION = auto()
 
 
 class Token:
