@@ -17,5 +17,13 @@ class Token:
         self.eval_value = eval_value
 
 
+    def __eq__(self, other):
+
+        if not isinstance(other, Token):
+            return False
+
+        return self.type == other.type and self.display_value == other.display_value and self.eval_value == other.eval_value
+
+
     def __repr__(self):
         return f'Token({self.type}, {self.display_value}, {self.eval_value})'

@@ -12,10 +12,10 @@ class Parser:
 
         tokens = self.tokenize(expression)
 
-        display = ''.join(t.display_value for t in tokens)
-        eval_str = ''.join(t.eval_value for t in tokens)
+        display_expr = ''.join(t.display_value for t in tokens)
+        eval_expr = ''.join(t.eval_value for t in tokens)
 
-        return display, eval_str
+        return display_expr, eval_expr
 
 
     def tokenize(self, expression):

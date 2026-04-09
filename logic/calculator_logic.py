@@ -2,6 +2,7 @@ import math
 from . import math_functions
 from .parser import Parser
 from .token import Token, TokenType
+from logic import token
 
 class CalculatorLogic:
 
@@ -320,7 +321,7 @@ class CalculatorLogic:
         last = self.tokens[-1] if self.tokens else None
         ends_with_operator = last and last.type == TokenType.OPERATOR
 
-        if symbol in self.operators:
+        if new_tokens and new_tokens[0].type == TokenType.OPERATOR:
 
             last = self.tokens[-1] if self.tokens else None
 
@@ -342,11 +343,13 @@ class CalculatorLogic:
             if last and last.display_value in ('%', '‰'):
                 return
 
-        if symbol == '.' and (self.display_expression == '' or not self.display_expression[-1].isdigit()):    
-            self.tokens.append(Token(TokenType.NUMBER, '0', '0'))
-            self._update_expressions_from_tokens()
+        if symbol == '.': 
+            if not self.tokens or self.tokens[-1].type != TokenType.NUMBER:    
+                self.tokens.append(Token(TokenType.NUMBER, '0', '0'))
+                self._update_expressions_from_tokens()
 
-        if self.display_expression:
+        if self.tokens:
+            last = self.tokens[-1]
             if (
             symbol not in (
             '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹',
@@ -354,11 +357,11 @@ class CalculatorLogic:
             'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
             'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign', 
             'gamma', 'lgamma', 'log', 'log₂', 'ln')
-            and self.display_expression[-1] in ('¹', '²', '³')
+            and last.display_value[-1] in ('¹', '²', '³')
             ):      
                 self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
                 self._update_expressions_from_tokens()
-            elif symbol in ('x⁻¹', 'x²', 'x³') and self.display_expression[-1] in ('¹', '²', '³'):
+            elif symbol in ('x⁻¹', 'x²', 'x³') and last.display_value in ('¹', '²', '³'):
                 self.tokens.append(Token(TokenType.OPERATOR, '^', '**'))
                 self._update_expressions_from_tokens()
 
@@ -490,19 +493,10 @@ class CalculatorLogic:
                     self._update_expressions_from_tokens()
 
             return
-        
-        if symbol.isdigit() or symbol == '.':
-            token_type = TokenType.NUMBER
-        elif symbol in self.operators:
-            token_type = TokenType.OPERATOR
-        elif symbol in ('(', ')'):
-            token_type = TokenType.PARENTHESIS
-        elif symbol in ('π', 'e', 'Ans'):
-            token_type = TokenType.CONSTANT
-        else:
-            token_type = TokenType.FUNCTION
 
-        self.tokens.append(Token(token_type, display_symbol, eval_symbol))
+        for token in new_tokens:
+            self.tokens.append(token)
+
         self._update_expressions_from_tokens()
 
 
