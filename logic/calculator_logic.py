@@ -282,16 +282,13 @@ class CalculatorLogic:
             return
 
         self.tokens.pop()
-
-        self.display_expression = ''.join(token.display_value for token in self.tokens)
-        self.eval_expression = ''.join(token.eval_value for token in self.tokens)
+        self._update_expressions_from_tokens()
 
 
     def append(self, symbol):
 
         if self.display_expression == 'Error':
-            self.display_expression = ''
-            self.eval_expression = ''
+            self.clear()
 
         if self.calculated:
             if symbol.isdigit() or symbol in (
@@ -300,10 +297,16 @@ class CalculatorLogic:
                 'tanh⁻¹', 'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 
                 'sign', 'gamma', 'lgamma', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
                 ):             
-                self.display_expression = ''
-                self.eval_expression = ''
+                self.clear()
 
         self.calculated = False
+
+        try:
+            new_tokens = self.parser.tokenize(symbol)
+        except ValueError:
+            self.display_expression = 'Error'
+            self.eval_expression = ''
+            return
 
         if symbol in self.buttons:
             display_symbol = self.buttons[symbol]['append']
@@ -490,7 +493,7 @@ class CalculatorLogic:
         self.tokens.append((display_symbol, eval_symbol))
 
         self.display_expression += display_symbol
-        self.eval_expression += eval_symbol 
+        self.eval_expression += eval_symbol
 
 
     def calculate(self):
@@ -578,6 +581,11 @@ class CalculatorLogic:
             processed_expression = processed_expression.replace('log2*', 'log2')
 
         return processed_expression
+    
+
+    def _update_expressions_from_tokens(self):
+        self.display_expression = ''.join(t.display_value for t in self.tokens)
+        self.eval_expression = ''.join(t.eval_value for t in self.tokens)
 
 
     def _clean_result(self, result):
