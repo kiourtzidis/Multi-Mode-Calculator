@@ -310,22 +310,12 @@ class CalculatorLogic:
             self.eval_expression = ''
             return
 
-        if symbol in self.buttons:
-            display_symbol = self.buttons[symbol]['append']
-            eval_symbol = self.buttons[symbol]['calculate']
-
-        else:
-            display_symbol = symbol
-            eval_symbol = symbol
-
+        first = new_tokens[0]
         last = self.tokens[-1] if self.tokens else None
-        ends_with_operator = last and last.type == TokenType.OPERATOR
 
-        if new_tokens and new_tokens[0].type == TokenType.OPERATOR:
+        if first.type == TokenType.OPERATOR:
 
-            last = self.tokens[-1] if self.tokens else None
-
-            if not self.tokens and symbol == '-':
+            if not self.tokens and first.display_value == '-':
                 self.tokens.append(Token(TokenType.OPERATOR, '-', '-'))
                 self._update_expressions_from_tokens()
                 return
@@ -334,24 +324,25 @@ class CalculatorLogic:
                 return
 
             if last and last.type == TokenType.OPERATOR:
-                if symbol == '-' and last.display_value != '-':
+                if first.display_value == '-' and last.display_value != '-':
                     self.tokens.append(Token(TokenType.OPERATOR, '-', '-'))
                     self._update_expressions_from_tokens()
                 return
 
-        if symbol.isdigit() or symbol in ('%', '‰'):
+        if first.type == TokenType.NUMBER or first.display_value in ('%', '‰'):
             if last and last.display_value in ('%', '‰'):
                 return
 
-        if symbol == '.': 
-            if not self.tokens or self.tokens[-1].type != TokenType.NUMBER:    
+        if first.display_value == '.': 
+            if not last or last.type != TokenType.NUMBER:    
                 self.tokens.append(Token(TokenType.NUMBER, '0', '0'))
                 self._update_expressions_from_tokens()
 
         if self.tokens:
             last = self.tokens[-1]
+
             if (
-            symbol not in (
+            first.display_value not in (
             '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹',
             'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
             'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
@@ -361,71 +352,21 @@ class CalculatorLogic:
             ):      
                 self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
                 self._update_expressions_from_tokens()
-            elif symbol in ('x⁻¹', 'x²', 'x³') and last.display_value in ('¹', '²', '³'):
+                
+            elif first.display_value in ('x⁻¹', 'x²', 'x³') and last.display_value in ('¹', '²', '³'):
                 self.tokens.append(Token(TokenType.OPERATOR, '^', '**'))
                 self._update_expressions_from_tokens()
 
-            try:
-                if self.tokens[-1].display_value == 'Ans':
-                    if symbol.isdigit() or symbol in (
-                    'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
-                    'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
-                    'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign',
-                    'gamma', 'lgamma', 'log', 'log₂', 'ln', 'π', 'e'
-                    ):
-                        self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
-                        self._update_expressions_from_tokens()
-            except IndexError:
-                pass
-
-        if symbol == '!':
-
-            if not self.eval_expression:
-                return
-
-            i = len(self.eval_expression) - 1
-            operand = ''
-
-            if self.eval_expression[i].isdigit():
-                while i >= 0 and self.eval_expression[i].isdigit() or self.eval_expression[i] == '.':
-                    operand = self.eval_expression[i] + operand
-                    i -= 1
-
-            elif self.eval_expression[i] == ')':
-                bracket_count = 0
-
-                while i >= 0:
-                    char = self.eval_expression[i]
-                    operand = char + operand
-
-                    if char == ')':
-                        bracket_count += 1
-                    elif char == '(':
-                        bracket_count -= 1
-
-                    i -= 1
-
-                    if bracket_count == 0:
-                        break
-
-                while i >= 0 and self.eval_expression[i].isalpha():
-                    operand = self.eval_expression[i] + operand
-                    i -= 1
-
-            else:
-                return
-
-            self.eval_expression = self.eval_expression[:-len(operand)]
-            self.eval_expression += f'factorial({operand})'
-
-            self.display_expression += '!'
-
-            self.tokens.append(Token(TokenType.OPERATOR, '!', 'factorial('))
-            self.tokens.append(Token(TokenType.PARENTHESIS, ')', ')'))
-
-            self._update_expressions_from_tokens()
-
-            return
+            
+            if last and last.display_value == 'Ans':
+                if first.type == TokenType.NUMBER or first.display_value in (
+                'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
+                'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
+                'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign',
+                'gamma', 'lgamma', 'log', 'log₂', 'ln', 'π', 'e'
+                ):
+                    self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
+                    self._update_expressions_from_tokens()
 
         if symbol == 'a×b':
 
@@ -447,50 +388,25 @@ class CalculatorLogic:
 
             factorized = math_functions.factorize(number)
 
-            if factorized:
-                number = str(number)
-
-                self.display_expression = self.display_expression[:-len(number)]
-                self.display_expression += factorized
-
-                self.eval_expression = self.eval_expression[:-len(number)]
-                self.eval_expression += factorized.replace('×', '*')
-
-                for char in number:
-                    self.tokens.remove(Token(TokenType.NUMBER, char, char))
-                for char in factorized:
-                    self.tokens.append(Token(TokenType.NUMBER, char, char))
-            else:
+            if not factorized:
                 return
 
-            return
+            number = str(number)
 
-        if symbol == '|x|':
+            self.tokens = self.tokens[:-len(number)]
+            for char in factorized:
+                self.tokens.append(Token(TokenType.NUMBER, char, char))
 
-            count = self.display_expression.count('|')
-
-            self.display_expression += '|'
-
-            if count % 2 == 0:
-                self.eval_expression += 'abs('
-                self.tokens.append(Token(TokenType.FUNCTION, '|', 'abs('))
-            else:
-                self.eval_expression += ')'
-                self.tokens.append(Token(TokenType.PARENTHESIS, ')', ')'))
-
+            self._update_expressions_from_tokens()
             return
 
         if symbol == 'Ans':
             if self.last_result:
-                if self.display_expression and (
-                self.display_expression[-1] not in self.operators and self.display_expression[-1] != '('
-                ):
+                if self.tokens and last and last.type not in (TokenType.OPERATOR, TokenType.PARENTHESIS):
                     self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
-                    self.tokens.append(Token(TokenType.NUMBER, 'Ans', f'{self.last_result}'))
-                    self._update_expressions_from_tokens()
-                else:
-                    self.tokens.append(Token(TokenType.NUMBER, 'Ans', f'{self.last_result}'))
-                    self._update_expressions_from_tokens()
+
+                self.tokens.append(Token(TokenType.NUMBER, 'Ans', self.last_result))
+                self._update_expressions_from_tokens()
 
             return
 
