@@ -27,3 +27,19 @@ class Token:
 
     def __repr__(self):
         return f'Token({self.type}, {self.display_value}, {self.eval_value})'
+    
+
+    def is_value(self):
+        return self.type in (TokenType.NUMBER, TokenType.CONSTANT)
+    
+
+    def is_operator(self):
+        return self.type == TokenType.OPERATOR
+    
+
+    def is_function(self):
+        return self.type == TokenType.FUNCTION
+    
+
+    def is_parenthesis(self):
+        return self.type == TokenType.PARENTHESIS

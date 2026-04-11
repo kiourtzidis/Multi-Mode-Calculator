@@ -2,7 +2,6 @@ import math
 from . import math_functions
 from .parser import Parser
 from .token import Token, TokenType
-from logic import token
 
 class CalculatorLogic:
 
@@ -68,7 +67,10 @@ class CalculatorLogic:
 
         self.calculated = False
 
+        self.display_expression += symbol
+
         try:
+            self.display_expression, eval_expression = self.parser.parse(symbol)
             new_tokens = self.parser.tokenize(symbol)
 
         except ValueError:
@@ -79,7 +81,7 @@ class CalculatorLogic:
         first = new_tokens[0]
         last = self.tokens[-1] if self.tokens else None
 
-        if first.type == TokenType.OPERATOR:
+        if first.is_operator():
 
             if not self.tokens and first.display_value == '-':
                 self.tokens.append(Token(TokenType.OPERATOR, '-', '-'))
@@ -89,31 +91,25 @@ class CalculatorLogic:
             if not self.tokens:
                 return
 
-            if last and last.type == TokenType.OPERATOR:
+            if last and last.is_operator():
                 if first.display_value == '-' and last.display_value != '-':
                     self.tokens.append(Token(TokenType.OPERATOR, '-', '-'))
                     self._update_expressions_from_tokens()
                 return
 
-        if first.type == TokenType.NUMBER or first.display_value in ('%', '‰'):
+        if first.is_value() or first.display_value in ('%', '‰'):
             if last and last.display_value in ('%', '‰'):
                 return
 
         if first.display_value == '.': 
-            if not last or last.type != TokenType.NUMBER:    
+            if not last or not last.is_value():
                 self.tokens.append(Token(TokenType.NUMBER, '0', '0'))
                 self._update_expressions_from_tokens()
 
         if self.tokens:
             last = self.tokens[-1]
 
-            if (
-            first.display_value not in (
-            '+', '-', '÷', 'div', 'mod', '(', ')', '!', 'x²', 'x³', 'xʸ', 'x⁻¹',
-            'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
-            'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
-            'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign', 
-            'gamma', 'lgamma', 'log', 'log₂', 'ln')
+            if (not first.is_operator() and not first.is_function() and not first.is_parenthesis()
             and last.display_value[-1] in ('¹', '²', '³')
             ):      
                 self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
@@ -125,12 +121,7 @@ class CalculatorLogic:
 
             
             if last and last.display_value == 'Ans':
-                if first.type == TokenType.NUMBER or first.display_value in (
-                'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
-                'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sinh⁻¹', 'cosh⁻¹', 'tanh⁻¹', 
-                'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 'sign',
-                'gamma', 'lgamma', 'log', 'log₂', 'ln', 'π', 'e'
-                ):
+                if first.is_value() or first.is_function():
                     self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
                     self._update_expressions_from_tokens()
 
@@ -168,7 +159,7 @@ class CalculatorLogic:
 
         if symbol == 'Ans':
             if self.last_result:
-                if self.tokens and last and last.type not in (TokenType.OPERATOR, TokenType.PARENTHESIS):
+                if self.tokens and last and not last.is_operator() and not last.is_parenthesis():
                     self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
 
                 self.tokens.append(Token(TokenType.NUMBER, 'Ans', self.last_result))
