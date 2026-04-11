@@ -1,6 +1,6 @@
 import math
 from . import math_functions
-from .parser import Parser
+from .lexer import Lexer
 from .token import Token, TokenType
 
 class CalculatorLogic:
@@ -9,7 +9,7 @@ class CalculatorLogic:
 
         self.display_expression = ''
         self.eval_expression = ''
-        self.parser = Parser()
+        self.parser = Lexer()
         self.calculated = False
         self.last_result = None
         self.angle_mode = 'DEG'
@@ -57,125 +57,28 @@ class CalculatorLogic:
             self.clear()
 
         if self.calculated:
-            if symbol.isdigit() or symbol in (
-                '.', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sin⁻¹', 'cos⁻¹', 'tan⁻¹', 'cot⁻¹',
-                'sinh', 'cosh', 'tanh', 'sech', 'csch', 'coth', 'sec⁻¹', 'csc⁻¹', 'sinh⁻¹', 'cosh⁻¹', 
-                'tanh⁻¹', 'sech⁻¹', 'csc⁻¹', 'coth⁻¹', 'round', 'floor', 'ceil', 'trunc', 'frac', 
-                'sign', 'gamma', 'lgamma', 'log', 'ln', '|x|', 'log₂', '√', '∛', 'e', 'π', 'Ans'
-                ):             
-                self.clear()
+            self.clear()
 
         self.calculated = False
 
         self.display_expression += symbol
 
         try:
-            self.display_expression, eval_expression = self.parser.parse(symbol)
-            new_tokens = self.parser.tokenize(symbol)
+            self.tokens = self.parser.tokenize(self.display_expression)
+            self._update_expressions_from_tokens()
 
         except ValueError:
             self.display_expression = 'Error'
             self.eval_expression = ''
-            return
-
-        first = new_tokens[0]
-        last = self.tokens[-1] if self.tokens else None
-
-        if first.is_operator():
-
-            if not self.tokens and first.display_value == '-':
-                self.tokens.append(Token(TokenType.OPERATOR, '-', '-'))
-                self._update_expressions_from_tokens()
-                return
-
-            if not self.tokens:
-                return
-
-            if last and last.is_operator():
-                if first.display_value == '-' and last.display_value != '-':
-                    self.tokens.append(Token(TokenType.OPERATOR, '-', '-'))
-                    self._update_expressions_from_tokens()
-                return
-
-        if first.is_value() or first.display_value in ('%', '‰'):
-            if last and last.display_value in ('%', '‰'):
-                return
-
-        if first.display_value == '.': 
-            if not last or not last.is_value():
-                self.tokens.append(Token(TokenType.NUMBER, '0', '0'))
-                self._update_expressions_from_tokens()
-
-        if self.tokens:
-            last = self.tokens[-1]
-
-            if (not first.is_operator() and not first.is_function() and not first.is_parenthesis()
-            and last.display_value[-1] in ('¹', '²', '³')
-            ):      
-                self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
-                self._update_expressions_from_tokens()
-                
-            elif first.display_value in ('x⁻¹', 'x²', 'x³') and last.display_value in ('¹', '²', '³'):
-                self.tokens.append(Token(TokenType.OPERATOR, '^', '**'))
-                self._update_expressions_from_tokens()
-
-            
-            if last and last.display_value == 'Ans':
-                if first.is_value() or first.is_function():
-                    self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
-                    self._update_expressions_from_tokens()
-
-        if symbol == 'a×b':
-
-            number = ''
-
-            for char in self.eval_expression[::-1]:
-                if char.isdigit() or char == '.':
-                    number = char + number
-                else:
-                    break
-
-            if number:
-                if '.' in number:
-                    number = float(number)
-                else:
-                    number = int(number)
-            else:
-                return
-
-            factorized = math_functions.factorize(number)
-
-            if not factorized:
-                return
-
-            number = str(number)
-
-            self.tokens = self.tokens[:-len(number)]
-            for char in factorized:
-                self.tokens.append(Token(TokenType.NUMBER, char, char))
-
-            self._update_expressions_from_tokens()
-            return
-
-        if symbol == 'Ans':
-            if self.last_result:
-                if self.tokens and last and not last.is_operator() and not last.is_parenthesis():
-                    self.tokens.append(Token(TokenType.OPERATOR, '×', '*'))
-
-                self.tokens.append(Token(TokenType.NUMBER, 'Ans', self.last_result))
-                self._update_expressions_from_tokens()
-
-            return
-
-        for token in new_tokens:
-            self.tokens.append(token)
-
-        self._update_expressions_from_tokens()
+            self.tokens.clear()
 
 
     def calculate(self):
 
         try:
+
+            if not self.tokens:
+                return
 
             original_expression = self.display_expression
 
@@ -201,9 +104,6 @@ class CalculatorLogic:
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
             self.last_result = self.eval_expression
-
-            for char in str(result):
-                self.tokens.append((char, char))
 
             self.calculated = True
 

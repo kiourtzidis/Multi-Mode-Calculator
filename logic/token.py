@@ -3,7 +3,9 @@ from enum import Enum, auto
 class TokenType(Enum):
     NUMBER = auto()
     CONSTANT = auto()
-    OPERATOR = auto()
+    INFIX_OPERATOR = auto()
+    PREFIX_OPERATOR = auto()
+    POSTFIX_OPERATOR = auto()
     PARENTHESIS = auto()
     FUNCTION = auto()
 
@@ -33,8 +35,16 @@ class Token:
         return self.type in (TokenType.NUMBER, TokenType.CONSTANT)
     
 
-    def is_operator(self):
-        return self.type == TokenType.OPERATOR
+    def is_infix_operator(self):
+        return self.type == TokenType.INFIX_OPERATOR
+    
+
+    def is_prefix_operator(self):
+        return self.type == TokenType.PREFIX_OPERATOR
+    
+
+    def is_postfix_operator(self):
+        return self.type == TokenType.POSTFIX_OPERATOR
     
 
     def is_function(self):
