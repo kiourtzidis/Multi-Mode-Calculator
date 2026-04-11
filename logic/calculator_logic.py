@@ -1,7 +1,7 @@
 import math
 from . import math_functions
+from .parser import Parser, evaluate
 from .lexer import Lexer
-from .token import Token, TokenType
 
 class CalculatorLogic:
 
@@ -82,20 +82,12 @@ class CalculatorLogic:
 
             original_expression = self.display_expression
 
-            check_expression = self.eval_expression.lstrip('-')
+            parser = Parser(self.tokens)
+            print(f'tokens: {self.tokens}')
+            ast = parser.parse()
+            print(f'ast: {ast}')
 
-            contains_operation = (
-                check_expression in ('pi', 'e') 
-                or any(operator in check_expression for operator in (
-                    '+', '-', '*', '/', '//', '%', '**', '('
-                )))
-
-            if not contains_operation:
-                return None, None
-
-            self.eval_expression = self._add_implicit_multiplication(self.eval_expression)
-
-            result = eval(self.eval_expression, self.eval_functions)
+            result = evaluate(ast)
             result = self._clean_result(result)
 
             if isinstance(result, float) and result.is_integer():
@@ -103,11 +95,11 @@ class CalculatorLogic:
 
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
-            self.last_result = self.eval_expression
+            self.last_result = result
 
             self.calculated = True
 
-            return original_expression, self.eval_expression
+            return original_expression, result
 
         except Exception:
 
