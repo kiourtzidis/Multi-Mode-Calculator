@@ -52,14 +52,10 @@ class Parser:
     def led(self, token, left):
         if token.is_infix_operator():
 
-            if token.display_value == '+':
-                return ('+', left, self.expression(10))
-            if token.display_value == '-':
-                return ('-', left, self.expression(10))
-            if token.display_value == '×':
-                return ('*', left, self.expression(20))
-            if token.display_value == '÷':
-                return ('/', left, self.expression(20))
+            if token.display_value in ('+', '-'):
+                return (token.eval_value, left, self.expression(10))
+            if token.display_value in ('×', '÷', ' div ', ' mod '):
+                return (token.eval_value, left, self.expression(20))
 
         raise Exception(f'Unexpected token in led: {token}')
     
@@ -68,7 +64,7 @@ class Parser:
         if token.is_infix_operator():
             if token.display_value in ('+', '-'):
                 return 10
-            if token.display_value in ('×', '÷'):
+            if token.display_value in ('×', '÷', ' div ', ' mod '):
                 return 20
         return 0
     
@@ -92,3 +88,11 @@ def evaluate(node):
 
     if node[0] == '/':
         return evaluate(node[1]) / evaluate(node[2])
+    
+    if node[0] == '//':
+        return evaluate(node[1]) // evaluate(node[2])
+
+    if node[0] == '%':
+        return evaluate(node[1]) % evaluate(node[2])
+    
+    raise Exception(f'Unknown node: {node}')
