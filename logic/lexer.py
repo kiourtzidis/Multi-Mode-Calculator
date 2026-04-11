@@ -15,8 +15,8 @@ class Lexer:
             'div': (TokenType.INFIX_OPERATOR, ' div ', '//'),
             'mod': (TokenType.INFIX_OPERATOR, ' mod ', '%'),
 
-            '(': (TokenType.PARENTHESIS, '(', '('),
-            ')': (TokenType.PARENTHESIS, ')', ')'),
+            '(': (TokenType.LPAREN, '(', '('),
+            ')': (TokenType.RPAREN, ')', ')'),
 
             'sin': (TokenType.FUNCTION, 'sin', 'sin'),
             'cos': (TokenType.FUNCTION, 'cos', 'cos'),

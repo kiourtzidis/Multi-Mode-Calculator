@@ -6,7 +6,8 @@ class TokenType(Enum):
     INFIX_OPERATOR = auto()
     PREFIX_OPERATOR = auto()
     POSTFIX_OPERATOR = auto()
-    PARENTHESIS = auto()
+    RPAREN = auto()
+    LPAREN = auto()
     FUNCTION = auto()
 
 
@@ -51,5 +52,9 @@ class Token:
         return self.type == TokenType.FUNCTION
     
 
-    def is_parenthesis(self):
-        return self.type == TokenType.PARENTHESIS
+    def is_right_parenthesis(self):
+        return self.type == TokenType.RPAREN
+    
+
+    def is_left_parenthesis(self):
+        return self.type == TokenType.LPAREN
