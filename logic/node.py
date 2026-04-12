@@ -9,7 +9,7 @@ class NumberNode(Node):
         self.value = value
 
 
-    def evaluate(self):
+    def evaluate(self, scope):
         return self.value
 
 
@@ -19,8 +19,8 @@ class NegNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return -self.right.evaluate()
+    def evaluate(self, scope):
+        return -self.right.evaluate(scope)
 
 
 class AddNode(Node):
@@ -30,8 +30,8 @@ class AddNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return self.left.evaluate() + self.right.evaluate()
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) + self.right.evaluate(scope)
 
 
 class SubNode(Node):
@@ -41,8 +41,8 @@ class SubNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return self.left.evaluate() - self.right.evaluate()
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) - self.right.evaluate(scope)
 
 
 class MulNode(Node):
@@ -52,8 +52,8 @@ class MulNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return self.left.evaluate() * self.right.evaluate()
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) * self.right.evaluate(scope)
 
 
 class DivNode(Node):
@@ -63,8 +63,8 @@ class DivNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return self.left.evaluate() / self.right.evaluate()
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) / self.right.evaluate(scope)
 
 
 class FloorDivNode(Node):
@@ -74,8 +74,8 @@ class FloorDivNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return self.left.evaluate() // self.right.evaluate()
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) // self.right.evaluate(scope)
 
 
 class ModNode(Node):
@@ -85,5 +85,16 @@ class ModNode(Node):
         self.right = right
 
 
-    def evaluate(self):
-        return self.left.evaluate() % self.right.evaluate()
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) % self.right.evaluate(scope)
+
+
+class FunctionNode(Node):
+
+    def __init__(self, function, arg):
+        self.function = function
+        self.arg = arg
+
+    def evaluate(self, scope):
+        function = scope[self.function]
+        return function(self.arg.evaluate(scope))

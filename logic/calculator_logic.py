@@ -87,7 +87,7 @@ class CalculatorLogic:
             ast = parser.parse()
             print(f'ast: {ast}')
 
-            result = ast.evaluate()
+            result = ast.evaluate(self.eval_functions)
             result = self._clean_result(result)
 
             if isinstance(result, float) and result.is_integer():

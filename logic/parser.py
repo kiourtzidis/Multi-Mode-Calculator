@@ -1,4 +1,4 @@
-from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode
+from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, FunctionNode
 
 class Parser:
 
@@ -38,6 +38,9 @@ class Parser:
         if token.is_value():
             return NumberNode(float(token.eval_value))
 
+        if token.display_value == '-':
+            return NegNode(self.expression(100))
+
         if token.is_left_parenthesis():
             expr = self.expression(0)
             if not self.peek() or self.peek().display_value != ')':
@@ -45,8 +48,9 @@ class Parser:
             self.advance()
             return expr
 
-        if token.display_value == '-':
-            return NegNode(self.expression(100))
+        if token.is_function():
+            arg = self.expression(0)
+            return FunctionNode(token.eval_value, arg)
 
         raise Exception(f'Unexpected token in nud: {token}')
 
