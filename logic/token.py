@@ -30,31 +30,31 @@ class Token:
 
     def __repr__(self):
         return f'Token({self.type}, {self.display_value}, {self.eval_value})'
-    
+
 
     def is_value(self):
         return self.type in (TokenType.NUMBER, TokenType.CONSTANT)
-    
+
 
     def is_infix_operator(self):
         return self.type == TokenType.INFIX_OPERATOR
-    
+
 
     def is_prefix_operator(self):
         return self.type == TokenType.PREFIX_OPERATOR
-    
+
 
     def is_postfix_operator(self):
         return self.type == TokenType.POSTFIX_OPERATOR
-    
+
 
     def is_function(self):
         return self.type == TokenType.FUNCTION
-    
+
 
     def is_right_parenthesis(self):
         return self.type == TokenType.RPAREN
-    
+
 
     def is_left_parenthesis(self):
         return self.type == TokenType.LPAREN

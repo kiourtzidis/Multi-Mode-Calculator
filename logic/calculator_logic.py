@@ -1,6 +1,6 @@
 import math
 from . import math_functions
-from .parser import Parser, evaluate
+from .parser import Parser
 from .lexer import Lexer
 
 class CalculatorLogic:
@@ -87,7 +87,7 @@ class CalculatorLogic:
             ast = parser.parse()
             print(f'ast: {ast}')
 
-            result = evaluate(ast)
+            result = ast.evaluate()
             result = self._clean_result(result)
 
             if isinstance(result, float) and result.is_integer():

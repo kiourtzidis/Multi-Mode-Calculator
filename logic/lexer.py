@@ -7,7 +7,6 @@ class Lexer:
 
         self.expression_pattern = re.compile(r'^[0-9+\-*/^().,%|!a-zA-Z×÷πʸ²³⁻¹√∛‰]*$')
         self.token_map = {
-            # Temporary, for compatibility with eval(), will replace later
             '+': (TokenType.INFIX_OPERATOR, '+', '+'),
             '-': (TokenType.INFIX_OPERATOR, '-', '-'),
             '×': (TokenType.INFIX_OPERATOR, '×', '*'),
