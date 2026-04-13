@@ -25,6 +25,8 @@ class Parser:
 
     def expression(self, rbp):
         token = self.advance()
+        if token is None:
+            raise Exception('Unexpected end of input')
         left = self.nud(token)
 
         while self.peek() and rbp < self.lbp(self.peek()):
@@ -35,6 +37,9 @@ class Parser:
 
 
     def nud(self, token):
+        if token is None:
+            raise Exception('Unexpected end of input in nud')
+
         if token.is_value():
             return NumberNode(float(token.eval_value))
 
@@ -56,6 +61,9 @@ class Parser:
 
 
     def led(self, token, left):
+
+        if token is None:
+            raise Exception('Unexpected end of tokens in led')
 
         if token.is_infix_operator():
 

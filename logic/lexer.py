@@ -89,7 +89,6 @@ class Lexer:
 
         tokens = []
         i = 0
-        abs_open = False
 
         sorted_keys = sorted(self.token_map.keys(), key=len, reverse=True)
 
@@ -98,18 +97,8 @@ class Lexer:
             matched = False
             for key in sorted_keys:
                 if expression.startswith(key, i):
-
                     token_type, display_str, eval_str = self.token_map[key]
-
-                    if key == '|':
-                        if not abs_open:
-                            tokens.append(Token(TokenType.FUNCTION, '|', 'abs('))
-                            abs_open = True
-                        else:
-                            tokens.append(Token(TokenType.PARENTHESIS, '|', ')'))
-                            abs_open = False
-                    else:
-                        tokens.append(Token(token_type, display_str, eval_str))
+                    tokens.append(Token(token_type, display_str, eval_str))
 
                     i += len(key)
                     matched = True
@@ -129,23 +118,6 @@ class Lexer:
                     i += 1
 
                 tokens.append(Token(TokenType.NUMBER, num, num))
-                continue
-
-            if char.isalpha():
-                identifier = char
-                i += 1
-
-                while i < len(expression) and expression[i].isalnum():
-                    identifier += expression[i]
-                    i += 1
-
-                if identifier in self.token_map:
-                    token_type, display_str, eval_str = self.token_map[identifier]
-                    tokens.append(Token(token_type, display_str, eval_str))
-                    tokens.append(Token(TokenType.PARENTHESIS, '(', '('))
-                else:
-                    raise ValueError('Error')
-
                 continue
 
             raise ValueError('Error')

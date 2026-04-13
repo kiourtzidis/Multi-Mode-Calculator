@@ -14,7 +14,6 @@ class CalculatorLogic:
         self.angle_mode = 'DEG'
         self.tokens = []
         self.lexer = Lexer()
-        self.parser = Parser(self.tokens)
         self.function_library = {
             **math.__dict__,
             **math_functions.__dict__,
@@ -82,10 +81,10 @@ class CalculatorLogic:
 
             original_expression = self.display_expression
 
+            parser = Parser(self.tokens)
             print(f'tokens: {self.tokens}')
-            ast = self.parser.parse()
+            ast = parser.parse()
             print(f'ast: {ast}')
-
             result = ast.evaluate(self.function_library)
             result = self._clean_result(result)
 
@@ -100,8 +99,8 @@ class CalculatorLogic:
 
             return original_expression, result
 
-        except Exception:
-
+        except Exception as e:
+            print(f'Error: {e}')
             self.tokens.clear()
             self.display_expression = 'Error'
             self.eval_expression = ''
