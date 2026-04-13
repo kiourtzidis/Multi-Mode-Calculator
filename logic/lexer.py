@@ -80,10 +80,6 @@ class Lexer:
         }
 
 
-    def parse(self, expression):
-        return self.tokenize(expression)
-
-
     def tokenize(self, expression):
 
         expression = expression.replace(' ', '')
