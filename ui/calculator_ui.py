@@ -204,7 +204,7 @@ class CalculatorUI(ctk.CTkFrame):
         self.logic.tokens.clear()
 
         i = 0
-        symbols = sorted(self.logic.buttons, key=len, reverse=True)
+        symbols = sorted(self.logic.lexer.token_map, key=len, reverse=True)
 
         while i < len(display_expression):
 
