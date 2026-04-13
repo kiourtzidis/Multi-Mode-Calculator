@@ -15,8 +15,7 @@ class CalculatorLogic:
         self.tokens = []
         self.lexer = Lexer()
         self.parser = Parser(self.tokens)
-        self.operators = ('+', '-', '×', '÷', 'div', 'mod')
-        self.eval_functions = {
+        self.function_library = {
             **math.__dict__,
             **math_functions.__dict__,
 
@@ -87,7 +86,7 @@ class CalculatorLogic:
             ast = self.parser.parse()
             print(f'ast: {ast}')
 
-            result = ast.evaluate(self.eval_functions)
+            result = ast.evaluate(self.function_library)
             result = self._clean_result(result)
 
             if isinstance(result, float) and result.is_integer():
