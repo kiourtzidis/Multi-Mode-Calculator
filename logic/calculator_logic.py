@@ -21,15 +21,15 @@ class CalculatorLogic:
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
             'tan': lambda x: math_functions.tan(x, self.angle_mode),
-            'sec': lambda x: math_functions.sec(x, self.angle_mode),
             'csc': lambda x: math_functions.csc(x, self.angle_mode),
+            'sec': lambda x: math_functions.sec(x, self.angle_mode),
             'cot': lambda x: math_functions.cot(x, self.angle_mode),
 
             'arcsin': lambda x: math_functions.arcsin(x, self.angle_mode),
             'arccos': lambda x: math_functions.arccos(x, self.angle_mode),
             'arctan': lambda x: math_functions.arctan(x, self.angle_mode),
-            'arcsec': lambda x: math_functions.arcsec(x, self.angle_mode),
             'arccsc': lambda x: math_functions.arccsc(x, self.angle_mode),
+            'arcsec': lambda x: math_functions.arcsec(x, self.angle_mode),
             'arccot': lambda x: math_functions.arccot(x, self.angle_mode)
             }
 
@@ -111,44 +111,6 @@ class CalculatorLogic:
     def toggle_angle_mode(self):
         self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
 
-
-    def _add_implicit_multiplication(self, expression):
-
-        processed_expression = ''
-
-        for i in range(len(expression)):
-
-            current_char = expression[i]
-            processed_expression += current_char
-
-            if i < len(expression) - 1:
-
-                next_char = expression[i+1]
-
-                if current_char.isdigit() and next_char.isdigit():
-                    continue
-
-                left_value = (
-                    current_char.isdigit() 
-                    or current_char == ')'
-                )
-
-                right_value = (
-                    next_char.isdigit()
-                    or next_char.isalpha() 
-                    or next_char == '('
-                )
-
-                if left_value and right_value:
-                    processed_expression += '*'
-
-        if 'log10*' in processed_expression:
-            processed_expression = processed_expression.replace('log10*', 'log10')
-        if 'log2*' in processed_expression:
-            processed_expression = processed_expression.replace('log2*', 'log2')
-
-        return processed_expression
-    
 
     def _update_expressions_from_tokens(self):
         self.display_expression = ''.join(token.display_value for token in self.tokens)
