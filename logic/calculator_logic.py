@@ -9,11 +9,12 @@ class CalculatorLogic:
 
         self.display_expression = ''
         self.eval_expression = ''
-        self.parser = Lexer()
         self.calculated = False
         self.last_result = None
         self.angle_mode = 'DEG'
         self.tokens = []
+        self.lexer = Lexer()
+        self.parser = Parser(self.tokens)
         self.operators = ('+', '-', '×', '÷', 'div', 'mod')
         self.eval_functions = {
             **math.__dict__,
@@ -64,7 +65,7 @@ class CalculatorLogic:
         self.display_expression += symbol
 
         try:
-            self.tokens = self.parser.tokenize(self.display_expression)
+            self.tokens = self.lexer.tokenize(self.display_expression)
             self._update_expressions_from_tokens()
 
         except ValueError:
@@ -82,9 +83,8 @@ class CalculatorLogic:
 
             original_expression = self.display_expression
 
-            parser = Parser(self.tokens)
             print(f'tokens: {self.tokens}')
-            ast = parser.parse()
+            ast = self.parser.parse()
             print(f'ast: {ast}')
 
             result = ast.evaluate(self.eval_functions)
