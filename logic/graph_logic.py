@@ -42,8 +42,6 @@ class GraphLogic(CalculatorLogic):
                'e': sp.E
             }
 
-            self.expression_pattern = re.compile(r'^[0-9x+\-*/().,^ a-zA-Z]+$')
-
 
         def evaluate_graph(self, x):
 
@@ -51,9 +49,6 @@ class GraphLogic(CalculatorLogic):
                x_symbol = self.sympy_functions['x']
 
                transformations = standard_transformations + (implicit_multiplication_application, convert_xor)
-
-               if not self.expression_pattern.match(self.eval_expression.replace(' ', '')):
-                  raise ValueError('Error')
 
                graph_expression = parse_expr(
                 self.eval_expression,
