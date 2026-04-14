@@ -20,18 +20,27 @@ class Parser:
 
 
     def parse(self):
-        return self.expression(0)
+        return self.parse_expression(0)
 
 
-    def expression(self, rbp):
+    def parse_expression(self, rbp):
         token = self.advance()
         if token is None:
             raise Exception('Unexpected end of input')
         left = self.nud(token)
 
-        while self.peek() and rbp < self.lbp(self.peek()):
-            token = self.advance()
-            left = self.led(token, left)
+        while self.peek():
+
+            if self._is_multiplicand(self.peek()):
+                left = MulNode(left, self.parse_expression(20))
+                continue
+
+            if rbp < self.lbp(self.peek()):
+                token = self.advance()
+                left = self.led(token, left)
+                continue
+
+            break
 
         return left
 
@@ -47,14 +56,14 @@ class Parser:
             return NegNode(self.expression(100))
 
         if token.is_left_parenthesis():
-            expr = self.expression(0)
+            expr = self.parse_expression(0)
             if not self.peek() or self.peek().display_value != ')':
                 raise Exception('Missing )')
             self.advance()
             return expr
 
         if token.is_function():
-            arg = self.expression(0)
+            arg = self.parse_expression(0)
             return FunctionNode(token.eval_value, arg)
 
         raise Exception(f'Unexpected token in nud: {token}')
@@ -68,22 +77,22 @@ class Parser:
         if token.is_infix_operator():
 
             if token.display_value == '+':
-                return AddNode(left, self.expression(10))
+                return AddNode(left, self.parse_expression(10))
 
             if token.display_value == '-':
-                return SubNode(left, self.expression(10))
+                return SubNode(left, self.parse_expression(10))
 
             if token.display_value == '×':
-                return MulNode(left, self.expression(20))
+                return MulNode(left, self.parse_expression(20))
 
             if token.display_value == '÷':
-                return DivNode(left, self.expression(20))
+                return DivNode(left, self.parse_expression(20))
 
             if token.display_value == ' div ':
-                return FloorDivNode(left, self.expression(20))
+                return FloorDivNode(left, self.parse_expression(20))
 
             if token.display_value == ' mod ':
-                return ModNode(left, self.expression(20))
+                return ModNode(left, self.parse_expression(20))
 
         raise Exception(f'Unexpected token in led: {token}')
 
@@ -95,3 +104,15 @@ class Parser:
             if token.display_value in ('×', '÷', ' div ', ' mod '):
                 return 20
         return 0
+
+
+    def _is_multiplicand(self, token):
+
+        if token is None:
+            return False
+
+        return (
+            token.is_value() or
+            token.is_left_parenthesis() or
+            token.is_function()
+        ) 
