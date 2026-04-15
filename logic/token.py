@@ -13,9 +13,10 @@ class TokenType(Enum):
 
 class Token:
 
-    def __init__(self, type, display_value, eval_value):
+    def __init__(self, type, key, display_value, eval_value):
 
         self.type = type
+        self.key = key
         self.display_value = display_value
         self.eval_value = eval_value
 
@@ -25,11 +26,16 @@ class Token:
         if not isinstance(other, Token):
             return False
 
-        return self.type == other.type and self.display_value == other.display_value and self.eval_value == other.eval_value
+        return (
+            self.type == other.type 
+            and self.key == other.key 
+            and self.display_value == other.display_value 
+            and self.eval_value == other.eval_value
+            )
 
 
     def __repr__(self):
-        return f'Token({self.type}, {self.display_value}, {self.eval_value})'
+        return f'Token({self.type}, {self.key}, {self.display_value}, {self.eval_value})'
 
 
     def is_value(self):

@@ -49,7 +49,7 @@ class CalculatorLogic:
             return
 
         deleted_token = self.tokens.pop()
-        self.raw_input = self.raw_input[:-len(deleted_token.display_value)]
+        self.raw_input = self.raw_input[:-len(deleted_token.key)]
         self.tokens = self.lexer.tokenize(self.raw_input)
         self._update_expressions_from_tokens()
 
