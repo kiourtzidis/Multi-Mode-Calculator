@@ -89,6 +89,17 @@ class ModNode(Node):
         return self.left.evaluate(scope) % self.right.evaluate(scope)
 
 
+class PowerNode(Node):
+
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+
+    def evaluate(self, scope):
+        return self.left.evaluate(scope) ** self.right.evaluate(scope)
+
+
 class FunctionNode(Node):
 
     def __init__(self, function, arg):

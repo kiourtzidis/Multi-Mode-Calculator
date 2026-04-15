@@ -52,12 +52,12 @@ class Parser:
         if token.is_value():
             return NumberNode(float(token.eval_value))
 
-        if token.display_value == '-':
+        if token.eval_value == '-':
             return NegNode(self.parse_expression(100))
 
         if token.is_left_parenthesis():
             expr = self.parse_expression(0)
-            if not self.peek() or self.peek().display_value != ')':
+            if not self.peek() or self.peek().eval_value != ')':
                 raise Exception('Missing )')
             self.advance()
             return expr
@@ -93,6 +93,9 @@ class Parser:
 
             if token.eval_value == '%':
                 return ModNode(left, self.parse_expression(self.lbp(token)))
+            
+            if token.eval_value == '**':
+                return PowerNode(left, self.parse_expression(self.lbp(token) - 1))
 
         raise Exception(f'Unexpected token in led: {token}')
 
@@ -103,6 +106,8 @@ class Parser:
                 return 10
             if token.eval_value in ('*', '/', '//', '%'):
                 return 20
+            if token.eval_value == '**':
+                return 30
         return 0
 
 
