@@ -1,12 +1,13 @@
 import math
 from . import math_functions
-from .parser import Parser
 from .lexer import Lexer
+from .parser import Parser
 
 class CalculatorLogic:
 
     def __init__(self):
 
+        self.raw_input = ''
         self.display_expression = ''
         self.eval_expression = ''
         self.calculated = False
@@ -36,6 +37,7 @@ class CalculatorLogic:
 
     def clear(self):
         self.tokens.clear()
+        self.raw_input = ''
         self.display_expression = ''
         self.eval_expression = ''
         self.calculated = False
@@ -46,7 +48,9 @@ class CalculatorLogic:
         if not self.tokens:
             return
 
-        self.tokens.pop()
+        deleted_token = self.tokens.pop()
+        self.raw_input = self.raw_input[:-len(deleted_token.display_value)]
+        self.tokens = self.lexer.tokenize(self.raw_input)
         self._update_expressions_from_tokens()
 
 
@@ -60,13 +64,16 @@ class CalculatorLogic:
 
         self.calculated = False
 
-        self.display_expression += symbol
+        self.raw_input += symbol
 
         try:
-            self.tokens = self.lexer.tokenize(self.display_expression)
+            self.tokens = self.lexer.tokenize(self.raw_input)
+            print(self.tokens)
             self._update_expressions_from_tokens()
 
-        except ValueError:
+        except ValueError as v:
+            print(f'{v}')
+            self.raw_input = ''
             self.display_expression = 'Error'
             self.eval_expression = ''
             self.tokens.clear()
@@ -91,6 +98,7 @@ class CalculatorLogic:
             if isinstance(result, float) and result.is_integer():
                 result = int(result)
 
+            self.raw_input = ''
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
             self.last_result = result
@@ -102,6 +110,7 @@ class CalculatorLogic:
         except Exception as e:
             print(f'Error: {e}')
             self.tokens.clear()
+            self.raw_input = ''
             self.display_expression = 'Error'
             self.eval_expression = ''
             self.calculated = False 
