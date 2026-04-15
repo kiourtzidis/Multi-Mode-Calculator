@@ -1,4 +1,4 @@
-from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, FunctionNode
+from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, FunctionNode
 
 class Parser:
 
@@ -53,7 +53,7 @@ class Parser:
             return NumberNode(float(token.eval_value))
 
         if token.display_value == '-':
-            return NegNode(self.expression(100))
+            return NegNode(self.parse_expression(100))
 
         if token.is_left_parenthesis():
             expr = self.parse_expression(0)
@@ -76,32 +76,32 @@ class Parser:
 
         if token.is_infix_operator():
 
-            if token.display_value == '+':
-                return AddNode(left, self.parse_expression(10))
+            if token.eval_value == '+':
+                return AddNode(left, self.parse_expression(self.lbp(token)))
 
-            if token.display_value == '-':
-                return SubNode(left, self.parse_expression(10))
+            if token.eval_value == '-':
+                return SubNode(left, self.parse_expression(self.lbp(token)))
 
-            if token.display_value == '×':
-                return MulNode(left, self.parse_expression(20))
+            if token.eval_value == '*':
+                return MulNode(left, self.parse_expression(self.lbp(token)))
 
-            if token.display_value == '÷':
-                return DivNode(left, self.parse_expression(20))
+            if token.eval_value == '/':
+                return DivNode(left, self.parse_expression(self.lbp(token)))
 
-            if token.display_value == ' div ':
-                return FloorDivNode(left, self.parse_expression(20))
+            if token.eval_value == '//':
+                return FloorDivNode(left, self.parse_expression(self.lbp(token)))
 
-            if token.display_value == ' mod ':
-                return ModNode(left, self.parse_expression(20))
+            if token.eval_value == '%':
+                return ModNode(left, self.parse_expression(self.lbp(token)))
 
         raise Exception(f'Unexpected token in led: {token}')
 
 
     def lbp(self, token):
         if token.is_infix_operator():
-            if token.display_value in ('+', '-'):
+            if token.eval_value in ('+', '-'):
                 return 10
-            if token.display_value in ('×', '÷', ' div ', ' mod '):
+            if token.eval_value in ('*', '/', '//', '%'):
                 return 20
         return 0
 
