@@ -1,70 +1,18 @@
-import re
-import sympy as sp
-from sympy import symbols, lambdify
-from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
+from logic.parser import Parser
 from logic.calculator_logic import CalculatorLogic
 
 class GraphLogic(CalculatorLogic):
 
-        def __init__(self):
-
-            super().__init__()
-
-            self.sympy_functions = {
-               'x': symbols('x'),
-
-               'sin': sp.sin,
-               'cos': sp.cos,
-               'tan': sp.tan,
-
-               'csc': lambda x: 1/sp.sin(x),
-               'sec': lambda x: 1/sp.cos(x),
-               'cot': lambda x: 1/sp.tan(x),
-
-               'arcsin': sp.asin,
-               'arccos': sp.acos,
-               'arctan': sp.atan,
-
-               'arcsec': lambda x: sp.acos(1/x),
-               'arccsc': lambda x: sp.asin(1/x),
-               'arccot': lambda x: sp.atan(1/x),
-
-               'sqrt': sp.sqrt,
-               'cbrt': lambda x: sp.root(x, 3),
-               'abs': sp.Abs,
-               'exp': sp.exp,
-
-               'log': sp.log,
-               'log10': lambda x: sp.log(x, 10),
-               'log2': lambda x: sp.log(x, 2),
-
-               'pi': sp.pi,
-               'e': sp.E
-            }
-
-
         def evaluate_graph(self, x):
+         try:
+            parser = Parser(self.tokens)
+            ast = parser.parse()
+            scope = {
+                  'x': x,
+                  **self.function_library
+            }
+            return ast.evaluate(scope)
 
-            try:
-               x_symbol = self.sympy_functions['x']
-
-               transformations = standard_transformations + (implicit_multiplication_application, convert_xor)
-
-               graph_expression = parse_expr(
-                self.eval_expression,
-                local_dict=self.sympy_functions,
-                global_dict={
-                    'Integer': sp.Integer,
-                    'Float': sp.Float
-                },
-                transformations=transformations
-            )
-
-               f = lambdify(x_symbol, graph_expression, 'numpy')
-
-               y = f(x)
-
-               return y
-
-            except Exception:
-               return None
+         except Exception as e:
+            print(f'Error: {e}')
+            return None
