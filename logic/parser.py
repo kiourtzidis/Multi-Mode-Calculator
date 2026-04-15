@@ -1,4 +1,4 @@
-from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, VariableNode, FunctionNode
+from logic.node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, VariableNode, FunctionNode
 
 class Parser:
 

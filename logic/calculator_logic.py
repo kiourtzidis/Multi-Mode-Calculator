@@ -1,7 +1,7 @@
 import math
 from . import math_functions
-from .lexer import Lexer
-from .parser import Parser
+from logic.lexer import Lexer
+from logic.parser import Parser
 
 class CalculatorLogic:
 
@@ -87,7 +87,6 @@ class CalculatorLogic:
     def calculate(self):
 
         try:
-
             if not self.tokens:
                 return
 
