@@ -74,6 +74,7 @@ class Lexer:
             'Ans': (TokenType.NUMBER, 'Ans', 'Ans', 'Ans'),
 
             # For Graph Mode
+            'x': (TokenType.VARIABLE, 'x', 'x', 'x'),
             '10ˣ': (TokenType.FUNCTION, '10ˣ', '10ˣ', '10**'),
             '2ˣ': (TokenType.FUNCTION, '2ˣ', '2ˣ', '2**'),
             'eˣ': (TokenType.FUNCTION, 'eˣ', 'eˣ', 'exp(x)'),

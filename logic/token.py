@@ -3,6 +3,7 @@ from enum import Enum, auto
 class TokenType(Enum):
     NUMBER = auto()
     CONSTANT = auto()
+    VARIABLE = auto()
     INFIX_OPERATOR = auto()
     PREFIX_OPERATOR = auto()
     POSTFIX_OPERATOR = auto()
@@ -40,6 +41,10 @@ class Token:
 
     def is_value(self):
         return self.type in (TokenType.NUMBER, TokenType.CONSTANT)
+
+
+    def is_variable(self):
+        return self.type == TokenType.VARIABLE
 
 
     def is_infix_operator(self):

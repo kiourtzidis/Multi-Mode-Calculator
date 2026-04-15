@@ -1,4 +1,4 @@
-from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, FunctionNode
+from .node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, VariableNode, FunctionNode
 
 class Parser:
 
@@ -62,6 +62,9 @@ class Parser:
             self.advance()
             return expr
 
+        if token.is_variable():
+            return VariableNode(token.eval_value)
+
         if token.is_function():
             arg = self.parse_expression(0)
             return FunctionNode(token.eval_value, arg)
@@ -119,5 +122,6 @@ class Parser:
         return (
             token.is_value() or
             token.is_left_parenthesis() or
+            token.is_variable or
             token.is_function()
         ) 

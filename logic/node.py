@@ -100,6 +100,16 @@ class PowerNode(Node):
         return self.left.evaluate(scope) ** self.right.evaluate(scope)
 
 
+class VariableNode(Node):
+
+    def __init__(self, name):
+        self.name = name
+
+
+    def evaluate(self, scope):
+        return scope[self.name]
+
+
 class FunctionNode(Node):
 
     def __init__(self, function, arg):
