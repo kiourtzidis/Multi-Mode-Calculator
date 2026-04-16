@@ -24,23 +24,33 @@ class Parser:
 
 
     def parse_expression(self, rbp):
+
         token = self.advance()
         if token is None:
             raise Exception('Unexpected end of input')
+
         left = self.nud(token)
 
-        while self.peek():
+        while True:
+
+            if self.peek() is None:
+                break
 
             if self._is_multiplicand(self.peek()):
-                left = MulNode(left, self.parse_expression(20))
+                lbp = 25
+            else:
+                lbp = self.lbp(self.peek())
+
+            if rbp >= lbp:
+                break
+
+            if self._is_multiplicand(self.peek()):
+                right = self.parse_expression(25)
+                left = MulNode(left, right)
                 continue
 
-            if rbp < self.lbp(self.peek()):
-                token = self.advance()
-                left = self.led(token, left)
-                continue
-
-            break
+            token = self.advance()
+            left = self.led(token, left)
 
         return left
 
@@ -122,6 +132,6 @@ class Parser:
         return (
             token.is_value() or
             token.is_left_parenthesis() or
-            token.is_variable or
+            token.is_variable() or
             token.is_function()
         ) 
