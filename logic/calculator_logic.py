@@ -1,5 +1,5 @@
 import math
-from ..core import math_functions
+from core import math_functions
 from core.lexer import Lexer
 from core.parser import Parser
 
