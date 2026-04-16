@@ -1,4 +1,4 @@
-from logic.parser import Parser
+from core.parser import Parser
 from logic.calculator_logic import CalculatorLogic
 
 class GraphLogic(CalculatorLogic):

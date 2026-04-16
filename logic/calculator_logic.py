@@ -1,7 +1,7 @@
 import math
-from . import math_functions
-from logic.lexer import Lexer
-from logic.parser import Parser
+from ..core import math_functions
+from core.lexer import Lexer
+from core.parser import Parser
 
 class CalculatorLogic:
 

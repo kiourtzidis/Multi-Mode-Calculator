@@ -1,5 +1,5 @@
 import re
-from logic.token import Token, TokenType
+from core.token import Token, TokenType
 
 class Lexer:
 
