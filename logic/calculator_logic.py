@@ -99,9 +99,6 @@ class CalculatorLogic:
             result = ast.evaluate(self.function_library)
             result = self._clean_result(result)
 
-            if isinstance(result, float) and result.is_integer():
-                result = int(result)
-
             self.raw_input = ''
             self.display_expression = f'{result:.10g}'
             self.eval_expression = f'{result:.10g}'
@@ -136,5 +133,7 @@ class CalculatorLogic:
                 return 0
             if abs(result - round(result)) < 1e-10:
                 return int(round(result))
+            if result.is_integer():
+                return int(result)
             return round(result, 12)
         return result
