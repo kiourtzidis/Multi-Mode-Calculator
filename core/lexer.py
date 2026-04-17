@@ -21,7 +21,7 @@ class Lexer:
             'cos': (TokenType.FUNCTION, 'cos', 'cos', 'cos'),
             'tan': (TokenType.FUNCTION, 'tan', 'tan', 'tan'),
             'cot': (TokenType.FUNCTION, 'cot', 'cot', 'cot'),
-            'sin⁻¹': (TokenType.FUNCTION, 'sin⁻¹' 'sin⁻¹', 'arcsin'),
+            'sin⁻¹': (TokenType.FUNCTION, 'sin⁻¹', 'sin⁻¹', 'arcsin'),
             'cos⁻¹': (TokenType.FUNCTION, 'cos⁻¹', 'cos⁻¹', 'arccos'),
             'tan⁻¹': (TokenType.FUNCTION, 'tan⁻¹', 'tan⁻¹', 'arctan'),
             'cot⁻¹': (TokenType.FUNCTION, 'cot⁻¹', 'cot⁻¹', 'arccot'),
