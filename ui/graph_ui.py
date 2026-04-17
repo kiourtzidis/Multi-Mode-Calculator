@@ -69,7 +69,7 @@ class GraphUI(ctk.CTkFrame):
         )
         self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=10)
         self.function_entry.configure(cursor='xterm')
-        self.function_entry.bind('<Return>', lambda e: self.plot_function())
+        self.function_entry.bind('<Return>', self.plot_function)
         self.function_entry.bind('<KeyRelease>', self._sync_from_entry)
 
         self.plot_button = ctk.CTkButton(
@@ -182,7 +182,7 @@ class GraphUI(ctk.CTkFrame):
             self.buttons_frame.grid_columnconfigure(c, weight=1)
 
 
-    def plot_function(self):
+    def plot_function(self, event=None):
 
         self.logic.calculated = True
 
@@ -293,11 +293,11 @@ class GraphUI(ctk.CTkFrame):
         text = self.function_entry.get()
 
         try:
-            display_expr, eval_expr = self.logic.parser.parse(text)
+            self.logic.raw_input = text
+            self.logic.tokens = self.logic.lexer.tokenize(self.logic.raw_input)
+            print(self.logic.tokens)
+            self.logic._update_expressions_from_tokens()
 
-            self.logic.display_expression = display_expr
-            self.logic.eval_expression = eval_expr
-
-        except Exception:
-            self.logic.display_expression = 'Error'
-            self.logic.eval_expression = ''
+        except Exception as e:
+            print(f'error: {e}')
+            pass
