@@ -63,7 +63,7 @@ class Parser:
             return NumberNode(float(token.eval_value))
 
         if token.eval_value == '-':
-            return NegNode(self.parse_expression(100))
+            return NegNode(self.parse_expression(30))
 
         if token.is_left_parenthesis():
             expr = self.parse_expression(0)
