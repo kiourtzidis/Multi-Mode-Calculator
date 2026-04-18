@@ -76,7 +76,16 @@ class Parser:
             return VariableNode(token.eval_value)
 
         if token.is_function():
+            if not self.peek() or not self.peek().is_left_parenthesis():
+                raise Exception('Expected ( after function')
+
+            self.advance()
             arg = self.parse_expression(0)
+
+            if not self.peek() or not self.peek().is_right_parenthesis():
+                raise Exception('Missing ) after function argument')
+
+            self.advance()
             return FunctionNode(token.eval_value, arg)
 
         raise Exception(f'Unexpected token in nud: {token}')
