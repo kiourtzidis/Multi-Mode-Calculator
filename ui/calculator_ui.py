@@ -74,11 +74,11 @@ class CalculatorUI(ctk.CTkFrame):
             self.logic.backspace()
 
         elif symbol == '=':
-            original_eval = self.logic.eval_expression
+            original_input = self.logic.raw_input
 
             expression, result = self.logic.calculate()
             if expression:
-                self.add_history_item(expression, result, original_eval)
+                self.add_history_item(original_input, expression, result)
 
         else:
             self.logic.append(symbol)
@@ -100,7 +100,7 @@ class CalculatorUI(ctk.CTkFrame):
         self.typing_entry.configure(state='readonly')
 
 
-    def add_history_item(self, expression, result, eval_expression):
+    def add_history_item(self, raw_input, expression, result):
 
         line = f'{expression} = {result}'
 
@@ -156,7 +156,7 @@ class CalculatorUI(ctk.CTkFrame):
 
         item_label.bind('<Enter>', lambda e: item_label.configure(text_color='#FFFFFF'))
         item_label.bind('<Leave>', lambda e: item_label.configure(text_color='#BBBBBB'))
-        item_label.bind('<Button-1>', lambda e, exp=expression, eval_exp=eval_expression: self.history_click(exp, eval_exp))
+        item_label.bind('<Button-1>', lambda e, r=raw_input: self.history_click(r))
 
         copy_button.bind('<Enter>', lambda e: copy_button.configure(text_color='#FFFFFF'))
         copy_button.bind('<Leave>', lambda e: copy_button.configure(text_color='#BBBBBB'))
@@ -195,27 +195,22 @@ class CalculatorUI(ctk.CTkFrame):
         self.history_scroll.after(0, scroll_to_top)
 
 
-    def history_click(self, display_expression, eval_expression):
+    def history_click(self, raw_input):
 
-        self.logic.display_expression = display_expression
-        self.logic.eval_expression = eval_expression
         self.logic.calculated = False
+        self.logic.last_result = None
 
-        self.logic.tokens.clear()
+        self.logic.raw_input = raw_input
 
-        i = 0
-        symbols = sorted(self.logic.lexer.token_map, key=len, reverse=True)
-
-        while i < len(display_expression):
-
-            for symbol in symbols:
-                if display_expression[i:i+len(symbol)] == symbol:
-                    self.logic.tokens.append((symbol, symbol))
-                    i += len(symbol)
-                    break
-            else:
-                self.logic.tokens.append((display_expression[i], eval_expression[i]))
-                i += 1
+        try:
+            self.logic.tokens = self.logic.lexer.tokenize(raw_input)
+            self.logic._update_expressions_from_tokens()
+        except ValueError as v:
+            print(f'{v}')
+            self.logic.raw_input = ''
+            self.logic.display_expression = 'Error'
+            self.logic.eval_expression = ''
+            self.logic.tokens.clear()
 
         self.update_typing_display()
 
