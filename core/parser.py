@@ -37,7 +37,7 @@ class Parser:
                 break
 
             if self._is_multiplicand(self.peek()):
-                lbp = 25
+                lbp = 21
             else:
                 lbp = self.lbp(self.peek())
 
@@ -45,7 +45,7 @@ class Parser:
                 break
 
             if self._is_multiplicand(self.peek()):
-                right = self.parse_expression(25)
+                right = self.parse_expression(21)
                 left = MulNode(left, right)
                 continue
 
@@ -63,7 +63,7 @@ class Parser:
             return NumberNode(float(token.eval_value))
 
         if token.eval_value == '-':
-            return NegNode(self.parse_expression(30))
+            return NegNode(self.parse_expression(25))
 
         if token.is_left_parenthesis():
             expr = self.parse_expression(0)
