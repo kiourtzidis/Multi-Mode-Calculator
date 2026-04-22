@@ -28,9 +28,9 @@ class Lexer:
 
             'log': (TokenType.FUNCTION, 'log', 'log', 'log10'),
             'ln': (TokenType.FUNCTION, 'ln', 'ln', 'log'),
-            '%': (TokenType.POSTFIX_OPERATOR, '%', '%', '*(1/100)'),
+            '%': (TokenType.POSTFIX_OPERATOR, '%', '%', '%'),
             'log₂': (TokenType.FUNCTION, 'log₂', 'log₂', 'log2'),
-            '‰': (TokenType.POSTFIX_OPERATOR, '‰', '‰', '*(1/1000)'),
+            '‰': (TokenType.POSTFIX_OPERATOR, '‰', '‰', '‰'),
 
             'x²': (TokenType.INFIX_OPERATOR, 'x²', '²', '**(2)'),
             'x³': (TokenType.INFIX_OPERATOR, 'x³', '³', '**(3)'),

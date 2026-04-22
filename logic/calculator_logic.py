@@ -19,6 +19,10 @@ class CalculatorLogic:
             **math.__dict__,
             **math_functions.__dict__,
 
+            '!': lambda x: math_functions.factorial(x),
+            '%': lambda x: x * 0.01,
+            '‰': lambda x: x * 0.001,
+
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
             'tan': lambda x: math_functions.tan(x, self.angle_mode),

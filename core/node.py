@@ -100,6 +100,19 @@ class PowerNode(Node):
         return self.left.evaluate(scope) ** self.right.evaluate(scope)
 
 
+class PostfixNode(Node):
+
+    def __init__(self, left, operator):
+        self.left = left
+        self.operator = operator.eval_value
+
+
+    def evaluate(self, scope):
+        value = self.left.evaluate(scope)
+        function = scope[self.operator]
+        return function(value)
+
+
 class VariableNode(Node):
 
     def __init__(self, name):

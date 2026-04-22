@@ -1,4 +1,4 @@
-from core.node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, VariableNode, FunctionNode
+from core.node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, PostfixNode, VariableNode, FunctionNode
 
 class Parser:
 
@@ -40,6 +40,11 @@ class Parser:
                 lbp = 21
             else:
                 lbp = self.lbp(self.peek())
+
+            if self.peek().is_postfix_operator():
+                token = self.advance()
+                left = PostfixNode(left, token)
+                continue
 
             if rbp >= lbp:
                 break
@@ -118,11 +123,15 @@ class Parser:
             
             if token.eval_value == '**':
                 return PowerNode(left, self.parse_expression(self.lbp(token) - 1))
+            
+        if token.is_postfix_operator():
+            return PostfixNode(left, self.parse_expression(self.lbp(token)))
 
         raise Exception(f'Unexpected token in led: {token}')
 
 
     def lbp(self, token):
+
         if token.is_infix_operator():
             if token.eval_value in ('+', '-'):
                 return 10
@@ -130,6 +139,10 @@ class Parser:
                 return 20
             if token.eval_value == '**':
                 return 30
+
+        if token.is_postfix_operator():
+            return 40
+
         return 0
 
 
