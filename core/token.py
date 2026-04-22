@@ -9,6 +9,7 @@ class TokenType(Enum):
     LPAREN = auto()
     RPAREN = auto()
     FUNCTION = auto()
+    SPECIAL = auto()
 
 
 class Token:
@@ -42,8 +43,12 @@ class Token:
         return self.type in (TokenType.NUMBER, TokenType.CONSTANT)
 
 
-    def is_variable(self):
-        return self.type == TokenType.VARIABLE
+    def is_left_parenthesis(self):
+        return self.type == TokenType.LPAREN
+
+
+    def is_right_parenthesis(self):
+        return self.type == TokenType.RPAREN
 
 
     def is_infix_operator(self):
@@ -54,13 +59,13 @@ class Token:
         return self.type == TokenType.POSTFIX_OPERATOR
 
 
+    def is_variable(self):
+        return self.type == TokenType.VARIABLE
+
+
     def is_function(self):
         return self.type == TokenType.FUNCTION
 
 
-    def is_right_parenthesis(self):
-        return self.type == TokenType.RPAREN
-
-
-    def is_left_parenthesis(self):
-        return self.type == TokenType.LPAREN
+    def is_special(self):
+        return self.type == TokenType.SPECIAL
