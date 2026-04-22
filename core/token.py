@@ -5,10 +5,9 @@ class TokenType(Enum):
     CONSTANT = auto()
     VARIABLE = auto()
     INFIX_OPERATOR = auto()
-    PREFIX_OPERATOR = auto()
     POSTFIX_OPERATOR = auto()
-    RPAREN = auto()
     LPAREN = auto()
+    RPAREN = auto()
     FUNCTION = auto()
 
 
@@ -49,10 +48,6 @@ class Token:
 
     def is_infix_operator(self):
         return self.type == TokenType.INFIX_OPERATOR
-
-
-    def is_prefix_operator(self):
-        return self.type == TokenType.PREFIX_OPERATOR
 
 
     def is_postfix_operator(self):
