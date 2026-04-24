@@ -64,7 +64,7 @@ class Parser:
         if token is None:
             raise Exception('Unexpected end of input in nud')
 
-        if token.is_value():
+        if token.is_number():
             return NumberNode(float(token.eval_value))
 
         if token.eval_value == '-':
@@ -77,7 +77,7 @@ class Parser:
             self.advance()
             return expr
 
-        if token.is_variable():
+        if token.is_variable() or token.is_constant():
             return VariableNode(token.eval_value)
 
         if token.is_function():
