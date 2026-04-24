@@ -76,6 +76,15 @@ class Parser:
                 raise Exception('Missing )')
             self.advance()
             return expr
+        
+        if token.is_abs():
+            expr = self.parse_expression(0)
+
+            if not self.peek() or self.peek().eval_value != '|':
+                raise Exception('Missing closing |')
+
+            self.advance()
+            return FunctionNode('abs', expr)
 
         if token.is_variable() or token.is_constant():
             return VariableNode(token.eval_value)

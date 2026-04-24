@@ -19,6 +19,8 @@ class CalculatorLogic:
             **math.__dict__,
             **math_functions.__dict__,
 
+            'abs': abs,
+
             '%': lambda x: x * 0.01,
             '‰': lambda x: x * 0.001,
             '!': lambda x: math_functions.factorial(x),

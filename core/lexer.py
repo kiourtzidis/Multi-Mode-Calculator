@@ -70,7 +70,7 @@ class Lexer:
 
             # Need Special Handling
             '!': (TokenType.POSTFIX_OPERATOR, '!', '!', '!'),
-            '|': (TokenType.FUNCTION, '|', '|', 'abs'),
+            '|x|': (TokenType.ABS, '|x|', '|', '|'),
             'Ans': (TokenType.VARIABLE, 'Ans', 'Ans', 'Ans'),
 
             # For Graph Mode
