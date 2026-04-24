@@ -4,10 +4,11 @@ class TokenType(Enum):
     NUMBER = auto()
     CONSTANT = auto()
     VARIABLE = auto()
-    INFIX_OPERATOR = auto()
-    POSTFIX_OPERATOR = auto()
     LPAREN = auto()
     RPAREN = auto()
+    ABS = auto()
+    INFIX_OPERATOR = auto()
+    POSTFIX_OPERATOR = auto()
     FUNCTION = auto()
     SPECIAL = auto()
 
@@ -57,6 +58,10 @@ class Token:
 
     def is_right_parenthesis(self):
         return self.type == TokenType.RPAREN
+
+
+    def is_abs(self):
+        return self.type == TokenType.ABS
 
 
     def is_infix_operator(self):
