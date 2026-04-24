@@ -39,6 +39,14 @@ class Token:
         return f'Token({self.type}, {self.key}, {self.display_value}, {self.eval_value})'
 
 
+    def is_number(self):
+        return self.type == TokenType.NUMBER
+
+
+    def is_constant(self):
+        return self.type == TokenType.CONSTANT
+
+
     def is_value(self):
         return self.type in (TokenType.NUMBER, TokenType.CONSTANT)
 
