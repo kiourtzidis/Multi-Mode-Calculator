@@ -19,9 +19,9 @@ class CalculatorLogic:
             **math.__dict__,
             **math_functions.__dict__,
 
-            '!': lambda x: math_functions.factorial(x),
             '%': lambda x: x * 0.01,
             '‰': lambda x: x * 0.001,
+            '!': lambda x: math_functions.factorial(x),
 
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
@@ -100,7 +100,11 @@ class CalculatorLogic:
             print(f'tokens: {self.tokens}')
             ast = parser.parse()
             print(f'ast: {ast}')
-            result = ast.evaluate(self.function_library)
+            scope = {
+                **self.function_library,
+                'Ans': self.last_result
+            }
+            result = ast.evaluate(scope)
             result = self._clean_result(result)
 
             self.raw_input = ''
