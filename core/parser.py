@@ -32,16 +32,17 @@ class Parser:
         left = self.nud(token)
 
         while True:
+            next_token = self.peek()
 
-            if self.peek() is None:
+            if next_token is None:
                 break
 
-            if self._is_multiplicand(self.peek()):
+            if self._is_multiplicand(next_token):
                 lbp = 21
             else:
-                lbp = self.lbp(self.peek())
+                lbp = self.lbp(next_token)
 
-            if self.peek().is_postfix_operator():
+            if next_token.is_postfix_operator():
                 token = self.advance()
                 left = PostfixNode(left, token)
                 continue
@@ -49,7 +50,7 @@ class Parser:
             if rbp >= lbp:
                 break
 
-            if self._is_multiplicand(self.peek()):
+            if self._is_multiplicand(next_token):
                 right = self.parse_expression(21)
                 left = MulNode(left, right)
                 continue
