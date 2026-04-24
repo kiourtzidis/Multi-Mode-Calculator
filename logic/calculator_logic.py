@@ -20,6 +20,7 @@ class CalculatorLogic:
             **math_functions.__dict__,
 
             'abs': abs,
+            'round': round,
 
             '%': lambda x: x * 0.01,
             '‰': lambda x: x * 0.001,
