@@ -32,13 +32,13 @@ class Lexer:
             'log₂': (TokenType.FUNCTION, 'log₂', 'log₂', 'log2'),
             '‰': (TokenType.POSTFIX_OPERATOR, '‰', '‰', '‰'),
 
-            'x²': (TokenType.INFIX_OPERATOR, 'x²', '²', '**(2)'),
-            'x³': (TokenType.INFIX_OPERATOR, 'x³', '³', '**(3)'),
+            'x²': (TokenType.SPECIAL, 'x²', '²', ['xʸ', '2']),
+            'x³': (TokenType.SPECIAL, 'x³', '³', ['xʸ', '3']),
             'xʸ': (TokenType.INFIX_OPERATOR, 'xʸ', '^', '**'),
-            'x⁻¹': (TokenType.INFIX_OPERATOR, 'x⁻¹', '⁻¹', '**(-1)'),
+            'x⁻¹': (TokenType.SPECIAL, 'x⁻¹', '⁻¹', ['xʸ', '(', '-', '1', ')']),
             '√': (TokenType.FUNCTION, '√', '√', 'sqrt'),
             '∛': (TokenType.FUNCTION, '∛', '∛', 'cbrt'),
-            '×10ʸ': (TokenType.FUNCTION, '×10ʸ', '×10^', '*10**'),
+            '×10ʸ': (TokenType.SPECIAL, '×10ʸ', '×10^', ['*', '10', 'xʸ']),
 
             'π': (TokenType.CONSTANT, 'π', 'π', 'pi'),
             'e': (TokenType.CONSTANT, 'e', 'e', 'e'),
@@ -75,9 +75,9 @@ class Lexer:
 
             # For Graph Mode
             'x': (TokenType.VARIABLE, 'x', 'x', 'x'),
-            '10ˣ': (TokenType.FUNCTION, '10ˣ', '10ˣ', '10**'),
-            '2ˣ': (TokenType.FUNCTION, '2ˣ', '2ˣ', '2**'),
-            'eˣ': (TokenType.FUNCTION, 'eˣ', 'eˣ', 'exp(x)'),
+            '10ˣ': (TokenType.SPECIAL, '10ˣ', '10ˣ', ['10', 'xʸ', 'x']),
+            '2ˣ': (TokenType.SPECIAL, '2ˣ', '2ˣ', ['2', 'xʸ', 'x']),
+            'eˣ': (TokenType.SPECIAL, 'eˣ', 'eˣ', ['e', 'xʸ', 'x']),
         }
 
 
@@ -99,7 +99,12 @@ class Lexer:
             for key in sorted_keys:
                 if expression.startswith(key, i):
                     token_type, key, display_str, eval_str = self.token_map[key]
-                    tokens.append(Token(token_type, key, display_str, eval_str))
+
+                    if token_type == TokenType.SPECIAL:
+                        for sub_token in eval_str:
+                            tokens.append(self._create_token_from_string(sub_token))
+                    else:
+                        tokens.append(Token(token_type, key, display_str, eval_str))
 
                     i += len(key)
                     matched = True
@@ -124,3 +129,14 @@ class Lexer:
             raise ValueError('Invalid token')
 
         return tokens
+
+
+    def _create_token_from_string(self, string):
+
+        if string in self.token_map:
+            token_type, key, display_value, eval_value = self.token_map[string]
+            return Token(token_type, key, display_value, eval_value)
+        elif string.isdigit():
+            return Token(TokenType.NUMBER, string, string, string)
+
+        raise ValueError(f'Unknown token: {string}')
