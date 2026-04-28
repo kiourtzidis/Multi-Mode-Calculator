@@ -83,7 +83,7 @@ class Lexer:
         expression = expression.replace(' ', '')
 
         if not self.expression_pattern.match(expression):
-            raise ValueError('Error')
+            raise ValueError('Invalid token')
 
         tokens = []
         i = 0
