@@ -1,5 +1,12 @@
 from core.node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, PostfixNode, VariableNode, FunctionNode
 
+BP_ADDITIVE = 10
+BP_MULTIPLICATIVE = 20
+BP_IMPLICIT_MUL = 21
+BP_POWER = 30
+BP_POSTFIX = 40
+BP_UNARY_NEG = 25
+
 class Parser:
 
     def __init__(self, tokens):
@@ -33,43 +40,36 @@ class Parser:
 
         while True:
             next_token = self.peek()
-
             if next_token is None:
                 break
 
             if self._is_multiplicand(next_token):
-                lbp = 21
-            else:
-                lbp = self.lbp(next_token)
-
-            if next_token.is_postfix_operator():
-                token = self.advance()
-                left = PostfixNode(left, token)
-                continue
-
-            if rbp >= lbp:
-                break
-
-            if self._is_multiplicand(next_token):
-                right = self.parse_expression(21)
+                if rbp >= BP_IMPLICIT_MUL:
+                    break
+                right = self.parse_expression(BP_IMPLICIT_MUL)
                 left = MulNode(left, right)
                 continue
 
-            token = self.advance()
-            left = self.led(token, left)
+            if next_token.is_postfix_operator():
+                left = PostfixNode(left, self.advance())
+                continue
+
+            lbp = self.lbp(next_token)
+            if rbp >= lbp:
+                break
+
+            left = self.led(self.advance(), left)
 
         return left
 
 
     def nud(self, token):
-        if token is None:
-            raise Exception('Unexpected end of input in nud')
 
         if token.is_number():
             return NumberNode(float(token.eval_value))
 
         if token.eval_value == '-':
-            return NegNode(self.parse_expression(25))
+            return NegNode(self.parse_expression(BP_UNARY_NEG))
 
         if token.is_left_parenthesis():
             expr = self.parse_expression(0)
@@ -114,28 +114,25 @@ class Parser:
         if token.is_infix_operator():
 
             if token.eval_value == '+':
-                return AddNode(left, self.parse_expression(self.lbp(token)))
+                return AddNode(left, self.parse_expression(BP_ADDITIVE))
 
             if token.eval_value == '-':
-                return SubNode(left, self.parse_expression(self.lbp(token)))
+                return SubNode(left, self.parse_expression(BP_ADDITIVE))
 
             if token.eval_value == '*':
-                return MulNode(left, self.parse_expression(self.lbp(token)))
+                return MulNode(left, self.parse_expression(BP_MULTIPLICATIVE))
 
             if token.eval_value == '/':
-                return DivNode(left, self.parse_expression(self.lbp(token)))
+                return DivNode(left, self.parse_expression(BP_MULTIPLICATIVE))
 
             if token.eval_value == '//':
-                return FloorDivNode(left, self.parse_expression(self.lbp(token)))
+                return FloorDivNode(left, self.parse_expression(BP_MULTIPLICATIVE))
 
             if token.eval_value == '%':
-                return ModNode(left, self.parse_expression(self.lbp(token)))
+                return ModNode(left, self.parse_expression(BP_MULTIPLICATIVE))
             
             if token.eval_value == '**':
-                return PowerNode(left, self.parse_expression(self.lbp(token) - 1))
-            
-        if token.is_postfix_operator():
-            return PostfixNode(left, self.parse_expression(self.lbp(token)))
+                return PowerNode(left, self.parse_expression(BP_POWER - 1))
 
         raise Exception(f'Unexpected token in led: {token}')
 
@@ -144,14 +141,14 @@ class Parser:
 
         if token.is_infix_operator():
             if token.eval_value in ('+', '-'):
-                return 10
+                return BP_ADDITIVE
             if token.eval_value in ('*', '/', '//', '%'):
-                return 20
+                return BP_MULTIPLICATIVE
             if token.eval_value == '**':
-                return 30
+                return BP_POWER
 
         if token.is_postfix_operator():
-            return 40
+            return BP_POSTFIX
 
         return 0
 
@@ -166,4 +163,4 @@ class Parser:
             token.is_left_parenthesis() or
             token.is_variable() or
             token.is_function()
-        ) 
+        )
