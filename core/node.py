@@ -1,5 +1,5 @@
 class Node:
-    def evaluate(self):
+    def evaluate(self, scope):
         raise NotImplementedError()
 
 
@@ -108,9 +108,7 @@ class PostfixNode(Node):
 
 
     def evaluate(self, scope):
-        value = self.left.evaluate(scope)
-        function = scope[self.operator]
-        return function(value)
+        return scope[self.operator](self.left.evaluate(scope))
 
 
 class VariableNode(Node):
@@ -122,7 +120,7 @@ class VariableNode(Node):
     def evaluate(self, scope):
         return scope[self.name]
 
-
+ 
 class FunctionNode(Node):
 
     def __init__(self, function, arg):
@@ -130,5 +128,4 @@ class FunctionNode(Node):
         self.arg = arg
 
     def evaluate(self, scope):
-        function = scope[self.function]
-        return function(self.arg.evaluate(scope))
+        return scope[self.function](self.arg.evaluate(scope))

@@ -76,6 +76,7 @@ class Lexer:
             '2ˣ': (TokenType.SPECIAL, '2ˣ', '2ˣ', ['2', 'xʸ', 'x']),
             'eˣ': (TokenType.SPECIAL, 'eˣ', 'eˣ', ['e', 'xʸ', 'x']),
         }
+        self.sorted_keys = sorted(self.token_map.keys(), key=len, reverse=True)
 
 
     def tokenize(self, expression):
@@ -88,14 +89,12 @@ class Lexer:
         tokens = []
         i = 0
 
-        sorted_keys = sorted(self.token_map.keys(), key=len, reverse=True)
-
         while i < len(expression):
 
             matched = False
-            for key in sorted_keys:
-                if expression.startswith(key, i):
-                    token_type, key, display_str, eval_str = self.token_map[key]
+            for button_key in self.sorted_keys:
+                if expression.startswith(button_key, i):
+                    token_type, key, display_str, eval_str = self.token_map[button_key]
 
                     if token_type == TokenType.SPECIAL:
                         for sub_token in eval_str:
