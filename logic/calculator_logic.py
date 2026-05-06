@@ -76,7 +76,11 @@ class CalculatorLogic:
 
         self.calculated = False
 
-        self.raw_input += symbol
+        resolved = self._resolve_input(symbol)
+        if resolved is None:
+            return
+
+        self.raw_input += resolved
 
         try:
             self.tokens = self.lexer.tokenize(self.raw_input)
@@ -131,6 +135,30 @@ class CalculatorLogic:
 
     def toggle_angle_mode(self):
         self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
+
+
+    def _resolve_input(self, symbol):
+        
+        tokens = self.tokens
+        last = tokens[-1] if tokens else None
+
+        incoming_token = self.lexer.tokenize(symbol)[0]
+
+        if not tokens and symbol == '-':
+            return '-'
+        
+        if not tokens and incoming_token and incoming_token.is_infix_operator():
+            return None
+
+        if last and last.is_infix_operator() and symbol == '-':
+            return '-'
+
+        if last and last.is_infix_operator() and incoming_token and incoming_token.is_infix_operator():
+            return None
+
+
+
+        return symbol
 
 
     def _update_expressions_from_tokens(self):
