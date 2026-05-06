@@ -151,7 +151,7 @@ class CalculatorLogic:
             return None
 
         if last and last.is_infix_operator() and symbol == '-':
-            return '-'
+            return None if last.eval_value == '-' else '-'
 
         if last and last.is_infix_operator() and incoming_token and incoming_token.is_infix_operator():
             return None
