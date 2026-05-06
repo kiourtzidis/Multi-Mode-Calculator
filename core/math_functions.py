@@ -8,6 +8,12 @@ def factorial(x):
     return math.factorial(x)
 
 
+def double_factorial(x):
+    if x <= 0:
+        return 1
+    return x * double_factorial(x - 2)
+
+
 def frac(x):
     return _clean(x - math.floor(x))
 

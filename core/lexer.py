@@ -16,6 +16,7 @@ class Lexer:
             'xʸ': (TokenType.INFIX_OPERATOR, 'xʸ', '^', '**'),
 
             '!': (TokenType.POSTFIX_OPERATOR, '!', '!', '!'),
+            '!!': (TokenType.POSTFIX_OPERATOR, '!!', '!!', '!!'),
             '%': (TokenType.POSTFIX_OPERATOR, '%', '%', '%'),
             '‰': (TokenType.POSTFIX_OPERATOR, '‰', '‰', '‰'),
 

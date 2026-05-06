@@ -25,6 +25,7 @@ class CalculatorLogic:
             '%': lambda x: x * 0.01,
             '‰': lambda x: x * 0.001,
             '!': lambda x: math_functions.factorial(x),
+            '!!': lambda x: math_functions.double_factorial(x),
 
             'sin': lambda x: math_functions.sin(x, self.angle_mode),
             'cos': lambda x: math_functions.cos(x, self.angle_mode),
@@ -158,6 +159,8 @@ class CalculatorLogic:
 
         if symbol == '.' and (not last or not last.is_value()):
             return '0.'
+
+        
 
         return symbol
 
