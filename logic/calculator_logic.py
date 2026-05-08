@@ -56,14 +56,7 @@ class CalculatorLogic:
         if not self.tokens:
             return
 
-        deleted_token = self.tokens.pop()
-
-        if deleted_token.is_value():
-            self.raw_input = self.raw_input[:-1]
-        else:
-            self.raw_input = self.raw_input[:-len(deleted_token.key)]
-
-        self.tokens = self.lexer.tokenize(self.raw_input)
+        self.tokens.pop()
         self._update_expressions_from_tokens()
 
 
@@ -163,10 +156,15 @@ class CalculatorLogic:
         if incoming_token.is_postfix_operator() and (last and last.eval_value in ('%', '‰')):
             return None
 
+        if last and last.display_value[-1] in ('¹', '²', '³'):
+            if incoming_token and (incoming_token.is_value() or incoming_token.is_function()):
+                return '×' + symbol
+
         return symbol
 
 
     def _update_expressions_from_tokens(self):
+        self.raw_input = ''.join(token.key for token in self.tokens)
         self.display_expression = ''.join(token.display_value for token in self.tokens)
         self.eval_expression = ''.join(token.eval_value for token in self.tokens)
 
