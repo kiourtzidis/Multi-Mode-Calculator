@@ -1,5 +1,6 @@
 import math
 from core import math_functions
+from core.token import Token, TokenType
 from core.lexer import Lexer
 from core.parser import Parser
 
@@ -56,7 +57,14 @@ class CalculatorLogic:
         if not self.tokens:
             return
 
-        self.tokens.pop()
+        last = self.tokens[-1]
+
+        if last.is_number() and len(last.key) > 1:
+            trimmed = last.key[:-1]
+            self.tokens[-1] = Token(TokenType.NUMBER, trimmed, trimmed, trimmed)
+        else:
+            self.tokens.pop()
+
         self._update_expressions_from_tokens()
 
 
