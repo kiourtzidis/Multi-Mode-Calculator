@@ -71,7 +71,7 @@ class Lexer:
 
             'x²': (TokenType.SPECIAL, 'x²', '²', ['xʸ', '2']),
             'x³': (TokenType.SPECIAL, 'x³', '³', ['xʸ', '3']),
-            'x⁻¹': (TokenType.SPECIAL, 'x⁻¹', '⁻¹', ['xʸ', '(', '-', '1', ')']),
+            'x⁻¹': (TokenType.SPECIAL, 'x⁻¹', '⁻¹', ['xʸ',  '-', '1']),
             '×10ʸ': (TokenType.SPECIAL, '×10ʸ', '×10^', ['×', '10', 'xʸ']),
             '10ˣ': (TokenType.SPECIAL, '10ˣ', '10ˣ', ['10', 'xʸ', 'x']),
             '2ˣ': (TokenType.SPECIAL, '2ˣ', '2ˣ', ['2', 'xʸ', 'x']),
