@@ -108,7 +108,6 @@ class CalculatorLogic:
             parser = Parser(self.tokens)
             print(f'tokens: {self.tokens}')
             ast = parser.parse()
-            print(f'ast: {ast}')
             scope = {
                 **self.function_library,
                 'Ans': self.last_result
