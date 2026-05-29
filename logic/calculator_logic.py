@@ -159,6 +159,9 @@ class CalculatorLogic:
 
         if last and last.is_infix_operator() and incoming_token and incoming_token.is_infix_operator():
             return None
+        
+        if incoming_token.is_function():
+            return symbol + '('
 
         if incoming_token.is_postfix_operator() and (last and last.eval_value in ('%', '‰')):
             return None
