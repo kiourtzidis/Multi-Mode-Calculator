@@ -1,4 +1,4 @@
-Multi-Mode Calculator made in Python with the CustomTKinter library.
+Multi-Mode Calculator made in Python with the CustomTKinter library. More info coming soon…
 
 ##Current Features
 - Basic Mode
