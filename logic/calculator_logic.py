@@ -151,6 +151,11 @@ class CalculatorLogic:
         if not tokens and incoming_token and incoming_token.is_infix_operator():
             return None
 
+        if last and last.display_value == '+' and symbol == '-':
+            self.tokens.pop()
+            self._update_expressions_from_tokens()
+            return '-'
+
         if last and last.is_infix_operator() and symbol == '-':
             return None if last.eval_value == '-' else '-'
 
