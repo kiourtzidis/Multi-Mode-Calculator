@@ -11,8 +11,8 @@ class Lexer:
             '-': (TokenType.INFIX_OPERATOR, '-', '-', '-'),
             '×': (TokenType.INFIX_OPERATOR, '×', '×', '*'),
             '÷': (TokenType.INFIX_OPERATOR, '÷', '÷', '/'),
-            'div': (TokenType.INFIX_OPERATOR, ' div ', ' div ', '//'),
-            'mod': (TokenType.INFIX_OPERATOR, ' mod ', ' mod ', '%'),
+            'div': (TokenType.INFIX_OPERATOR, 'div', ' div ', '//'),
+            'mod': (TokenType.INFIX_OPERATOR, 'mod', ' mod ', '%'),
             'xʸ': (TokenType.INFIX_OPERATOR, 'xʸ', '^', '**'),
 
             '!': (TokenType.POSTFIX_OPERATOR, '!', '!', '!'),
