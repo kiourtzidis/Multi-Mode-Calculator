@@ -25,6 +25,7 @@ class CalculatorLogic:
 
             '%': lambda x: x * 0.01,
             '‰': lambda x: x * 0.001,
+
             '!': lambda x: math_functions.factorial(x),
             '!!': lambda x: math_functions.double_factorial(x),
 
@@ -74,7 +75,14 @@ class CalculatorLogic:
             self.clear()
 
         if self.calculated:
-            self.clear()
+            tokenized = self.lexer.tokenize(symbol)
+
+            if tokenized and (tokenized[0].is_infix_operator() or tokenized[0].is_postfix_operator()):
+                result_str = str(self.last_result)
+                self.tokens = [Token(TokenType.NUMBER, result_str, result_str, result_str)]
+                self.raw_input = result_str
+            else:
+                self.clear()
 
         self.calculated = False
 
