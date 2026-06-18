@@ -120,7 +120,7 @@ class VariableNode(Node):
     def evaluate(self, scope):
         return scope[self.name]
 
- 
+
 class FunctionNode(Node):
 
     def __init__(self, function, arg):
