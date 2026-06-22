@@ -69,6 +69,7 @@ class App:
         self.root.bind_all('<Control-Key-3>', lambda e: self.switch_mode('Graph'))
         self.root.bind_all('<Control-Key-4>', lambda e: self.switch_mode('Temperature'))
         self.root.bind_all('<Control-Key-5>', lambda e: self.switch_mode('Currency'))
+        self.root.bind_all('<Control-Key-6>', lambda e: self.switch_mode('Date'))
 
         self.current_window = self.windows['Basic']
         self.current_window.pack(fill='both')
