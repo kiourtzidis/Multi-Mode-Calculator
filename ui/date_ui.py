@@ -1,12 +1,13 @@
 import customtkinter as ctk
 
-class DateUI:
+class DateUI(ctk.CTkFrame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, logic):
 
         super().__init__(parent, fg_color='#2E2E2E')
         self.width = 460
         self.height = 715
+        self.logic = logic
 
         label = ctk.CTkLabel(self, text='Coming soon...', font=('Jetbrains Mono', 24))
         label.pack(expand=True)
