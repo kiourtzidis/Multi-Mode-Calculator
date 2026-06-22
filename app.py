@@ -4,10 +4,12 @@ from ui.scientific_ui import ScientificUI
 from ui.graph_ui import GraphUI
 from ui.temperature_ui import TemperatureUI
 from ui.currency_ui import CurrencyUI
+from ui.date_ui import DateUI
 from logic.calculator_logic import CalculatorLogic
 from logic.graph_logic import GraphLogic
 from logic.temperature_logic import TemperatureLogic
 from logic.currency_logic import CurrencyLogic
+from logic.date_logic import DateLogic
 
 class App:
 
@@ -24,6 +26,7 @@ class App:
         self.graph_logic = GraphLogic()
         self.temperature_logic = TemperatureLogic()
         self.currency_logic = CurrencyLogic()
+        self.date_logic = DateLogic()
 
         self.top_frame = ctk.CTkFrame(root, fg_color='#1F1F1F')
         self.top_frame.pack(side='top', fill='x')
@@ -37,8 +40,9 @@ class App:
             'Basic': BasicUI(self.mode_frame, self.calculator_logic),
             'Scientific': ScientificUI(self.mode_frame, self.calculator_logic),
             'Graph': GraphUI(self.mode_frame, self.graph_logic),
-            'Temperature': TemperatureUI(self.mode_frame),
-            'Currency': CurrencyUI(self.mode_frame)
+            'Temperature': TemperatureUI(self.mode_frame, self.temperature_logic),
+            'Currency': CurrencyUI(self.mode_frame, self.currency_logic),
+            'Date': DateUI(self.mode_frame, self.date_logic)
         }
 
         self.mode_selector = ctk.CTkComboBox(
