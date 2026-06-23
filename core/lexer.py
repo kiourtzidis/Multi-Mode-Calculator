@@ -96,12 +96,7 @@ class Lexer:
             for button_key in self.sorted_keys:
                 if expression.startswith(button_key, i):
                     token_type, key, display_str, eval_str = self.token_map[button_key]
-
-                    if token_type == TokenType.SPECIAL:
-                        for sub_token in eval_str:
-                            tokens.append(self._create_token_from_string(sub_token))
-                    else:
-                        tokens.append(Token(token_type, key, display_str, eval_str))
+                    tokens.append(Token(token_type, key, display_str, eval_str))
 
                     i += len(key)
                     matched = True

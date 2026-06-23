@@ -10,7 +10,6 @@ class CalculatorLogic:
 
         self.raw_input = ''
         self.display_expression = ''
-        self.eval_expression = ''
         self.calculated = False
         self.last_result = None
         self.angle_mode = 'DEG'
@@ -49,7 +48,6 @@ class CalculatorLogic:
         self.tokens.clear()
         self.raw_input = ''
         self.display_expression = ''
-        self.eval_expression = ''
         self.calculated = False
 
 
@@ -101,7 +99,6 @@ class CalculatorLogic:
             print(f'{v}')
             self.raw_input = ''
             self.display_expression = 'Error'
-            self.eval_expression = ''
             self.tokens.clear()
 
 
@@ -113,7 +110,7 @@ class CalculatorLogic:
 
             original_expression = self.display_expression
 
-            parser = Parser(self.tokens)
+            parser = Parser(self._expand_tokens(self.tokens))
             print(f'tokens: {self.tokens}')
             ast = parser.parse()
             scope = {
@@ -125,7 +122,6 @@ class CalculatorLogic:
 
             self.raw_input = ''
             self.display_expression = f'{result:.10g}'
-            self.eval_expression = f'{result:.10g}'
             self.last_result = result
 
             self.calculated = True
@@ -137,7 +133,6 @@ class CalculatorLogic:
             self.tokens.clear()
             self.raw_input = ''
             self.display_expression = 'Error'
-            self.eval_expression = ''
             self.calculated = False 
             return None, 'Error'
 
@@ -184,12 +179,22 @@ class CalculatorLogic:
                 return '×' + symbol
 
         return symbol
+    
+
+    def _expand_tokens(self, tokens):
+        result = []
+        for token in tokens:
+            if token.is_special():
+                for sub in token.eval_value:
+                    result.append(self.lexer._create_token_from_string(sub))
+            else:
+                result.append(token)
+        return result
 
 
     def _update_expressions_from_tokens(self):
         self.raw_input = ''.join(token.key for token in self.tokens)
         self.display_expression = ''.join(token.display_value for token in self.tokens)
-        self.eval_expression = ''.join(token.eval_value for token in self.tokens)
 
 
     def _clean_result(self, result):
