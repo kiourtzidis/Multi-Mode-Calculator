@@ -5,13 +5,13 @@ class GraphLogic(CalculatorLogic):
 
     def evaluate_graph(self, x):
         try:
-            parser = Parser(self.tokens)
+            parser = Parser(self._expand_tokens(self.tokens))
             print(self.tokens)
             ast = parser.parse()
             print(f'ast: {ast}')
             scope = {
+                  **self.function_library,
                   'x': x,
-                  **self.function_library
             }
             return ast.evaluate(scope)
 
