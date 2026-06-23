@@ -7,8 +7,8 @@ class GraphLogic(CalculatorLogic):
         try:
             parser = Parser(self._expand_tokens(self.tokens))
             print(self.tokens)
+
             ast = parser.parse()
-            print(f'ast: {ast}')
             scope = {
                   **self.function_library,
                   'x': x,

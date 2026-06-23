@@ -64,6 +64,7 @@ class CalculatorLogic:
         else:
             self.tokens.pop()
 
+        print(self.tokens)
         self._update_expressions_from_tokens()
 
 
@@ -112,6 +113,7 @@ class CalculatorLogic:
 
             parser = Parser(self._expand_tokens(self.tokens))
             print(f'tokens: {self.tokens}')
+
             ast = parser.parse()
             scope = {
                 **self.function_library,
@@ -171,7 +173,7 @@ class CalculatorLogic:
         if incoming_token.is_function():
             return symbol + '('
 
-        if incoming_token.is_postfix_operator() and (last and last.eval_value in ('%', '‰')):
+        if incoming_token.is_postfix_operator() and (last and last.eval_value in ('%', '‰') or not last.is_value()):
             return None
 
         if last and last.display_value[-1] in ('¹', '²', '³'):
