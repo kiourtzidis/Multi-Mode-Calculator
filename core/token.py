@@ -69,6 +69,10 @@ class Token:
 
     def is_postfix_operator(self):
         return self.type == TokenType.POSTFIX_OPERATOR
+    
+
+    def is_operator(self):
+        return self.type in (TokenType.INFIX_OPERATOR, TokenType.POSTFIX_OPERATOR)
 
 
     def is_variable(self):

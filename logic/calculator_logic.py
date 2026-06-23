@@ -74,9 +74,8 @@ class CalculatorLogic:
             self.clear()
 
         if self.calculated:
-            tokenized = self.lexer.tokenize(symbol)
-
-            if tokenized and (tokenized[0].is_infix_operator() or tokenized[0].is_postfix_operator()):
+            incoming = self.lexer.tokenize(symbol)[0]
+            if incoming.is_operator():
                 result_str = str(self.last_result)
                 self.tokens = [Token(TokenType.NUMBER, result_str, result_str, result_str)]
                 self.raw_input = result_str
