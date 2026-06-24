@@ -157,7 +157,9 @@ class CalculatorLogic:
         
         result = math_functions.factorize(int(value))
         if result:
-            self.display_expression = result
+            self.tokens = self.lexer.tokenize(result)
+            print(self.tokens)
+            self._update_expressions_from_tokens()
 
 
     def toggle_angle_mode(self):
