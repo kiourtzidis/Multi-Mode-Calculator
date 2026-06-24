@@ -121,7 +121,13 @@ class CalculatorLogic:
             result = ast.evaluate(scope)
             result = self._clean_result(result)
 
-            self.tokens = [Token(TokenType.NUMBER, f'{result}', f'{result}', f'{result}')]
+            if result < 0:
+                positive_result = -result
+                self.tokens = [Token(TokenType.INFIX_OPERATOR, '-', '-', '-'), 
+                Token(TokenType.NUMBER, f'{positive_result}', f'{positive_result}', f'{positive_result}')]
+            else:
+                self.tokens = [Token(TokenType.NUMBER, f'{result}', f'{result}', f'{result}')]
+
             print(self.tokens)
 
             self.raw_input = ''
