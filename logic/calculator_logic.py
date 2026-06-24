@@ -140,6 +140,20 @@ class CalculatorLogic:
             return None, 'Error'
 
 
+    def negate(self):
+
+        if not self.tokens:
+            return
+
+        if self.tokens[0].eval_value == '-':
+            self.tokens.pop(0)
+        else:
+            self.tokens.insert(0, Token(TokenType.INFIX_OPERATOR, '-', '-', '-'))
+
+        print(self.tokens)
+        self._update_expressions_from_tokens()
+
+
     def factorize(self):
 
         if not self.tokens:
