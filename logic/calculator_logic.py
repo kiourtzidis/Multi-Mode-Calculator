@@ -107,7 +107,10 @@ class CalculatorLogic:
 
         try:
             if not self.tokens:
-                return
+                return None, None
+            
+            if not any(token.is_operator() or token.is_constant() for token in self.tokens):
+                return None, None
 
             original_expression = self.display_expression
 
