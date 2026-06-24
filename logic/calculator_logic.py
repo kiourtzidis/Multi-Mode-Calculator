@@ -76,9 +76,8 @@ class CalculatorLogic:
         if self.calculated:
             incoming = self.lexer.tokenize(symbol)[0]
             if incoming.is_operator():
-                result_str = str(self.last_result)
-                self.tokens = [Token(TokenType.NUMBER, result_str, result_str, result_str)]
-                self.raw_input = result_str
+                self.tokens = [Token(TokenType.NUMBER, f'{self.last_result}', f'{self.last_result}', f'{self.last_result}')]
+                self.raw_input = f'{self.last_result}'
             else:
                 self.clear()
 
@@ -121,6 +120,7 @@ class CalculatorLogic:
             result = ast.evaluate(scope)
             result = self._clean_result(result)
 
+            self.tokens = [Token(TokenType.NUMBER, f'{result}', f'{result}', f'{result}')]
             self.raw_input = ''
             self.display_expression = f'{result:.10g}'
             self.last_result = result
