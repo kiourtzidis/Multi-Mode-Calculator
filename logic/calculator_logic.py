@@ -151,6 +151,14 @@ class CalculatorLogic:
 
         if not self.tokens:
             return
+        
+        for i in reversed(range(len(self.tokens))):
+            token = self.tokens[i]
+            if i > 0 and token.eval_value in ('+', '-'):
+                new_sign = '-' if token.eval_value == '+' else '+'
+                self.tokens[i] = Token(TokenType.INFIX_OPERATOR, new_sign, new_sign, new_sign)
+                self._update_expressions_from_tokens()
+                return
 
         if self.tokens[0].eval_value == '-':
             self.tokens.pop(0)
