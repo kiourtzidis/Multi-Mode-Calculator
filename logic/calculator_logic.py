@@ -112,7 +112,6 @@ class CalculatorLogic:
             original_expression = self.display_expression
 
             parser = Parser(self._expand_tokens(self.tokens))
-            print(f'tokens: {self.tokens}')
 
             ast = parser.parse()
             scope = {
@@ -123,6 +122,8 @@ class CalculatorLogic:
             result = self._clean_result(result)
 
             self.tokens = [Token(TokenType.NUMBER, f'{result}', f'{result}', f'{result}')]
+            print(self.tokens)
+
             self.raw_input = ''
             self.display_expression = f'{result:.10g}'
             self.last_result = result
@@ -150,6 +151,8 @@ class CalculatorLogic:
         else:
             self.tokens.insert(0, Token(TokenType.INFIX_OPERATOR, '-', '-', '-'))
 
+        self.calculated = False
+
         print(self.tokens)
         self._update_expressions_from_tokens()
 
@@ -168,7 +171,9 @@ class CalculatorLogic:
             value = float(''.join(token_values))
         except ValueError:
             return
-        
+
+        self.calculated = False
+
         result = math_functions.factorize(int(value))
         if result:
             self.tokens = self.lexer.tokenize(result)
