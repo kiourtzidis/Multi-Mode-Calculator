@@ -64,6 +64,8 @@ class CalculatorLogic:
         else:
             self.tokens.pop()
 
+        self.calculated = False
+
         print(self.tokens)
         self._update_expressions_from_tokens()
 
