@@ -80,6 +80,9 @@ class CalculatorUI(ctk.CTkFrame):
             if expression:
                 self.add_history_item(original_input, expression, result)
 
+        elif symbol == 'a×b':
+            self.logic.factorize()
+
         else:
             self.logic.append(symbol)
 

@@ -140,6 +140,26 @@ class CalculatorLogic:
             return None, 'Error'
 
 
+    def factorize(self):
+
+        if not self.tokens:
+            return
+
+        token_values = []
+        for token in self.tokens:
+            if not isinstance(token.eval_value, list):
+                token_values.append(token.eval_value)
+
+        try:
+            value = float(''.join(token_values))
+        except ValueError:
+            return
+        
+        result = math_functions.factorize(int(value))
+        if result:
+            self.display_expression = result
+
+
     def toggle_angle_mode(self):
         self.angle_mode = 'RAD' if self.angle_mode == 'DEG' else 'DEG'
 
