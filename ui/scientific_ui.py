@@ -134,7 +134,7 @@ class ScientificUI(CalculatorUI):
         ((('x²', '√'), 'function'),
          (('x³', '∛'), 'function'),
          (('xʸ', '×10ʸ'), 'function'),
-         (('x⁻¹', 'i'), 'function')),
+         (('x⁻¹', 'φ'), 'function')),
 
         (('π', 'constant'),
          ('e', 'constant'),

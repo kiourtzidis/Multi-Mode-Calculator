@@ -5,7 +5,7 @@ class Lexer:
 
     def __init__(self):
 
-        self.expression_pattern = re.compile(r'^[0-9+\-*/^().,%‰|!a-zA-Z×÷π₂⁻¹²³ˣʸ√∛]*$')
+        self.expression_pattern = re.compile(r'^[0-9+\-*/^().,%‰|!a-zA-Z×÷πφ₂⁻¹²³ˣʸ√∛]*$')
         self.token_map = {
             '+': (TokenType.INFIX_OPERATOR, '+', '+', '+'),
             '-': (TokenType.INFIX_OPERATOR, '-', '-', '-'),
@@ -30,6 +30,7 @@ class Lexer:
 
             'π': (TokenType.CONSTANT, 'π', 'π', 'pi'),
             'e': (TokenType.CONSTANT, 'e', 'e', 'e'),
+            'φ': (TokenType.CONSTANT, 'φ', 'φ', 'phi'),
 
             'log': (TokenType.FUNCTION, 'log', 'log', 'log10'),
             'ln': (TokenType.FUNCTION, 'ln', 'ln', 'log'),

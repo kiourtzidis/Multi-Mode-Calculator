@@ -22,6 +22,8 @@ class CalculatorLogic:
             'abs': abs,
             'round': round,
 
+            'phi': (1 + 5 ** 0.5) / 2,
+
             '%': lambda x: x * 0.01,
             '‰': lambda x: x * 0.001,
 
