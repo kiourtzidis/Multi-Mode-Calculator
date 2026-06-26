@@ -24,6 +24,8 @@ class ScientificUI(CalculatorUI):
             height=48,
             fg_color='#262626',
             hover_color='#3A3A3A',
+            border_width=2,
+            border_color='#565B5E',
             font=('Jetbrains Mono', 26),
             command=self.toggle_angle
         )
