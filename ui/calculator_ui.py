@@ -62,7 +62,9 @@ class CalculatorUI(ctk.CTkFrame):
             width=512
         )
         self.typing_entry.pack(side='left', fill='both', ipadx=6, ipady=10)
+
         self.typing_entry._entry.configure(cursor='arrow')
+        self.typing_entry.bind('<KeyRelease>', self._sync_from_entry)
 
 
     def handle_symbol(self, symbol):
@@ -94,7 +96,6 @@ class CalculatorUI(ctk.CTkFrame):
 
     def update_typing_display(self):
 
-        self.typing_entry.configure(state='normal')
         self.typing_entry.delete(0, 'end')
         self.typing_entry.insert(0, self.logic.display_expression)
 
@@ -102,8 +103,6 @@ class CalculatorUI(ctk.CTkFrame):
             self.typing_entry.configure(font=ctk.CTkFont(size=24, weight='bold'))
         else:
             self.typing_entry.configure(font=ctk.CTkFont(size=24))
-
-        self.typing_entry.configure(state='readonly')
 
 
     def add_history_item(self, raw_input, expression, result):
@@ -228,3 +227,18 @@ class CalculatorUI(ctk.CTkFrame):
 
     def history_delete(self, frame):
         frame.destroy()
+
+
+    def _sync_from_entry(self, event=None):
+
+        text = self.typing_entry.get()
+
+        try:
+            self.logic.raw_input = text
+            self.logic.tokens = self.logic.lexer.tokenize(self.logic.raw_input)
+            print(self.logic.tokens)
+            self.logic._update_expressions_from_tokens()
+
+        except Exception as e:
+            print(f'error: {e}')
+            pass
