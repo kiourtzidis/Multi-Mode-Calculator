@@ -20,13 +20,14 @@ class ScientificUI(CalculatorUI):
         self.angle_switch = ctk.CTkButton(
             self.typing_frame,
             text='DEG',
-            width=60,
+            width=65,
+            height=48,
             fg_color='#262626',
             hover_color='#3A3A3A',
-            font=('Jetbrains Mono', 24),
+            font=('Jetbrains Mono', 26),
             command=self.toggle_angle
         )
-        self.angle_switch.pack(side='right', fill='x', padx=10, pady=10)
+        self.angle_switch.pack(side='right', fill='x', padx=4, ipady=6)
         self.angle_switch.configure(cursor='hand2')    
 
 

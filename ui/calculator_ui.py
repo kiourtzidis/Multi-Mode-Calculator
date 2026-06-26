@@ -51,17 +51,17 @@ class CalculatorUI(ctk.CTkFrame):
 
     def _build_display(self):
 
-        self.typing_frame = ctk.CTkFrame(self, fg_color='#2E2E2E')
+        self.typing_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
+
         self.typing_entry = ctk.CTkEntry(
             self.typing_frame, 
             font=('Jetbrains Mono', 24), 
             fg_color='#2E2E2E',
             height=40,
-            width=500,
-            state='readonly', 
-            border_width=0)
-        self.typing_entry.pack(side='left', fill='both', padx=10, ipady=10)
+            width=512
+        )
+        self.typing_entry.pack(side='left', fill='both', ipadx=6, ipady=10)
         self.typing_entry._entry.configure(cursor='arrow')
 
 
