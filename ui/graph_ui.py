@@ -29,7 +29,7 @@ class GraphUI(ctk.CTkFrame):
     def _build_canvas(self):
 
         self.canvas_frame = ctk.CTkFrame(self, fg_color='#2E2E2E', width=self.width, height=300)
-        self.canvas_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=(8, 4))
+        self.canvas_frame.grid(row=1, column=0, sticky='nsew', padx=10, ipady=2)
 
         self.fig = Figure(figsize=(5, 3), dpi=100)
         self.ax = self.fig.add_subplot(111)
@@ -68,6 +68,7 @@ class GraphUI(ctk.CTkFrame):
             placeholder_text='Enter function…'
         )
         self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=10)
+
         self.function_entry.configure(cursor='xterm')
         self.function_entry.bind('<Return>', self.plot_function)
         self.function_entry.bind('<KeyRelease>', self._sync_from_entry)
