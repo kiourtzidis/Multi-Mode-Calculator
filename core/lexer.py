@@ -119,7 +119,7 @@ class Lexer:
                 tokens.append(Token(TokenType.NUMBER, num, num, num))
                 continue
 
-            raise ValueError('Invalid token')
+            raise ValueError('Incomplete or invalid token')
 
         return tokens
 
