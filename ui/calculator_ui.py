@@ -64,6 +64,7 @@ class CalculatorUI(ctk.CTkFrame):
         self.typing_entry.pack(side='left', fill='both', ipadx=6, ipady=10)
 
         self.typing_entry._entry.configure(cursor='arrow')
+        self.typing_entry.bind('<Return>', self._handle_enter)
         self.typing_entry.bind('<KeyRelease>', self._sync_from_entry)
 
 
@@ -242,3 +243,14 @@ class CalculatorUI(ctk.CTkFrame):
         except Exception as e:
             print(f'error: {e}')
             pass
+
+
+    def _handle_enter(self, event=None):
+
+        original_input = self.logic.raw_input
+
+        expression, result = self.logic.calculate()
+        if expression:
+            self.add_history_item(original_input, expression, result)
+
+        self.update_typing_display()
