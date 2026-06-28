@@ -246,7 +246,7 @@ class ScientificUI(CalculatorUI):
         x = button_x + (button_width // 2) - (150 // 2)
         y = button_y + button_height
 
-        self.fx_menu.geometry(f'150x250+{x}+{y}')
+        self.fx_menu.geometry(f'150x225+{x}+{y}')
 
         fx_scroll = ctk.CTkScrollableFrame(
             self.fx_menu,
@@ -269,7 +269,7 @@ class ScientificUI(CalculatorUI):
                 text_color='#FFFFFF',
                 corner_radius=0,
                 height=32,
-                font=('Jetbrains Mono', 20),
+                font=('Jetbrains Mono', 18),
                 command=lambda f=function: self._insert_function(f)
             )
             button.pack(fill='x')
