@@ -99,10 +99,11 @@ class CalculatorUI(ctk.CTkFrame):
         self.update_typing_display()
 
 
-    def update_typing_display(self):
+    def update_typing_display(self, invalid=False):
 
         self.typing_box.delete('1.0', 'end')
         self.typing_box.insert('1.0', self.logic.display_expression)
+        self.typing_box.configure(text_color='#888888' if invalid else '#FFFFFF')
 
         if self.logic.calculated:
             self.typing_box.configure(font=ctk.CTkFont(size=24, weight='bold'))
@@ -250,13 +251,16 @@ class CalculatorUI(ctk.CTkFrame):
         text = self.typing_box.get('1.0', 'end').rstrip('\n')
         self.logic.raw_input = text
 
+        invalid = False
         try:
             self.logic.tokens = self.logic.lexer.tokenize(text)
             print(self.logic.tokens)
             self.logic._update_expressions_from_tokens()
         except ValueError:
+            invalid = True
             self.logic.display_expression = text
 
+        self.update_typing_display(invalid)
         return None
 
 
