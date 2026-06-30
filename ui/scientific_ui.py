@@ -5,7 +5,7 @@ class ScientificUI(CalculatorUI):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, logic, width=620, height=575, max_history_chars=34)
+        super().__init__(parent, logic, width=620, height=565, max_history_chars=34)
 
         self.fx_menu = None
         self.toggle_state = False

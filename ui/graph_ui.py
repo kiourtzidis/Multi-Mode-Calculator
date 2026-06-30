@@ -10,7 +10,7 @@ class GraphUI(ctk.CTkFrame):
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.width = 500
-        self.height = 605
+        self.height = 595
         self.logic = logic
         self.toggle_state = False
         self.secondary_buttons = {}
@@ -300,5 +300,5 @@ class GraphUI(ctk.CTkFrame):
             self.logic._update_expressions_from_tokens()
 
         except Exception as e:
-            print(f'error: {e}')
+            print(f'{e}')
             pass
