@@ -97,12 +97,8 @@ class CalculatorLogic:
             self.tokens = self.lexer.tokenize(self.raw_input)
             print(self.tokens)
             self._update_expressions_from_tokens()
-
-        except ValueError as v:
-            print(f'{v}')
-            self.raw_input = ''
-            self.display_expression = 'Error'
-            self.tokens.clear()
+        except ValueError:
+            self.display_expression = self.raw_input
 
 
     def calculate(self):
@@ -209,7 +205,10 @@ class CalculatorLogic:
         tokens = self.tokens
         last = tokens[-1] if tokens else None
 
-        incoming_token = self.lexer.tokenize(symbol)[0]
+        try:
+            incoming_token = self.lexer.tokenize(symbol)[0]
+        except ValueError:
+            incoming_token = None
 
         if not tokens and symbol == '-':
             return '-'
@@ -231,10 +230,10 @@ class CalculatorLogic:
         if last and last.is_infix_operator() and incoming_token and incoming_token.is_infix_operator():
             return None
         
-        if incoming_token.is_function():
+        if incoming_token and incoming_token.is_function():
             return symbol + '('
 
-        if incoming_token.is_postfix_operator() and (last and last.eval_value in ('%', '‰') or not last.is_value()):
+        if incoming_token and incoming_token.is_postfix_operator() and (last and last.eval_value in ('%', '‰') or not last.is_value()):
             return None
 
         if last and last.display_value[-1] in ('¹', '²', '³'):

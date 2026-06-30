@@ -54,19 +54,22 @@ class CalculatorUI(ctk.CTkFrame):
         self.typing_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
 
-        self.typing_entry = ctk.CTkEntry(
-            self.typing_frame, 
-            font=('Jetbrains Mono', 24), 
+        self.typing_box = ctk.CTkTextbox(
+            self.typing_frame,
+            font=('Jetbrains Mono', 24),
             fg_color='#2E2E2E',
+            width=512,
             height=40,
-            width=512
+            wrap='none',
+            corner_radius=8,
+            border_width=1,
+            border_color='#3C3C3C'
         )
-        self.typing_entry.pack(side='left', fill='both', ipadx=6, ipady=10)
+        self.typing_box.pack(side='left', fill='both', ipadx=6, pady=2)
 
-        self.typing_entry._entry.configure(cursor='arrow')
-        self.typing_entry.bind('<KeyRelease>', self._sync_from_entry)
-        self.typing_entry.bind('<Return>', self._handle_enter)
-        self.typing_entry.bind('<BackSpace>', self._handle_backspace)
+        self.typing_box.bind('<KeyRelease>', self._handle_key_release)
+        self.typing_box.bind('<BackSpace>', self._handle_backspace)
+        self.typing_box.bind('<Return>', self._handle_enter)
 
 
     def handle_symbol(self, symbol):
@@ -98,13 +101,13 @@ class CalculatorUI(ctk.CTkFrame):
 
     def update_typing_display(self):
 
-        self.typing_entry.delete(0, 'end')
-        self.typing_entry.insert(0, self.logic.display_expression)
+        self.typing_box.delete('1.0', 'end')
+        self.typing_box.insert('1.0', self.logic.display_expression)
 
         if self.logic.calculated:
-            self.typing_entry.configure(font=ctk.CTkFont(size=24, weight='bold'))
+            self.typing_box.configure(font=ctk.CTkFont(size=24, weight='bold'))
         else:
-            self.typing_entry.configure(font=ctk.CTkFont(size=24))
+            self.typing_box.configure(font=ctk.CTkFont(size=24))
 
 
     def add_history_item(self, raw_input, expression, result):
@@ -231,19 +234,38 @@ class CalculatorUI(ctk.CTkFrame):
         frame.destroy()
 
 
-    def _sync_from_entry(self, event=None):
+    def _handle_key_release(self, event=None):
 
-        text = self.typing_entry.get()
+        if event is None:
+            return None
+
+        if event.keysym in ('Return', 'BackSpace'):
+            return None
+        
+        if self.logic.display_expression == 'Error' and event.char:
+            self.logic.clear()
+            self.typing_box.delete('1.0', 'end')
+            self.typing_box.insert('1.0', event.char)
+
+        text = self.typing_box.get('1.0', 'end').rstrip('\n')
+        self.logic.raw_input = text
 
         try:
-            self.logic.raw_input = text
-            self.logic.tokens = self.logic.lexer.tokenize(self.logic.raw_input)
+            self.logic.tokens = self.logic.lexer.tokenize(text)
             print(self.logic.tokens)
             self.logic._update_expressions_from_tokens()
+        except ValueError:
+            self.logic.display_expression = text
 
-        except Exception as e:
-            print(f'{e}')
-            pass
+        return None
+
+
+    def _handle_backspace(self, event=None):
+
+        self.logic.backspace()
+        self.update_typing_display()
+
+        return 'break'
 
 
     def _handle_enter(self, event=None):
@@ -254,13 +276,6 @@ class CalculatorUI(ctk.CTkFrame):
         if expression:
             self.add_history_item(original_input, expression, result)
 
-        self.update_typing_display()
-        return 'break'
-
-
-    def _handle_backspace(self, event=None):
-
-        self.logic.backspace()
         self.update_typing_display()
 
         return 'break'

@@ -21,7 +21,7 @@ class ScientificUI(CalculatorUI):
             self.typing_frame,
             text='DEG',
             width=65,
-            height=48,
+            height=34,
             fg_color='#262626',
             hover_color='#3A3A3A',
             border_width=2,
