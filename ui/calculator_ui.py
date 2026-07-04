@@ -251,6 +251,8 @@ class CalculatorUI(ctk.CTkFrame):
         text = self.typing_box.get('1.0', 'end').rstrip('\n')
         self.logic.raw_input = text
 
+        self.logic.calculated = False
+
         invalid = False
         try:
             self.logic.tokens = self.logic.lexer.tokenize(text)
