@@ -56,6 +56,7 @@ class CalculatorLogic:
     def backspace(self):
 
         if not self.tokens:
+            self.clear()
             return
 
         last = self.tokens[-1]
