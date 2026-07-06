@@ -46,7 +46,7 @@ class CalculatorUI(ctk.CTkFrame):
             scrollbar_button_color='#555555',
             scrollbar_button_hover_color='#666666', 
             border_width=0)
-        self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=10)
+        self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
 
 
     def _build_display(self):
@@ -257,8 +257,12 @@ class CalculatorUI(ctk.CTkFrame):
         try:
             self.logic.tokens = self.logic.lexer.tokenize(text)
             print(self.logic.tokens)
+
             self.logic._update_expressions_from_tokens()
-        except ValueError:
+            if any(token.is_invalid() for token in self.logic.tokens):
+                invalid = True
+
+        except SyntaxError:
             invalid = True
             self.logic.display_expression = text
 

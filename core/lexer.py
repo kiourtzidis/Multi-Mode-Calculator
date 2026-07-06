@@ -86,7 +86,7 @@ class Lexer:
         expression = expression.replace(' ', '')
 
         if not self.expression_pattern.match(expression):
-            raise ValueError('Invalid token')
+            raise SyntaxError('Invalid token')
 
         tokens = []
         i = 0
@@ -133,4 +133,4 @@ class Lexer:
         elif string.isdigit():
             return Token(TokenType.NUMBER, string, string, string)
 
-        raise ValueError(f'Unknown token: {string}')
+        raise SyntaxError(f'Unknown token: {string}')

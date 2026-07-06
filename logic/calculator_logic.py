@@ -99,7 +99,7 @@ class CalculatorLogic:
             self.tokens = self.lexer.tokenize(self.raw_input)
             print(self.tokens)
             self._update_expressions_from_tokens()
-        except ValueError:
+        except SyntaxError:
             self.display_expression = self.raw_input
 
 
