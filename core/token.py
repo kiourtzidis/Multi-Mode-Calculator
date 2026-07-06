@@ -11,6 +11,7 @@ class TokenType(Enum):
     POSTFIX_OPERATOR = auto()
     FUNCTION = auto()
     SPECIAL = auto()
+    INVALID = auto()
 
 
 class Token:
@@ -85,3 +86,7 @@ class Token:
 
     def is_special(self):
         return self.type == TokenType.SPECIAL
+
+
+    def is_invalid(self):
+        return self.type == TokenType.INVALID
