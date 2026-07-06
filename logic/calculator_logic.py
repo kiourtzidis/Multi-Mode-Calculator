@@ -3,6 +3,7 @@ from core import math_functions
 from core.token import Token, TokenType
 from core.lexer import Lexer
 from core.parser import Parser
+from core.exceptions import SyntaxError, MathError
 
 class CalculatorLogic:
 
@@ -107,7 +108,10 @@ class CalculatorLogic:
         try:
             if not self.tokens:
                 return None, None
-            
+
+            if any(token.type == TokenType.INVALID for token in self.tokens):
+                raise SyntaxError('Invalid token')
+
             if not any(token.is_operator() or token.is_constant() or token.is_function() or token.is_special() for token in self.tokens):
                 return None, None
 
@@ -139,6 +143,22 @@ class CalculatorLogic:
             self.calculated = True
 
             return original_expression, result
+
+        except SyntaxError as e:
+            print(f'Error: {e}')
+            self.tokens.clear()
+            self.raw_input = ''
+            self.display_expression = 'Syntax Error'
+            self.calculated = False 
+            return None, 'Error'
+
+        except MathError as e:
+            print(f'Error: {e}')
+            self.tokens.clear()
+            self.raw_input = ''
+            self.display_expression = 'Math Error'
+            self.calculated = False 
+            return None, 'Error'
 
         except Exception as e:
             print(f'Error: {e}')

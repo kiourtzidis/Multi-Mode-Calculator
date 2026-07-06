@@ -1,4 +1,5 @@
 from core.node import NumberNode, NegNode, AddNode, SubNode, MulNode, DivNode, FloorDivNode, ModNode, PowerNode, PostfixNode, VariableNode, FunctionNode
+from core.exceptions import SyntaxError
 
 BP_ADDITIVE = 10
 BP_MULTIPLICATIVE = 20
@@ -34,7 +35,7 @@ class Parser:
 
         token = self.advance()
         if token is None:
-            raise Exception('Unexpected end of input')
+            raise SyntaxError('Unexpected end of input')
 
         left = self.nud(token)
 
@@ -74,7 +75,7 @@ class Parser:
         if token.is_left_parenthesis():
             expr = self.parse_expression(0)
             if not self.peek() or self.peek().eval_value != ')':
-                raise Exception('Missing )')
+                raise SyntaxError('Missing )')
             self.advance()
             return expr
         
@@ -82,7 +83,7 @@ class Parser:
             expr = self.parse_expression(0)
 
             if not self.peek() or self.peek().eval_value != '|':
-                raise Exception('Missing closing |')
+                raise SyntaxError('Missing closing |')
 
             self.advance()
             return FunctionNode('abs', expr)
@@ -92,24 +93,24 @@ class Parser:
 
         if token.is_function():
             if not self.peek() or not self.peek().is_left_parenthesis():
-                raise Exception('Expected ( after function')
+                raise SyntaxError('Expected ( after function')
 
             self.advance()
             arg = self.parse_expression(0)
 
             if not self.peek() or not self.peek().is_right_parenthesis():
-                raise Exception('Missing ) after function argument')
+                raise SyntaxError('Missing ) after function argument')
 
             self.advance()
             return FunctionNode(token.eval_value, arg)
 
-        raise Exception(f'Unexpected token in nud: {token}')
+        raise SyntaxError(f'Unexpected token in nud: {token}')
 
 
     def led(self, token, left):
 
         if token is None:
-            raise Exception('Unexpected end of tokens in led')
+            raise SyntaxError('Unexpected end of tokens in led')
 
         if token.is_infix_operator():
 
@@ -134,7 +135,7 @@ class Parser:
             if token.eval_value == '**':
                 return PowerNode(left, self.parse_expression(BP_POWER - 1))
 
-        raise Exception(f'Unexpected token in led: {token}')
+        raise SyntaxError(f'Unexpected token in led: {token}')
 
 
     def lbp(self, token):

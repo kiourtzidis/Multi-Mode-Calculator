@@ -1,3 +1,5 @@
+from core.exceptions import MathError
+
 class Node:
     def evaluate(self, scope):
         raise NotImplementedError()
@@ -64,7 +66,10 @@ class DivNode(Node):
 
 
     def evaluate(self, scope):
-        return self.left.evaluate(scope) / self.right.evaluate(scope)
+        try:
+            return self.left.evaluate(scope) / self.right.evaluate(scope)
+        except ZeroDivisionError:
+            raise MathError('Division by zero')
 
 
 class FloorDivNode(Node):
@@ -75,7 +80,10 @@ class FloorDivNode(Node):
 
 
     def evaluate(self, scope):
-        return self.left.evaluate(scope) // self.right.evaluate(scope)
+        try:
+            return self.left.evaluate(scope) // self.right.evaluate(scope)
+        except ZeroDivisionError:
+            raise MathError('Division by zero')
 
 
 class ModNode(Node):
@@ -86,7 +94,10 @@ class ModNode(Node):
 
 
     def evaluate(self, scope):
-        return self.left.evaluate(scope) % self.right.evaluate(scope)
+        try:
+            return self.left.evaluate(scope) % self.right.evaluate(scope)
+        except ZeroDivisionError:
+            raise MathError('Division by zero')
 
 
 class PowerNode(Node):
@@ -97,7 +108,10 @@ class PowerNode(Node):
 
 
     def evaluate(self, scope):
-        return self.left.evaluate(scope) ** self.right.evaluate(scope)
+        try:
+            return self.left.evaluate(scope) ** self.right.evaluate(scope)
+        except OverflowError:
+            raise MathError('Result too large')
 
 
 class PostfixNode(Node):
@@ -108,7 +122,10 @@ class PostfixNode(Node):
 
 
     def evaluate(self, scope):
-        return scope[self.operator](self.left.evaluate(scope))
+        try:
+            return scope[self.operator](self.left.evaluate(scope))
+        except (ValueError, OverflowError) as e:
+            raise MathError(str(e))
 
 
 class VariableNode(Node):
@@ -127,5 +144,9 @@ class FunctionNode(Node):
         self.function = function
         self.arg = arg
 
+
     def evaluate(self, scope):
-        return scope[self.function](self.arg.evaluate(scope))
+        try:
+            return scope[self.function](self.arg.evaluate(scope))
+        except (ValueError, OverflowError) as e:
+            raise MathError(str(e))
