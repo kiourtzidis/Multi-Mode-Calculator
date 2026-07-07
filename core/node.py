@@ -109,9 +109,14 @@ class PowerNode(Node):
 
     def evaluate(self, scope):
         try:
-            return self.left.evaluate(scope) ** self.right.evaluate(scope)
+            result = self.left.evaluate(scope) ** self.right.evaluate(scope)
         except OverflowError:
             raise MathError('Result too large')
+
+        if isinstance(result, complex):
+            raise MathError('Result is not a real number')
+
+        return result
 
 
 class PostfixNode(Node):
