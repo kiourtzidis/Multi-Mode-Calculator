@@ -1,5 +1,6 @@
-from core.parser import Parser
 from logic.calculator_logic import CalculatorLogic
+from core.parser import Parser
+from core.exceptions import MathError
 
 class GraphLogic(CalculatorLogic):
 
@@ -11,10 +12,10 @@ class GraphLogic(CalculatorLogic):
             ast = parser.parse()
             scope = {
                   **self.function_library,
-                  'x': x,
+                  'x': x
             }
             return ast.evaluate(scope)
 
-        except Exception as e:
+        except MathError as e:
             print(f'Error: {e}')
             return None
