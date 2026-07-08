@@ -5,7 +5,7 @@ class ScientificUI(CalculatorUI):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, logic, width=620, height=565, max_history_chars=34)
+        super().__init__(parent, logic, width=620, height=555, max_history_chars=34)
 
         self.fx_menu = None
         self.toggle_state = False
@@ -20,28 +20,28 @@ class ScientificUI(CalculatorUI):
         self.angle_switch = ctk.CTkButton(
             self.typing_frame,
             text='DEG',
-            width=65,
-            height=34,
+            width=40,
+            height=38,
             fg_color='#262626',
             hover_color='#3A3A3A',
-            font=('Jetbrains Mono', 26),
+            font=('Jetbrains Mono', 24),
             command=self.toggle_angle
         )
-        self.angle_switch.pack(side='right', fill='x', padx=4, ipady=6)
+        self.angle_switch.pack(side='right', fill='x', ipadx=4, ipady=6)
         self.angle_switch.configure(cursor='hand2')    
 
 
     def _build_buttons(self):
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
-        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(4,8))
+        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=8, pady=(4, 8))
 
         self.buttons_frame.grid_rowconfigure(0, weight=1)
         self.buttons_frame.grid_columnconfigure(0, weight=1, uniform='group1')
         self.buttons_frame.grid_columnconfigure(1, weight=1, uniform='group1')
 
         self.basic_frame = ctk.CTkFrame(self.buttons_frame, fg_color='#1F1F1F')
-        self.basic_frame.grid(row=0, column=0, sticky='nsew', padx=(0, 5))
+        self.basic_frame.grid(row=0, column=0, sticky='nsew', padx=(0, 1))
 
         basic_buttons = (
             ('C', 'clear'),
@@ -114,7 +114,7 @@ class ScientificUI(CalculatorUI):
             self.basic_frame.grid_columnconfigure(j, weight=1)
 
         self.scientific_frame = ctk.CTkFrame(self.buttons_frame, fg_color='#1F1F1F')
-        self.scientific_frame.grid(row=0, column=1, sticky='nsew', padx=(5, 0))
+        self.scientific_frame.grid(row=0, column=1, sticky='nsew', padx=(1, 0))
 
         scientific_buttons = (
         (('(', 'parenthesis'),

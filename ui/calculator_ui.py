@@ -44,8 +44,8 @@ class CalculatorUI(ctk.CTkFrame):
             self.history_frame, 
             fg_color='#3C3C3C',
             scrollbar_button_color='#555555',
-            scrollbar_button_hover_color='#666666', 
-            border_width=0)
+            scrollbar_button_hover_color='#666666'
+        )
         self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
 
 
@@ -53,20 +53,18 @@ class CalculatorUI(ctk.CTkFrame):
 
         self.typing_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=40)
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
-        self.typing_frame.grid_propagate(False)
 
         self.typing_box = ctk.CTkTextbox(
             self.typing_frame,
             font=('Jetbrains Mono', 24),
             fg_color='#2E2E2E',
-            width=512,
-            height=1,
-            wrap='none',
+            width=514,
+            height=50,
             corner_radius=8,
             border_width=1,
             border_color='#3C3C3C'
         )
-        self.typing_box.pack(side='left', fill='x', ipadx=6, pady=(2, 2))
+        self.typing_box.pack(side='left', fill='x', ipadx=6, pady=2)
 
         self.typing_box.bind('<KeyRelease>', self._handle_key_release)
         self.typing_box.bind('<BackSpace>', self._handle_backspace)

@@ -5,14 +5,14 @@ class BasicUI(CalculatorUI):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, logic, width=360, height=570, max_history_chars=17)
+        super().__init__(parent, logic, width=360, height=555, max_history_chars=17)
         self._build_buttons()
 
 
     def _build_buttons(self):
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
-        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=10, pady=(4,12))
+        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=8, pady=(4, 12))
 
         basic_buttons = (
             ('C', 'clear'),
@@ -77,7 +77,7 @@ class BasicUI(CalculatorUI):
                     command=lambda s=symbol: self.handle_symbol(s))
 
             button.configure(cursor='hand2')
-            button.grid(row=i // 4, column=i % 4 , sticky='nsew', padx=2, pady=2)
+            button.grid(row=i // 4, column=i % 4, sticky='nsew', padx=2, pady=2)
 
         for i in range(5): 
             self.buttons_frame.grid_rowconfigure(i, weight=1) 
