@@ -51,21 +51,22 @@ class CalculatorUI(ctk.CTkFrame):
 
     def _build_display(self):
 
-        self.typing_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
+        self.typing_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=40)
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
+        self.typing_frame.grid_propagate(False)
 
         self.typing_box = ctk.CTkTextbox(
             self.typing_frame,
             font=('Jetbrains Mono', 24),
             fg_color='#2E2E2E',
             width=512,
-            height=40,
+            height=1,
             wrap='none',
             corner_radius=8,
             border_width=1,
             border_color='#3C3C3C'
         )
-        self.typing_box.pack(side='left', fill='both', ipadx=6, pady=2)
+        self.typing_box.pack(side='left', fill='x', ipadx=6, pady=(2, 2))
 
         self.typing_box.bind('<KeyRelease>', self._handle_key_release)
         self.typing_box.bind('<BackSpace>', self._handle_backspace)
@@ -273,7 +274,12 @@ class CalculatorUI(ctk.CTkFrame):
     def _handle_backspace(self, event=None):
 
         self.logic.backspace()
-        self.update_typing_display()
+
+        invalid = False
+        if any(token.is_invalid() for token in self.logic.tokens):
+            invalid = True
+
+        self.update_typing_display(invalid)
 
         return 'break'
 
