@@ -21,7 +21,6 @@ class App:
         ctk.set_default_color_theme('dark-blue')
         self.root.configure(bg='#121212')
 
-        self.expression = ''
         self.calculator_logic = CalculatorLogic()
         self.graph_logic = GraphLogic()
         self.temperature_logic = TemperatureLogic()

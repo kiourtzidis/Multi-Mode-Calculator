@@ -217,7 +217,6 @@ class CalculatorUI(ctk.CTkFrame):
             print(f'{v}')
             self.logic.raw_input = ''
             self.logic.display_expression = 'Error'
-            self.logic.eval_expression = ''
             self.logic.tokens.clear()
 
         self.update_typing_display()
