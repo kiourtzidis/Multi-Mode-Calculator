@@ -10,7 +10,7 @@ class GraphUI(ctk.CTkFrame):
         super().__init__(parent, fg_color='#1F1F1F')
 
         self.width = 500
-        self.height = 595
+        self.height = 600
         self.logic = logic
         self.toggle_state = False
         self.secondary_buttons = {}
@@ -65,6 +65,8 @@ class GraphUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 16),
             fg_color='#2E2E2E',
             height=40,
+            border_width=1,
+            border_color='#3C3C3C',
             placeholder_text='Enter function…'
         )
         self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=10)
