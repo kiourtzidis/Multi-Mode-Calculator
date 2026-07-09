@@ -52,22 +52,21 @@ class CalculatorUI(ctk.CTkFrame):
         self.typing_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', height=40)
         self.typing_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
 
-        self.typing_box = ctk.CTkTextbox(
+        self.typing_entry = ctk.CTkEntry(
             self.typing_frame,
             font=('Jetbrains Mono', 24),
             fg_color='#2E2E2E',
             width=514,
             height=50,
-            wrap='none',
             corner_radius=8,
             border_width=1,
             border_color='#3C3C3C'
         )
-        self.typing_box.pack(side='left', fill='x', ipadx=6, pady=2)
+        self.typing_entry.pack(side='left', fill='x', ipadx=6, pady=2)
 
-        self.typing_box.bind('<KeyRelease>', self._handle_key_release)
-        self.typing_box.bind('<BackSpace>', self._handle_backspace)
-        self.typing_box.bind('<Return>', self._handle_enter)
+        self.typing_entry.bind('<KeyRelease>', self._handle_key_release)
+        self.typing_entry.bind('<BackSpace>', self._handle_backspace)
+        self.typing_entry.bind('<Return>', self._handle_enter)
 
 
     def handle_symbol(self, symbol):
@@ -99,14 +98,14 @@ class CalculatorUI(ctk.CTkFrame):
 
     def update_typing_display(self, invalid=False):
 
-        self.typing_box.delete('1.0', 'end')
-        self.typing_box.insert('1.0', self.logic.display_expression)
-        self.typing_box.configure(text_color='#888888' if invalid else '#FFFFFF')
+        self.typing_entry.delete(0, 'end')
+        self.typing_entry.insert(0, self.logic.display_expression)
+        self.typing_entry.configure(text_color='#888888' if invalid else '#FFFFFF')
 
         if self.logic.calculated:
-            self.typing_box.configure(font=ctk.CTkFont(size=24, weight='bold'))
+            self.typing_entry.configure(font=ctk.CTkFont(size=24, weight='bold'))
         else:
-            self.typing_box.configure(font=ctk.CTkFont(size=24))
+            self.typing_entry.configure(font=ctk.CTkFont(size=24))
 
 
     def add_history_item(self, raw_input, expression, result):
@@ -243,10 +242,10 @@ class CalculatorUI(ctk.CTkFrame):
         
         if self.logic.display_expression == 'Error' and event.char:
             self.logic.clear()
-            self.typing_box.delete('1.0', 'end')
-            self.typing_box.insert('1.0', event.char)
+            self.typing_entry.delete(0, 'end')
+            self.typing_entry.insert(0, event.char)
 
-        text = self.typing_box.get('1.0', 'end').rstrip('\n')
+        text = self.typing_entry.get().rstrip('\n')
         self.logic.raw_input = text
 
         self.logic.calculated = False
