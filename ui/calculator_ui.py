@@ -60,6 +60,7 @@ class CalculatorUI(ctk.CTkFrame):
             fg_color='#2E2E2E',
             width=514,
             height=50,
+            wrap='none',
             corner_radius=8,
             border_width=1,
             border_color='#3C3C3C'
