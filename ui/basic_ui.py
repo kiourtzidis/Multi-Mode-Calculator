@@ -12,7 +12,7 @@ class BasicUI(CalculatorUI):
     def _build_buttons(self):
 
         self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F')
-        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=8, pady=(4, 12))
+        self.buttons_frame.grid(row=2, column=0, sticky='nsew', padx=8, pady=(4, 8))
 
         basic_buttons = (
             ('C', 'clear'),
