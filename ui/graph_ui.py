@@ -81,6 +81,8 @@ class GraphUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 14),
             fg_color='#2A2A2A',
             hover_color='#323232',
+            border_width=1,
+            border_color='#3C3C3C',
             command=self.plot_function
         )
         self.plot_button.grid(row=1, column=0, sticky='nsew', padx=2, pady=2)
@@ -92,6 +94,8 @@ class GraphUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 14),
             fg_color='#2A2A2A',
             hover_color='#323232',
+            border_width=1,
+            border_color='#3C3C3C',
             command=self.clear_functions
         )
         self.clear_button.grid(row=1, column=1, sticky='nsew', padx=2, pady=2)
