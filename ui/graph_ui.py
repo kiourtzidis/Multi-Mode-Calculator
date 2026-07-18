@@ -29,7 +29,7 @@ class GraphUI(ctk.CTkFrame):
     def _build_canvas(self):
 
         self.canvas_frame = ctk.CTkFrame(self, fg_color='#2E2E2E', width=self.width, height=300)
-        self.canvas_frame.grid(row=1, column=0, sticky='nsew', padx=10, ipady=2)
+        self.canvas_frame.grid(row=1, column=0, sticky='nsew', padx=10, pady=2)
 
         self.fig = Figure(figsize=(5, 3), dpi=100)
         self.ax = self.fig.add_subplot(111)
@@ -69,7 +69,7 @@ class GraphUI(ctk.CTkFrame):
             border_color='#3C3C3C',
             placeholder_text='Enter function…'
         )
-        self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=6)
+        self.function_entry.grid(row=0, column=0, columnspan=3, sticky='nsew', padx=2, pady=(2, 6))
 
         self.function_entry.configure(cursor='xterm')
         self.function_entry.bind('<Return>', self.plot_function)
@@ -270,12 +270,15 @@ class GraphUI(ctk.CTkFrame):
         self.fig.patch.set_facecolor('#2E2E2E')
         self.ax.grid(True, color='#444444')
 
+        self.ax.set_xticks([-10, -5, 5, 10])
+        self.ax.set_yticks([-10, -5, 5, 10])
+        self.ax.set_xticklabels(['-10', '-5', '5', '10'])
+        self.ax.set_yticklabels(['-10', '-5', '5', '10'])
+
         self.ax.tick_params(
             colors='#AAAAAA',
             labelsize=8
         )
-
-        self.ax.locator_params(nbins=5)
 
         self.ax.spines['top'].set_visible(False)
         self.ax.spines['right'].set_visible(False)
@@ -291,6 +294,17 @@ class GraphUI(ctk.CTkFrame):
         self.ax.title.set_color('white')
         self.ax.yaxis.label.set_color('white')
         self.ax.xaxis.label.set_color('white')
+
+        self.ax.annotate(
+            '0',
+            xy=(0, 0),
+            xytext=(-3, -3),
+            textcoords='offset points',
+            color='#AAAAAA',
+            fontsize=8,
+            ha='right',
+            va='top'
+        )
 
         self.ax.set_xlim(-10, 10)
         self.ax.set_ylim(-10, 10)
