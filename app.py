@@ -2,12 +2,12 @@ import customtkinter as ctk
 from ui.basic_ui import BasicUI
 from ui.scientific_ui import ScientificUI
 from ui.graph_ui import GraphUI
-from ui.temperature_ui import TemperatureUI
+from ui.unit_ui import UnitUI
 from ui.currency_ui import CurrencyUI
 from ui.date_ui import DateUI
 from logic.calculator_logic import CalculatorLogic
 from logic.graph_logic import GraphLogic
-from logic.temperature_logic import TemperatureLogic
+from logic.unit_logic import UnitLogic
 from logic.currency_logic import CurrencyLogic
 from logic.date_logic import DateLogic
 
@@ -23,7 +23,7 @@ class App:
 
         self.calculator_logic = CalculatorLogic()
         self.graph_logic = GraphLogic()
-        self.temperature_logic = TemperatureLogic()
+        self.unit_logic = UnitLogic()
         self.currency_logic = CurrencyLogic()
         self.date_logic = DateLogic()
 
@@ -39,7 +39,7 @@ class App:
             'Basic': BasicUI(self.mode_frame, self.calculator_logic),
             'Scientific': ScientificUI(self.mode_frame, self.calculator_logic),
             'Graph': GraphUI(self.mode_frame, self.graph_logic),
-            'Temperature': TemperatureUI(self.mode_frame, self.temperature_logic),
+            'Unit': UnitUI(self.mode_frame, self.unit_logic),
             'Currency': CurrencyUI(self.mode_frame, self.currency_logic),
             'Date': DateUI(self.mode_frame, self.date_logic)
         }
@@ -66,7 +66,7 @@ class App:
         self.root.bind_all('<Control-Key-1>', lambda e: self.switch_mode('Basic'))
         self.root.bind_all('<Control-Key-2>', lambda e: self.switch_mode('Scientific'))
         self.root.bind_all('<Control-Key-3>', lambda e: self.switch_mode('Graph'))
-        self.root.bind_all('<Control-Key-4>', lambda e: self.switch_mode('Temperature'))
+        self.root.bind_all('<Control-Key-4>', lambda e: self.switch_mode('Unit'))
         self.root.bind_all('<Control-Key-5>', lambda e: self.switch_mode('Currency'))
         self.root.bind_all('<Control-Key-6>', lambda e: self.switch_mode('Date'))
 
