@@ -7,7 +7,6 @@ class GraphLogic(CalculatorLogic):
     def evaluate_graph(self, x):
         try:
             parser = Parser(self._expand_tokens(self.tokens))
-            print(self.tokens)
 
             ast = parser.parse()
             scope = {
@@ -16,6 +15,5 @@ class GraphLogic(CalculatorLogic):
             }
             return ast.evaluate(scope)
 
-        except MathError as e:
-            print(f'Error: {e}')
+        except MathError:
             return None

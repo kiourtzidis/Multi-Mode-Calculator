@@ -2,6 +2,7 @@ import customtkinter as ctk
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from core.exceptions import SyntaxError
 
 class GraphUI(ctk.CTkFrame):
 
@@ -194,14 +195,7 @@ class GraphUI(ctk.CTkFrame):
         self.logic.calculated = True
 
         x = np.linspace(-10, 10, 400)
-
-        y = self.logic.evaluate_graph(x)
-
-        if y is None:
-            return
-
-        if np.isscalar(y):
-            y = np.full_like(x, y)
+        y = np.array([self.logic.evaluate_graph(xi) for xi in x], dtype=float)
 
         self.ax.plot(x, y)
 
@@ -319,6 +313,6 @@ class GraphUI(ctk.CTkFrame):
             print(self.logic.tokens)
             self.logic._update_expressions_from_tokens()
 
-        except Exception as e:
+        except SyntaxError as e:
             print(f'{e}')
             pass
