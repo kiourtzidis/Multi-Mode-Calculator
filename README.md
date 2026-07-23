@@ -2,13 +2,13 @@ A multi-mode calculator application built in Python using CustomTkinter, featuri
 
 ## Current Features
 - Basic Mode
+- Scientific Mode
 
 ## Unfinished Features
-- Scientific Mode
 - Graph Mode
+- Unit Conversion Mode
 
 ## Planned Features
-- Temperature Conversion Mode
 - Currency Conversion Mode
 - Date Calculation Mode
 
