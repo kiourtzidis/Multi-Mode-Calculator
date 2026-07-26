@@ -25,18 +25,18 @@ class UnitUI(ctk.CTkFrame):
 
     def _build_sidebar(self):
 
-        self.buttons_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', width=180)
-        self.buttons_frame.grid(row=0, column=0, sticky='nsew', padx=2, pady=(0, 2))
+        self.buttons_frame = ctk.CTkFrame(self, width=180, fg_color='#1F1F1F', corner_radius=0)
+        self.buttons_frame.grid(row=0, column=0, sticky='nsew', pady=(0, 2))
 
         for i, category in enumerate(self.categories):
             button = ctk.CTkButton(
                 self.buttons_frame,
                 text=category,
                 font=('Jetbrains Mono', 16),
-                fg_color='#2A2A2A',
-                hover_color='#323232',
+                fg_color='#242424',
+                hover_color='#2E2E2E',
                 border_width=1,
-                border_color='#3C3C3C',
+                border_color='#333333',
                 command=lambda c=category: self._select_category(c)
             )
             button.grid(row=i, column=0, sticky='ew', padx=5, pady=5)
@@ -50,8 +50,8 @@ class UnitUI(ctk.CTkFrame):
 
     def _build_converter(self):
 
-        self.converter_frame = ctk.CTkFrame(self, fg_color='#2E2E2E')
-        self.converter_frame.grid(row=0, column=1, sticky='nsew', padx=10, pady=10)
+        self.converter_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', corner_radius=0)
+        self.converter_frame.grid(row=0, column=1, sticky='nsew')
 
         self.converter_frame.grid_columnconfigure(0, weight=1)
         self.converter_frame.grid_columnconfigure(1, weight=0)
@@ -61,39 +61,46 @@ class UnitUI(ctk.CTkFrame):
             self.converter_frame,
             text='From:',
             font=('Jetbrains Mono', 12),
-            text_color='#AAAAAA'
+            text_color='#777777'
         )
-        self.from_label.grid(row=0, column=0, sticky='w', padx=5)
+        self.from_label.grid(row=0, column=0, sticky='w', padx=8, pady=(10, 0))
 
         self.from_entry = ctk.CTkEntry(
             self.converter_frame,
             font=('Jetbrains Mono', 20),
-            fg_color='#2E2E2E',
+            fg_color='#242424',
             border_width=1,
-            border_color='#3C3C3C',
-            height=40
+            border_color='#4A4A4A',
+            height=44
         )
-        self.from_entry.grid(row=1, column=0, sticky='ew', padx=5, pady=(2, 6))
+        self.from_entry.grid(row=1, column=0, sticky='ew', padx=8, pady=(2, 6))
         self.from_entry.bind('<KeyRelease>', self._convert)
 
         self.from_unit_menu = ctk.CTkOptionMenu(
             self.converter_frame,
             values=[],
             font=('Jetbrains Mono', 14),
-            fg_color='#2A2A2A',
-            button_color='#2A2A2A',
-            button_hover_color='#323232',
+            fg_color='#242424',
+            button_color='#2E2E2E',
+            button_hover_color='#383838',
+            text_color='#CCCCCC',
+            dropdown_fg_color='#242424',
+            dropdown_hover_color='#333333',
+            dropdown_text_color='#CCCCCC',
             command=self._convert
         )
-        self.from_unit_menu.grid(row=2, column=0, sticky='ew', padx=5)
+        self.from_unit_menu.grid(row=2, column=0, sticky='ew', padx=8, pady=(0, 10))
         self.from_unit_menu.configure(cursor='hand2')
 
         self.swap_button = ctk.CTkButton(
             self.converter_frame,
             text='⇄',
             font=('Jetbrains Mono', 20),
-            fg_color='#3C3C3C',
-            hover_color='#4A4A4A',
+            fg_color='#2A2A2A',
+            hover_color='#383838',
+            text_color='#AAAAAA',
+            border_width=1,
+            border_color='#3C3C3C',
             width=40,
             command=self._swap_units
         )
@@ -104,32 +111,35 @@ class UnitUI(ctk.CTkFrame):
             self.converter_frame,
             text='To:',
             font=('Jetbrains Mono', 12),
-            text_color='#AAAAAA'
+            text_color='#777777'
         )
-        self.to_label.grid(row=0, column=2, sticky='w', padx=5)
+        self.to_label.grid(row=0, column=2, sticky='w', padx=8, pady=(10, 0))
 
         self.to_entry = ctk.CTkEntry(
             self.converter_frame,
             font=('Jetbrains Mono', 20),
-            fg_color='#2A2A2A',
-            text_color='#BFBFBF',
-            border_width=1,
-            border_color='#3C3C3C',
-            height=40
+            fg_color='#242424',
+            text_color='#999999',
+            border_width=0,
+            height=44
         )
-        self.to_entry.grid(row=1, column=2, sticky='ew', padx=5, pady=(2, 6))
+        self.to_entry.grid(row=1, column=2, sticky='ew', padx=8, pady=(2, 6))
         self.to_entry.configure(state='readonly')
 
         self.to_unit_menu = ctk.CTkOptionMenu(
             self.converter_frame,
             values=[],
             font=('Jetbrains Mono', 14),
-            fg_color='#2A2A2A',
-            button_color='#2A2A2A',
-            button_hover_color='#323232',
+            fg_color='#242424',
+            button_color='#2E2E2E',
+            button_hover_color='#383838',
+            text_color='#CCCCCC',
+            dropdown_fg_color='#242424',
+            dropdown_hover_color='#333333',
+            dropdown_text_color='#CCCCCC',
             command=self._convert
         )
-        self.to_unit_menu.grid(row=2, column=2, sticky='ew', padx=5)
+        self.to_unit_menu.grid(row=2, column=2, sticky='ew', padx=8, pady=(0, 10))
         self.to_unit_menu.configure(cursor='hand2')
 
 
