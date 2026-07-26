@@ -58,7 +58,6 @@ UNIT_CATEGORIES = {
 
 TEMPERATURE_UNITS = ('Celsius', 'Fahrenheit', 'Kelvin')
 
-
 class UnitLogic:
 
     def get_units(self, category):
