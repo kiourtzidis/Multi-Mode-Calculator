@@ -8,6 +8,7 @@ UNIT_CATEGORIES = {
         'Yards': 0.9144,
         'Feet': 0.3048,
         'Inches': 0.0254,
+        'Light Years': 9460730472580800.0
     },
     'Weight': {
         'Kilograms': 1.0,
