@@ -4,7 +4,7 @@ class UnitUI(ctk.CTkFrame):
 
     def __init__(self, parent, logic):
 
-        super().__init__(parent, fg_color='#2E2E2E')
+        super().__init__(parent, fg_color='#292929')
         self.width = 750
         self.height = 350
         self.logic = logic
@@ -50,7 +50,7 @@ class UnitUI(ctk.CTkFrame):
 
     def _build_converter(self):
 
-        self.converter_frame = ctk.CTkFrame(self, fg_color='#1F1F1F', corner_radius=0)
+        self.converter_frame = ctk.CTkFrame(self, fg_color='#292929', corner_radius=0)
         self.converter_frame.grid(row=0, column=1, sticky='nsew')
 
         self.converter_frame.grid_columnconfigure(0, weight=1)
