@@ -12,6 +12,7 @@ class UnitUI(ctk.CTkFrame):
         self.categories = ('Length', 'Weight', 'Temperature', 'Time', 'Area', 'Speed', 'Volume', 'Data')
         self.current_category = self.categories[0]
         self.category_buttons = {}
+        self.reference_labels = []
 
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
@@ -63,7 +64,7 @@ class UnitUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 12),
             text_color='#777777'
         )
-        self.from_label.grid(row=0, column=0, sticky='w', padx=8, pady=(10, 0))
+        self.from_label.grid(row=0, column=0, sticky='w', padx=8, pady=(3, 0))
 
         self.from_entry = ctk.CTkEntry(
             self.converter_frame,
@@ -97,8 +98,8 @@ class UnitUI(ctk.CTkFrame):
             self.converter_frame,
             text='⇄',
             font=('Jetbrains Mono', 20),
-            fg_color='#2A2A2A',
-            hover_color='#383838',
+            fg_color='#262626',
+            hover_color='#3A3A3A',
             text_color='#AAAAAA',
             border_width=1,
             border_color='#3C3C3C',
@@ -114,7 +115,7 @@ class UnitUI(ctk.CTkFrame):
             font=('Jetbrains Mono', 12),
             text_color='#777777'
         )
-        self.to_label.grid(row=0, column=2, sticky='w', padx=8, pady=(10, 0))
+        self.to_label.grid(row=0, column=2, sticky='w', padx=8, pady=(3, 0))
 
         self.to_entry = ctk.CTkEntry(
             self.converter_frame,
@@ -144,6 +145,28 @@ class UnitUI(ctk.CTkFrame):
         self.to_unit_menu.grid(row=2, column=2, sticky='ew', padx=8, pady=(0, 10))
         self.to_unit_menu.configure(cursor='hand2')
 
+        separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
+        separator.grid(row=3, column=0, columnspan=3, sticky='ew', pady=(0, 3))
+
+        self.reference_header = ctk.CTkLabel(
+                    self.converter_frame,
+                    text='Reference Table',
+                    font=('Jetbrains Mono', 12),
+                    text_color='#777777'
+                )
+        self.reference_header.grid(row=4, column=0, columnspan=3)
+
+        for i in range(3):
+            label = ctk.CTkLabel(
+                self.converter_frame,
+                text='',
+                font=('Jetbrains Mono', 15),
+                text_color='#CCCCCC'
+            )
+            label.grid(row=5 + i, column=0, columnspan=3)
+            self.reference_labels.append(label)
+
+        self.converter_frame.grid_rowconfigure(8, weight=1)
 
     def _select_category(self, category):
 
@@ -161,6 +184,7 @@ class UnitUI(ctk.CTkFrame):
 
         self.from_entry.delete(0, 'end')
         self._set_result('')
+        self._update_reference_table()
 
 
     def _swap_units(self):
@@ -184,6 +208,7 @@ class UnitUI(ctk.CTkFrame):
         try:
             value = float(text)
         except ValueError:
+            self._update_reference_table()
             self._set_result('')
             return
 
@@ -193,6 +218,20 @@ class UnitUI(ctk.CTkFrame):
         result = self.logic.convert(self.current_category, value, from_unit, to_unit)
 
         self._set_result('' if result is None else f'{result:.10g}')
+        self._update_reference_table()
+
+
+    def _update_reference_table(self):
+
+        from_unit = self.from_unit_menu.get()
+        to_unit = self.to_unit_menu.get()
+
+        for label, factor in zip(self.reference_labels, (1, 10, 100)):
+            result = self.logic.convert(self.current_category, factor, from_unit, to_unit)
+            if result is None:
+                label.configure(text='')
+            else:
+                label.configure(text=f'{factor} {from_unit}  =  {result:.6g} {to_unit}')
 
 
     def _set_result(self, text):
