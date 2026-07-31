@@ -87,6 +87,7 @@ class UnitUI(ctk.CTkFrame):
             dropdown_fg_color='#242424',
             dropdown_hover_color='#333333',
             dropdown_text_color='#CCCCCC',
+            dynamic_resizing=False,
             command=self._convert
         )
         self.from_unit_menu.grid(row=2, column=0, sticky='ew', padx=8, pady=(0, 10))
@@ -137,6 +138,7 @@ class UnitUI(ctk.CTkFrame):
             dropdown_fg_color='#242424',
             dropdown_hover_color='#333333',
             dropdown_text_color='#CCCCCC',
+            dynamic_resizing=False,
             command=self._convert
         )
         self.to_unit_menu.grid(row=2, column=2, sticky='ew', padx=8, pady=(0, 10))
