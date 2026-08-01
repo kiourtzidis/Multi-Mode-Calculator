@@ -6,10 +6,10 @@ class UnitUI(ctk.CTkFrame):
 
         super().__init__(parent, fg_color='#292929')
         self.width = 750
-        self.height = 350
+        self.height = 390
         self.logic = logic
 
-        self.categories = ('Length', 'Weight', 'Temperature', 'Time', 'Area', 'Speed', 'Volume', 'Data')
+        self.categories = ('Length', 'Weight', 'Temperature', 'Time', 'Area', 'Speed', 'Volume', 'Energy', 'Data')
         self.current_category = self.categories[0]
         self.category_buttons = {}
         self.reference_labels = []
@@ -166,7 +166,11 @@ class UnitUI(ctk.CTkFrame):
             label.grid(row=5 + i, column=0, columnspan=3)
             self.reference_labels.append(label)
 
-        self.converter_frame.grid_rowconfigure(8, weight=1)
+        self.converter_frame.grid_rowconfigure(8, weight=0)
+
+        separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
+        separator.grid(row=8, column=0, columnspan=3, sticky='ew', pady=3)
+
 
     def _select_category(self, category):
 

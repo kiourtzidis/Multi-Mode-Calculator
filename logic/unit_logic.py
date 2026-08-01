@@ -8,7 +8,7 @@ UNIT_CATEGORIES = {
         'Yards': 0.9144,
         'Feet': 0.3048,
         'Inches': 0.0254,
-        'Light Years': 9460730472580800.0
+        'Light Years': 9_460_730_472_580_800.0
     },
     'Weight': {
         'Kilograms': 1.0,
@@ -47,6 +47,16 @@ UNIT_CATEGORIES = {
         'Gallons': 3.785411784,
         'Quarts': 0.946352946,
         'Cups': 0.2365882365,
+    },
+    'Energy': {
+        'Joules': 1.0,
+        'Kilojoules': 1000.0,
+        'Calories': 4.184,
+        'Kilocalories': 4184.0,
+        'Watt-hours': 3600.0,
+        'Kilowatt-hours': 3_600_000.0,
+        'BTU': 1055.05585262,
+        'Foot-pounds': 1.3558179483314004
     },
     'Data': {
         'Bytes': 1.0,
