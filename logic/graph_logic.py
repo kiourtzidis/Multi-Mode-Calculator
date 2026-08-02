@@ -4,6 +4,10 @@ from core.exceptions import MathError
 
 class GraphLogic(CalculatorLogic):
 
+    def __init__(self):
+        super().__init__()
+        self.angle_mode = 'RAD'
+
     def evaluate_graph(self, x):
         try:
             parser = Parser(self._expand_tokens(self.tokens))
