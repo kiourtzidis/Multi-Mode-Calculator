@@ -9,7 +9,7 @@ class UnitUI(ctk.CTkFrame):
         self.height = 390
         self.logic = logic
 
-        self.categories = ('Length', 'Weight', 'Temperature', 'Time', 'Area', 'Speed', 'Volume', 'Energy', 'Data')
+        self.categories = ('Length', 'Weight', 'Temperature', 'Time', 'Speed', 'Area', 'Volume', 'Energy', 'Data')
         self.current_category = self.categories[0]
         self.category_buttons = {}
         self.reference_labels = []
@@ -145,8 +145,8 @@ class UnitUI(ctk.CTkFrame):
         self.to_unit_menu.grid(row=2, column=2, sticky='ew', padx=8, pady=(0, 10))
         self.to_unit_menu.configure(cursor='hand2')
 
-        separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
-        separator.grid(row=3, column=0, columnspan=3, sticky='ew', pady=(0, 3))
+        top_separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
+        top_separator.grid(row=3, column=0, columnspan=3, sticky='ew', pady=(0, 3))
 
         self.reference_header = ctk.CTkLabel(
                     self.converter_frame,
@@ -168,8 +168,16 @@ class UnitUI(ctk.CTkFrame):
 
         self.converter_frame.grid_rowconfigure(8, weight=0)
 
-        separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
-        separator.grid(row=8, column=0, columnspan=3, sticky='ew', pady=3)
+        bottom_separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
+        bottom_separator.grid(row=8, column=0, columnspan=3, sticky='ew', pady=3)
+
+        self.common_conversions_header = ctk.CTkLabel(
+                            self.converter_frame,
+                            text='Common Conversions',
+                            font=('Jetbrains Mono', 12),
+                            text_color='#777777'
+                        )
+        self.common_conversions_header.grid(row=9, column=0, columnspan=3)
 
 
     def _select_category(self, category):

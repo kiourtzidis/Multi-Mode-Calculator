@@ -8,6 +8,7 @@ UNIT_CATEGORIES = {
         'Yards': 0.9144,
         'Feet': 0.3048,
         'Inches': 0.0254,
+        'Nautical Miles': 1852.0,
         'Light Years': 9_460_730_472_580_800.0
     },
     'Weight': {
