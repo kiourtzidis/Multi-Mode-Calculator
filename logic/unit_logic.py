@@ -64,11 +64,16 @@ UNIT_CATEGORIES = {
         'Foot-pounds': 1.3558179483314004
     },
     'Data': {
+        'Bits': 0.125,
         'Bytes': 1.0,
         'Kilobytes': 1024.0,
         'Megabytes': 1024.0 ** 2,
         'Gigabytes': 1024.0 ** 3,
         'Terabytes': 1024.0 ** 4,
+        'Petabytes': 1024.0 ** 5,
+        'Exabytes': 1024.0 ** 6,
+        'Zettabytes': 1024.0 ** 7,
+        'Yottabytes': 1024.0 ** 8
     },
 }
 
