@@ -171,13 +171,13 @@ class UnitUI(ctk.CTkFrame):
         bottom_separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
         bottom_separator.grid(row=8, column=0, columnspan=3, sticky='ew', pady=3)
 
-        self.common_conversions_header = ctk.CTkLabel(
+        self.shortcuts_header = ctk.CTkLabel(
                             self.converter_frame,
                             text='Common Conversions',
                             font=('Jetbrains Mono', 12),
                             text_color='#777777'
                         )
-        self.common_conversions_header.grid(row=9, column=0, columnspan=3)
+        self.shortcuts_header.grid(row=9, column=0, columnspan=3)
 
 
     def _select_category(self, category):

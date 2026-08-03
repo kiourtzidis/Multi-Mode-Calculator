@@ -17,6 +17,7 @@ UNIT_CATEGORIES = {
         'Milligrams': 0.000001,
         'Pounds': 0.45359237,
         'Ounces': 0.028349523125,
+        'Carats': 0.0002,
         'Tonnes': 1000.0,
     },
     'Time': {
