@@ -22,10 +22,13 @@ UNIT_CATEGORIES = {
     },
     'Time': {
         'Seconds': 1.0,
+        'Milliseconds': 0.001,
         'Minutes': 60.0,
         'Hours': 3600.0,
         'Days': 86400.0,
         'Weeks': 604800.0,
+        'Months': 2_629_746.0,
+        'Years': 31_556_952.0
     },
     'Area': {
         'Square Meters': 1.0,
