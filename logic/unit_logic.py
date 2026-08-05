@@ -15,37 +15,37 @@ UNIT_CATEGORIES = {
         'Kilograms': 1.0,
         'Grams': 0.001,
         'Milligrams': 0.000001,
+        'Tonnes': 1000.0,
         'Pounds': 0.45359237,
         'Ounces': 0.028349523125,
-        'Carats': 0.0002,
-        'Tonnes': 1000.0,
+        'Carats': 0.0002
     },
     'Time': {
         'Seconds': 1.0,
         'Milliseconds': 0.001,
         'Minutes': 60.0,
-        'Hours': 3600.0,
-        'Days': 86400.0,
-        'Weeks': 604800.0,
+        'Hours': 3_600.0,
+        'Days': 86_400.0,
+        'Weeks': 604_800.0,
         'Months': 2_629_746.0,
         'Years': 31_556_952.0
     },
     'Area': {
         'Square Meters': 1.0,
         'Square Kilometers': 1_000_000.0,
+        'Hectares': 10_000.0,
         'Square Inches': 0.00064516,
         'Square Feet': 0.09290304,
         'Square Yards': 0.83612736,
         'Square Miles': 2_589_988.110336,
-        'Acres': 4046.8564224,
-        'Hectares': 10000.0,
+        'Acres': 4_046.8564224,
     },
     'Speed': {
         'Meters/Second': 1.0,
         'Kilometers/Hour': 0.277778,
         'Miles/Hour': 0.44704,
         'Feet/Second': 0.3048,
-        'Knots': 0.514444,
+        'Knots': 0.514444
     },
     'Volume': {
         'Liters': 1.0,
@@ -62,7 +62,7 @@ UNIT_CATEGORIES = {
         'Kilocalories': 4184.0,
         'Watt-hours': 3600.0,
         'Kilowatt-hours': 3_600_000.0,
-        'BTU': 1055.05585262,
+        'BTU': 1_055.05585262,
         'Foot-pounds': 1.3558179483314004
     },
     'Data': {
