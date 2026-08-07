@@ -41,8 +41,10 @@ class CalculatorUI(ctk.CTkFrame):
         self.clear_history_button.configure(cursor='hand2')
 
         self.history_scroll = ctk.CTkScrollableFrame(
-            self.history_frame, 
-            fg_color='#3C3C3C'
+            self.history_frame,
+            fg_color='#3C3C3C',
+            scrollbar_button_color='#5A5A5A',
+            scrollbar_button_hover_color='#6A6A6A'
         )
         self.history_scroll.grid(row=1, column=0, sticky='nsew', padx=10, pady=4)
 
