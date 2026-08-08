@@ -342,14 +342,11 @@ class UnitUI(ctk.CTkFrame):
 
         conversions = COMMON_CONVERSIONS.get(self.current_category, [])
 
-        if index < len(conversions):
-            (from_name, _), (to_name, _) = conversions[index]
-            self.from_unit_menu.set(from_name)
-            self.to_unit_menu.set(to_name)
+        (from_name, _), (to_name, _) = conversions[index]
+        self.from_unit_menu.set(from_name)
+        self.to_unit_menu.set(to_name)
 
-            self.from_entry.delete(0, 'end')
-            self._set_result('')
-            self._update_reference_table()
+        self._convert()
 
 
     def _set_result(self, text):

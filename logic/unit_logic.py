@@ -60,8 +60,8 @@ UNIT_CATEGORIES = {
         'Kilojoules': 1000.0,
         'Calories': 4.184,
         'Kilocalories': 4184.0,
-        'Watt-hours': 3600.0,
-        'Kilowatt-hours': 3_600_000.0,
+        'Watt-Hours': 3600.0,
+        'Kilowatt-Hours': 3_600_000.0,
         'BTU': 1_055.05585262,
         'Foot-pounds': 1.3558179483314004
     },
