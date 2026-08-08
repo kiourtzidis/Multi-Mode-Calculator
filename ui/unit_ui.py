@@ -13,6 +13,7 @@ class UnitUI(ctk.CTkFrame):
         self.current_category = self.categories[0]
         self.category_buttons = {}
         self.reference_labels = []
+        self.conversion_shortcuts = []
 
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
@@ -55,11 +56,21 @@ class UnitUI(ctk.CTkFrame):
         self.converter_frame.grid(row=0, column=1, sticky='nsew')
 
         self.converter_frame.grid_columnconfigure(0, weight=1)
-        self.converter_frame.grid_columnconfigure(1, weight=0)
-        self.converter_frame.grid_columnconfigure(2, weight=1)
+        self.converter_frame.grid_rowconfigure(0, weight=0)
+        self.converter_frame.grid_rowconfigure(1, weight=0)
+        self.converter_frame.grid_rowconfigure(2, weight=0)
+        self.converter_frame.grid_rowconfigure(3, weight=0)
+        self.converter_frame.grid_rowconfigure(4, weight=1)
+
+        self.entry_frame = ctk.CTkFrame(self.converter_frame, fg_color='#292929', corner_radius=0)
+        self.entry_frame.grid(row=0, column=0, sticky='nsew')
+
+        self.entry_frame.grid_columnconfigure(0, weight=1)
+        self.entry_frame.grid_columnconfigure(1, weight=0)
+        self.entry_frame.grid_columnconfigure(2, weight=1)
 
         self.from_label = ctk.CTkLabel(
-            self.converter_frame,
+            self.entry_frame,
             text='From:',
             font=('Jetbrains Mono', 12),
             text_color='#777777'
@@ -67,7 +78,7 @@ class UnitUI(ctk.CTkFrame):
         self.from_label.grid(row=0, column=0, sticky='w', padx=8, pady=(3, 0))
 
         self.from_entry = ctk.CTkEntry(
-            self.converter_frame,
+            self.entry_frame,
             font=('Jetbrains Mono', 20),
             fg_color='#242424',
             border_width=1,
@@ -78,7 +89,7 @@ class UnitUI(ctk.CTkFrame):
         self.from_entry.bind('<KeyRelease>', self._convert)
 
         self.from_unit_menu = ctk.CTkOptionMenu(
-            self.converter_frame,
+            self.entry_frame,
             values=[],
             font=('Jetbrains Mono', 14),
             fg_color='#242424',
@@ -95,7 +106,7 @@ class UnitUI(ctk.CTkFrame):
         self.from_unit_menu.configure(cursor='hand2')
 
         self.swap_button = ctk.CTkButton(
-            self.converter_frame,
+            self.entry_frame,
             text='⇄',
             font=('Jetbrains Mono', 20),
             fg_color='#262626',
@@ -110,7 +121,7 @@ class UnitUI(ctk.CTkFrame):
         self.swap_button.configure(cursor='hand2')
 
         self.to_label = ctk.CTkLabel(
-            self.converter_frame,
+            self.entry_frame,
             text='To:',
             font=('Jetbrains Mono', 12),
             text_color='#777777'
@@ -118,7 +129,7 @@ class UnitUI(ctk.CTkFrame):
         self.to_label.grid(row=0, column=2, sticky='w', padx=8, pady=(3, 0))
 
         self.to_entry = ctk.CTkEntry(
-            self.converter_frame,
+            self.entry_frame,
             font=('Jetbrains Mono', 20),
             fg_color='#242424',
             text_color='#999999',
@@ -129,7 +140,7 @@ class UnitUI(ctk.CTkFrame):
         self.to_entry.configure(state='readonly')
 
         self.to_unit_menu = ctk.CTkOptionMenu(
-            self.converter_frame,
+            self.entry_frame,
             values=[],
             font=('Jetbrains Mono', 14),
             fg_color='#242424',
@@ -146,38 +157,47 @@ class UnitUI(ctk.CTkFrame):
         self.to_unit_menu.configure(cursor='hand2')
 
         top_separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
-        top_separator.grid(row=3, column=0, columnspan=3, sticky='ew', pady=(0, 3))
+        top_separator.grid(row=1, column=0, columnspan=3, sticky='ew', pady=(0, 3))
+
+        self.reference_frame = ctk.CTkFrame(self.converter_frame, fg_color='#292929', corner_radius=0)
+        self.reference_frame.grid(row=2, column=0, sticky='nsew')
+
+        self.reference_frame.grid_columnconfigure(0, weight=1)
 
         self.reference_header = ctk.CTkLabel(
-                    self.converter_frame,
+                    self.reference_frame,
                     text='Reference Table',
                     font=('Jetbrains Mono', 12),
                     text_color='#777777'
                 )
-        self.reference_header.grid(row=4, column=0, columnspan=3)
+        self.reference_header.grid(row=0, column=0, columnspan=3)
 
         for i in range(3):
             label = ctk.CTkLabel(
-                self.converter_frame,
+                self.reference_frame,
                 text='',
                 font=('Jetbrains Mono', 15),
                 text_color='#CCCCCC'
             )
-            label.grid(row=5 + i, column=0, columnspan=3)
+            label.grid(row=1 + i, column=0, columnspan=3)
             self.reference_labels.append(label)
 
-        self.converter_frame.grid_rowconfigure(8, weight=0)
-
         bottom_separator = ctk.CTkFrame(self.converter_frame, height=1, fg_color='#333333')
-        bottom_separator.grid(row=8, column=0, columnspan=3, sticky='ew', pady=3)
+        bottom_separator.grid(row=3, column=0, columnspan=3, sticky='ew', pady=3)
+
+        self.shortcuts_frame = ctk.CTkFrame(self.converter_frame, fg_color='#292929', corner_radius=0)
+        self.shortcuts_frame.grid(row=4, column=0, sticky='nsew')
+
+        self.shortcuts_frame.grid_columnconfigure(0, weight=1)
+        self.shortcuts_frame.grid_rowconfigure(1, weight=1)
 
         self.shortcuts_header = ctk.CTkLabel(
-                            self.converter_frame,
+                            self.shortcuts_frame,
                             text='Common Conversions',
                             font=('Jetbrains Mono', 12),
                             text_color='#777777'
                         )
-        self.shortcuts_header.grid(row=9, column=0, columnspan=3)
+        self.shortcuts_header.grid(row=0, column=0, columnspan=3)
 
 
     def _select_category(self, category):
