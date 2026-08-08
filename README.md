@@ -3,10 +3,10 @@ A multi-mode calculator application built in Python using CustomTkinter, featuri
 ## Current Features
 - Basic Mode
 - Scientific Mode
+- Unit Conversion Mode
 
 ## Unfinished Features
 - Graph Mode
-- Unit Conversion Mode
 
 ## Planned Features
 - Currency Conversion Mode
