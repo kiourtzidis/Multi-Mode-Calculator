@@ -1,5 +1,44 @@
 import customtkinter as ctk
 
+COMMON_CONVERSIONS = {
+    'Length': (
+        (('Meters', 'm'), ('Feet', 'ft')), (('Kilometers', 'km'), ('Miles', 'mi')), (('Centimeters', 'cm'), ('Inches', 'in')),
+        (('Feet', 'ft'), ('Meters', 'm')), (('Miles', 'mi'), ('Kilometers', 'km')), (('Inches', 'in'), ('Centimeters', 'cm')),
+    ),
+    'Weight': (
+        (('Kilograms', 'kg'), ('Pounds', 'lb')), (('Grams', 'g'), ('Ounces', 'oz')), (('Tonnes', 't'), ('Kilograms', 'kg')),
+        (('Pounds', 'lb'), ('Kilograms', 'kg')), (('Ounces', 'oz'), ('Grams', 'g')), (('Kilograms', 'kg'), ('Tonnes', 't')),
+    ),
+    'Temperature': (
+        (('Celsius', '°C'), ('Fahrenheit', '°F')), (('Celsius', '°C'), ('Kelvin', 'K')), (('Fahrenheit', '°F'), ('Kelvin', 'K')),
+        (('Fahrenheit', '°F'), ('Celsius', '°C')), (('Kelvin', 'K'), ('Celsius', '°C')), (('Kelvin', 'K'), ('Fahrenheit', '°F')),
+    ),
+    'Time': (
+        (('Minutes', 'min'), ('Seconds', 'sec')), (('Hours', 'hr'), ('Minutes', 'min')), (('Days', 'day'), ('Hours', 'hr')),
+        (('Seconds', 'sec'), ('Minutes', 'min')), (('Minutes', 'min'), ('Hours', 'hr')), (('Hours', 'hr'), ('Days', 'day')),
+    ),
+    'Area': (
+        (('Square Meters', 'm²'), ('Square Feet', 'ft²')), (('Square Kilometers', 'km²'), ('Square Miles', 'mi²')), (('Square Centimeters', 'cm²'), ('Square Inches', 'in²')),
+        (('Square Feet', 'ft²'), ('Square Meters', 'm²')), (('Square Miles', 'mi²'), ('Square Kilometers', 'km²')), (('Square Inches', 'in²'), ('Square Centimeters', 'cm²')),
+    ),
+    'Speed': (
+        (('Kilometers/Hour', 'km/h'), ('Miles/Hour', 'mph')), (('Meters/Second', 'm/s'), ('Feet/Second', 'ft/s')), (('Knots', 'kn'), ('Miles/Hour', 'mph')),
+        (('Miles/Hour', 'mph'), ('Kilometers/Hour', 'km/h')), (('Feet/Second', 'ft/s'), ('Meters/Second', 'm/s')), (('Miles/Hour', 'mph'), ('Knots', 'kn')),
+    ),
+    'Volume': (
+        (('Liters', 'L'), ('Gallons', 'gal')), (('Milliliters', 'ml'), ('Cubic Meters', 'm³')), (('Liters', 'L'), ('Quarts', 'qt')),
+        (('Gallons', 'gal'), ('Liters', 'L')), (('Cubic Meters', 'm³'), ('Milliliters', 'ml')), (('Quarts', 'qt'), ('Liters', 'L')),
+    ),
+    'Energy': (
+        (('Joules', 'J'), ('Kilocalories', 'kcal')), (('Kilojoules', 'kJ'), ('BTU', 'BTU')), (('Kilowatt-hours', 'kWh'), ('Joules', 'J')),
+        (('Kilocalories', 'kcal'), ('Joules', 'J')), (('BTU', 'BTU'), ('Kilojoules', 'kJ')), (('Joules', 'J'), ('Kilowatt-hours', 'kWh')),
+    ),
+    'Data': (
+        (('Megabytes', 'MB'), ('Gigabytes', 'GB')), (('Gigabytes', 'GB'), ('Terabytes', 'TB')), (('Bytes', 'B'), ('Kilobytes', 'KB')),
+        (('Gigabytes', 'GB'), ('Megabytes', 'MB')), (('Terabytes', 'TB'), ('Gigabytes', 'GB')), (('Kilobytes', 'KB'), ('Bytes', 'B')),
+    ),
+}
+
 class UnitUI(ctk.CTkFrame):
 
     def __init__(self, parent, logic):
@@ -113,7 +152,7 @@ class UnitUI(ctk.CTkFrame):
             hover_color='#3A3A3A',
             text_color='#AAAAAA',
             border_width=1,
-            border_color='#3C3C3C',
+            border_color='#333333',
             width=40,
             command=self._swap_units
         )
@@ -199,6 +238,29 @@ class UnitUI(ctk.CTkFrame):
                         )
         self.shortcuts_header.grid(row=0, column=0, columnspan=3)
 
+        self.shortcuts_grid = ctk.CTkFrame(self.shortcuts_frame, fg_color='#292929', corner_radius=0)
+        self.shortcuts_grid.grid(row=1, column=0, sticky='nsew', padx=8, pady=(0, 8))
+
+        for col in range(3):
+            self.shortcuts_grid.grid_columnconfigure(col, weight=1)
+        for row in range(2):
+            self.shortcuts_grid.grid_rowconfigure(row, weight=1)
+
+        for i in range(6):
+            button = ctk.CTkButton(
+                self.shortcuts_grid,
+                text='',
+                font=('Jetbrains Mono', 15),
+                fg_color='#242424',
+                hover_color='#2E2E2E',
+                text_color='#CCCCCC',
+                border_width=1,
+                border_color='#333333',
+                command=lambda i=i: self._apply_shortcut(i)
+            )
+            button.grid(row=i // 3, column=i % 3, sticky='ew', padx=5, pady=1)
+            self.conversion_shortcuts.append(button)
+
 
     def _select_category(self, category):
 
@@ -217,6 +279,7 @@ class UnitUI(ctk.CTkFrame):
         self.from_entry.delete(0, 'end')
         self._set_result('')
         self._update_reference_table()
+        self._update_shortcuts()
 
 
     def _swap_units(self):
@@ -264,6 +327,29 @@ class UnitUI(ctk.CTkFrame):
                 label.configure(text='')
             else:
                 label.configure(text=f'{factor} {from_unit}  =  {result:.6g} {to_unit}')
+
+
+    def _update_shortcuts(self):
+
+        conversions = COMMON_CONVERSIONS.get(self.current_category, [])
+
+        for button, shortcut in zip(self.conversion_shortcuts, conversions):
+            (_, from_symbol), (_, to_symbol) = shortcut
+            button.configure(text=f'{from_symbol} → {to_symbol}')
+
+
+    def _apply_shortcut(self, index):
+
+        conversions = COMMON_CONVERSIONS.get(self.current_category, [])
+
+        if index < len(conversions):
+            (from_name, _), (to_name, _) = conversions[index]
+            self.from_unit_menu.set(from_name)
+            self.to_unit_menu.set(to_name)
+
+            self.from_entry.delete(0, 'end')
+            self._set_result('')
+            self._update_reference_table()
 
 
     def _set_result(self, text):
