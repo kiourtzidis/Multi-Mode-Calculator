@@ -30,8 +30,8 @@ COMMON_CONVERSIONS = {
         (('Gallons', 'gal'), ('Liters', 'L')), (('Cubic Meters', 'm³'), ('Milliliters', 'ml')), (('Quarts', 'qt'), ('Liters', 'L')),
     ),
     'Energy': (
-        (('Joules', 'J'), ('Kilocalories', 'kcal')), (('Kilojoules', 'kJ'), ('BTU', 'BTU')), (('Kilowatt-hours', 'kWh'), ('Joules', 'J')),
-        (('Kilocalories', 'kcal'), ('Joules', 'J')), (('BTU', 'BTU'), ('Kilojoules', 'kJ')), (('Joules', 'J'), ('Kilowatt-hours', 'kWh')),
+        (('Joules', 'J'), ('Kilocalories', 'kcal')), (('Kilojoules', 'kJ'), ('BTU', 'BTU')), (('Kilowatt-Hours', 'kWh'), ('Joules', 'J')),
+        (('Kilocalories', 'kcal'), ('Joules', 'J')), (('BTU', 'BTU'), ('Kilojoules', 'kJ')), (('Joules', 'J'), ('Kilowatt-Hours', 'kWh')),
     ),
     'Data': (
         (('Megabytes', 'MB'), ('Gigabytes', 'GB')), (('Gigabytes', 'GB'), ('Terabytes', 'TB')), (('Bytes', 'B'), ('Kilobytes', 'KB')),

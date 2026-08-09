@@ -63,7 +63,7 @@ UNIT_CATEGORIES = {
         'Watt-Hours': 3600.0,
         'Kilowatt-Hours': 3_600_000.0,
         'BTU': 1_055.05585262,
-        'Foot-pounds': 1.3558179483314004
+        'Foot-Pounds': 1.3558179483314004
     },
     'Data': {
         'Bits': 0.125,
