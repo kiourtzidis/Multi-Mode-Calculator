@@ -16,7 +16,7 @@ class CurrencyUI(ctk.CTkFrame):
 
         super().__init__(parent, fg_color='#2E2E2E')
         self.width = 595
-        self.height = 450
+        self.height = 470
         self.logic = logic
 
         self.reference_labels = []
@@ -199,7 +199,7 @@ class CurrencyUI(ctk.CTkFrame):
         self.shortcuts_header = ctk.CTkLabel(
             self.shortcuts_frame, text='Common Conversions', font=('Jetbrains Mono', 12), text_color='#777777'
         )
-        self.shortcuts_header.grid(row=0, column=0, pady=(3, 6))
+        self.shortcuts_header.grid(row=0, column=0, pady=3)
 
         self.shortcuts_grid = ctk.CTkFrame(self.shortcuts_frame, fg_color='#292929', corner_radius=0)
         self.shortcuts_grid.grid(row=1, column=0, sticky='nsew', padx=8, pady=2)
