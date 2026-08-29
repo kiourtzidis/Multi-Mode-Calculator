@@ -19,6 +19,8 @@ class CalculatorUI(ctk.CTkFrame):
         self._build_history()
         self._build_display()
 
+        self.winfo_toplevel().bind('<Button-1>', self._handle_entry_outside_click, add='+')
+
 
     def _build_history(self):
 
@@ -292,3 +294,14 @@ class CalculatorUI(ctk.CTkFrame):
         self.update_typing_display()
 
         return 'break'
+
+
+    def _handle_entry_outside_click(self, event):
+
+        widget = event.widget
+        while widget is not None:
+            if widget == self.typing_entry:
+                return
+            widget = getattr(widget, 'master', None)
+
+        self.focus_set()

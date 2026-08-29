@@ -27,6 +27,8 @@ class CurrencyUI(ctk.CTkFrame):
 
         self._build_panel()
 
+        self.winfo_toplevel().bind('<Button-1>', self._handle_entry_outside_click, add='+')
+
 
     def _build_panel(self):
 
@@ -224,3 +226,14 @@ class CurrencyUI(ctk.CTkFrame):
             button.grid(row=i // 3, column=i % 3, sticky='ew', padx=5, pady=3)
             button.configure(cursor='hand2')
             self.shortcut_buttons.append(button)
+
+
+    def _handle_entry_outside_click(self, event):
+
+        widget = event.widget
+        while widget is not None:
+            if widget == self.from_entry:
+                return
+            widget = getattr(widget, 'master', None)
+
+        self.focus_set()

@@ -61,6 +61,8 @@ class UnitUI(ctk.CTkFrame):
         self._build_sidebar()
         self._build_converter()
 
+        self.winfo_toplevel().bind('<Button-1>', self._handle_entry_outside_click, add='+')
+
         self._select_category(self.current_category)
 
 
@@ -354,3 +356,14 @@ class UnitUI(ctk.CTkFrame):
         self.to_entry.delete(0, 'end')
         self.to_entry.insert(0, text)
         self.to_entry.configure(state='readonly')
+
+
+    def _handle_entry_outside_click(self, event):
+
+        widget = event.widget
+        while widget is not None:
+            if widget == self.from_entry:
+                return
+            widget = getattr(widget, 'master', None)
+
+        self.focus_set()
