@@ -1,5 +1,3 @@
-from unittest import result
-
 import customtkinter as ctk
 
 CURRENCY_FLAGS = {
@@ -34,7 +32,8 @@ class CurrencyUI(ctk.CTkFrame):
 
         self._build_panel()
         self._populate_currency_menus()
-        self._update_shortcuts()
+        self._refresh()
+        self._populate_shortcuts()
 
         self.winfo_toplevel().bind('<Button-1>', self._handle_outside_click, add='+')
 
@@ -152,7 +151,6 @@ class CurrencyUI(ctk.CTkFrame):
         self.status_frame.grid(row=2, column=0, sticky='nsew')
 
         self.status_frame.grid_columnconfigure(0, weight=1)
-        self.status_frame.grid_columnconfigure(1, weight=0)
 
         self.refresh_button = ctk.CTkButton(
             self.status_frame,
@@ -167,16 +165,16 @@ class CurrencyUI(ctk.CTkFrame):
             height=28,
             command=self._refresh
         )
-        self.refresh_button.grid(row=0, column=0, sticky='w', padx=8)
+        self.refresh_button.place(x=8, y=4)
         self.refresh_button.configure(cursor='hand2')
 
         self.status_label = ctk.CTkLabel(
             self.status_frame,
             text='',
-            font=('Jetbrains Mono', 11),
+            font=('Jetbrains Mono', 12),
             text_color='#CCCCCC'
         )
-        self.status_label.grid(row=0, column=1, sticky='w', padx=8)
+        self.status_label.grid(row=0, column=0, pady=4)
 
         separator_2 = ctk.CTkFrame(self.panel_frame, height=1, fg_color='#333333')
         separator_2.grid(row=3, column=0, sticky='ew', pady=3)
@@ -189,7 +187,7 @@ class CurrencyUI(ctk.CTkFrame):
         self.reference_header = ctk.CTkLabel(
             self.reference_frame, text='Reference Table', font=('Jetbrains Mono', 12), text_color='#777777'
         )
-        self.reference_header.grid(row=0, column=0, pady=(0, 3))
+        self.reference_header.grid(row=0, column=0)
 
         for i in range(len(REFERENCE_CURRENCIES)):
             label = ctk.CTkLabel(
@@ -213,7 +211,7 @@ class CurrencyUI(ctk.CTkFrame):
         self.shortcuts_header = ctk.CTkLabel(
             self.shortcuts_frame, text='Common Conversions', font=('Jetbrains Mono', 12), text_color='#777777'
         )
-        self.shortcuts_header.grid(row=0, column=0, pady=3)
+        self.shortcuts_header.grid(row=0, column=0)
 
         self.shortcuts_grid = ctk.CTkFrame(self.shortcuts_frame, fg_color='#292929', corner_radius=0)
         self.shortcuts_grid.grid(row=1, column=0, sticky='nsew', padx=8, pady=2)
@@ -307,7 +305,7 @@ class CurrencyUI(ctk.CTkFrame):
                 label.configure(text=f'1 {from_currency}  =  {result:.2f} {reference_currency}')
 
 
-    def _update_shortcuts(self):
+    def _populate_shortcuts(self):
 
         for button, (from_currency, to_currency) in zip(self.shortcut_buttons, CURRENCY_SHORTCUTS):
             button.configure(text=f'{from_currency} → {to_currency}')
