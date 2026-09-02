@@ -165,7 +165,7 @@ class CurrencyUI(ctk.CTkFrame):
             border_color='#333333',
             width=28,
             height=28,
-            #command=self._handle_refresh
+            command=self._refresh
         )
         self.refresh_button.grid(row=0, column=0, sticky='w', padx=8)
         self.refresh_button.configure(cursor='hand2')
@@ -270,6 +270,11 @@ class CurrencyUI(ctk.CTkFrame):
 
         self._set_result('' if result is None else f'{result:.2f}')
         self._update_reference_table()
+
+
+    def _refresh(self):
+        self.logic.refresh_rates()
+        self.status_label.configure(text=f'Last Updated: {self.logic.get_last_updated()}')
 
 
     def _swap_currencies(self):
