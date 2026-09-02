@@ -1,3 +1,5 @@
+from unittest import result
+
 import customtkinter as ctk
 
 CURRENCY_FLAGS = {
@@ -26,8 +28,9 @@ class CurrencyUI(ctk.CTkFrame):
         self.grid_rowconfigure(0, weight=1)
 
         self._build_panel()
+        self._populate_currency_menus()
 
-        self.winfo_toplevel().bind('<Button-1>', self._handle_entry_outside_click, add='+')
+        self.winfo_toplevel().bind('<Button-1>', self._handle_outside_click, add='+')
 
 
     def _build_panel(self):
@@ -69,7 +72,7 @@ class CurrencyUI(ctk.CTkFrame):
             height=44
         )
         self.from_entry.grid(row=1, column=0, sticky='ew', padx=8, pady=(2, 6))
-        #self.from_entry.bind('<KeyRelease>', self._convert)
+        self.from_entry.bind('<KeyRelease>', self._convert)
 
         self.from_currency_menu = ctk.CTkOptionMenu(
             self.entry_frame,
@@ -83,7 +86,7 @@ class CurrencyUI(ctk.CTkFrame):
             dropdown_hover_color='#333333',
             dropdown_text_color='#CCCCCC',
             dynamic_resizing=False,
-            #command=self._convert
+            command=self._convert
         )
         self.from_currency_menu.grid(row=2, column=0, sticky='ew', padx=8, pady=(0, 10))
         self.from_currency_menu.configure(cursor='hand2')
@@ -131,7 +134,7 @@ class CurrencyUI(ctk.CTkFrame):
             dropdown_hover_color='#333333',
             dropdown_text_color='#CCCCCC',
             dynamic_resizing=False,
-            #command=self._convert
+            command=self._convert
         )
         self.to_currency_menu.grid(row=2, column=2, sticky='ew', padx=8, pady=(0, 10))
         self.to_currency_menu.configure(cursor='hand2')
@@ -228,7 +231,45 @@ class CurrencyUI(ctk.CTkFrame):
             self.shortcut_buttons.append(button)
 
 
-    def _handle_entry_outside_click(self, event):
+    def _convert(self, _=None):
+
+        text = self.from_entry.get()
+
+        try:
+            value = float(text)
+        except ValueError:
+            self._set_result('')
+            return
+
+        from_currency = self.from_currency_menu.get()
+        to_currency = self.to_currency_menu.get()
+
+        result = self.logic.convert(value, from_currency, to_currency)
+
+        self._set_result('' if result is None else f'{result:.10g}')
+
+
+    def _populate_currency_menus(self):
+
+        currencies = self.logic.get_currencies()
+
+        self.from_currency_menu.configure(values=currencies)
+        self.to_currency_menu.configure(values=currencies)
+        self.from_currency_menu.set(currencies[0])
+        self.to_currency_menu.set(currencies[1] if len(currencies) > 1 else currencies[0])
+
+        self._convert()
+
+
+    def _set_result(self, text):
+
+        self.to_entry.configure(state='normal')
+        self.to_entry.delete(0, 'end')
+        self.to_entry.insert(0, text)
+        self.to_entry.configure(state='readonly')
+
+
+    def _handle_outside_click(self, event):
 
         widget = event.widget
         while widget is not None:
