@@ -48,15 +48,16 @@ class App:
             self.top_frame,
             values=list(self.windows.keys()),
             variable=self.selected_mode,
-            command=self.switch_mode,
             width=200,
             state='readonly',
+            border_width=1,
             fg_color='#2A2A2A',
             button_color='#3A3A3A',
-            button_hover_color='#444',
+            button_hover_color='#444444',
             dropdown_fg_color='#2A2A2A',
             dropdown_text_color='white',
-            text_color='white'
+            text_color='white',
+            command=self.switch_mode
         )
         self.mode_selector.pack(pady=10)
 
