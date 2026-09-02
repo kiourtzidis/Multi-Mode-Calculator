@@ -101,7 +101,7 @@ class CurrencyUI(ctk.CTkFrame):
             border_width=1,
             border_color='#333333',
             width=40,
-            #command=self._swap_currencies
+            command=self._swap_currencies
         )
         self.swap_button.grid(row=1, column=1, padx=8)
         self.swap_button.configure(cursor='hand2')
@@ -231,6 +231,18 @@ class CurrencyUI(ctk.CTkFrame):
             self.shortcut_buttons.append(button)
 
 
+    def _populate_currency_menus(self):
+    
+            currencies = self.logic.get_currencies()
+    
+            self.from_currency_menu.configure(values=currencies)
+            self.to_currency_menu.configure(values=currencies)
+            self.from_currency_menu.set(currencies[0])
+            self.to_currency_menu.set(currencies[1] if len(currencies) > 1 else currencies[0])
+    
+            self._convert()
+
+
     def _convert(self, _=None):
 
         text = self.from_entry.get()
@@ -249,16 +261,18 @@ class CurrencyUI(ctk.CTkFrame):
         self._set_result('' if result is None else f'{result:.10g}')
 
 
-    def _populate_currency_menus(self):
-
-        currencies = self.logic.get_currencies()
-
-        self.from_currency_menu.configure(values=currencies)
-        self.to_currency_menu.configure(values=currencies)
-        self.from_currency_menu.set(currencies[0])
-        self.to_currency_menu.set(currencies[1] if len(currencies) > 1 else currencies[0])
-
-        self._convert()
+    def _swap_currencies(self):
+    
+            from_currency = self.from_currency_menu.get()
+            to_currency = self.to_currency_menu.get()
+    
+            self.from_currency_menu.set(to_currency)
+            self.to_currency_menu.set(from_currency)
+    
+            self.from_entry.delete(0, 'end')
+            self.from_entry.insert(0, self.to_entry.get())
+    
+            self._convert()
 
 
     def _set_result(self, text):
