@@ -187,7 +187,10 @@ class CurrencyUI(ctk.CTkFrame):
 
         for i in range(len(REFERENCE_CURRENCIES)):
             label = ctk.CTkLabel(
-                self.reference_frame, text='', font=('Jetbrains Mono', 14), text_color='#CCCCCC'
+                self.reference_frame, 
+                text='', 
+                font=('Jetbrains Mono', 14), 
+                text_color='#CCCCCC'
             )
             label.grid(row=1 + i, column=0)
             self.reference_labels.append(label)
@@ -232,14 +235,14 @@ class CurrencyUI(ctk.CTkFrame):
 
 
     def _populate_currency_menus(self):
-    
+
             currencies = self.logic.get_currencies()
-    
+
             self.from_currency_menu.configure(values=currencies)
             self.to_currency_menu.configure(values=currencies)
             self.from_currency_menu.set(currencies[0])
-            self.to_currency_menu.set(currencies[1] if len(currencies) > 1 else currencies[0])
-    
+            self.to_currency_menu.set(currencies[1])
+
             self._convert()
 
 
@@ -250,6 +253,7 @@ class CurrencyUI(ctk.CTkFrame):
         try:
             value = float(text)
         except ValueError:
+            self._update_reference_table()
             self._set_result('')
             return
 
@@ -258,7 +262,8 @@ class CurrencyUI(ctk.CTkFrame):
 
         result = self.logic.convert(value, from_currency, to_currency)
 
-        self._set_result('' if result is None else f'{result:.10g}')
+        self._set_result('' if result is None else f'{result:.2f}')
+        self._update_reference_table()
 
 
     def _swap_currencies(self):
@@ -273,6 +278,22 @@ class CurrencyUI(ctk.CTkFrame):
             self.from_entry.insert(0, self.to_entry.get())
     
             self._convert()
+
+
+    def _update_reference_table(self):
+
+        from_currency = self.from_currency_menu.get()
+
+        for label, reference_currency in zip(self.reference_labels, REFERENCE_CURRENCIES):
+            if reference_currency == from_currency:
+                label.configure(text='-')
+                continue
+
+            result = self.logic.convert(1, from_currency, reference_currency )
+            if result is None:
+                label.configure(text='')
+            else:
+                label.configure(text=f'1 {from_currency}  =  {result:.2f} {reference_currency}')
 
 
     def _set_result(self, text):
