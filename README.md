@@ -7,9 +7,9 @@ A multi-mode calculator application built in Python using CustomTkinter, featuri
 
 ## Unfinished Features
 - Graph Mode
+- Currency Conversion Mode
 
 ## Planned Features
-- Currency Conversion Mode
 - Date Calculation Mode
 
 ## Technical Details
