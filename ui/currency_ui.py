@@ -12,6 +12,11 @@ CURRENCY_FLAGS = {
 
 REFERENCE_CURRENCIES = ('USD', 'EUR', 'GBP', 'JPY')
 
+CURRENCY_SHORTCUTS = (
+    ('USD', 'EUR'), ('USD', 'GBP'), ('USD', 'JPY'),
+    ('EUR', 'USD'), ('GBP', 'USD'), ('JPY', 'USD'),
+)
+
 class CurrencyUI(ctk.CTkFrame):
 
     def __init__(self, parent, logic):
@@ -29,6 +34,7 @@ class CurrencyUI(ctk.CTkFrame):
 
         self._build_panel()
         self._populate_currency_menus()
+        self._update_shortcuts()
 
         self.winfo_toplevel().bind('<Button-1>', self._handle_outside_click, add='+')
 
@@ -227,7 +233,7 @@ class CurrencyUI(ctk.CTkFrame):
                 text_color='#CCCCCC',
                 border_width=1,
                 border_color='#333333',
-                #command=lambda i=i: self._apply_shortcut(i)
+                command=lambda i=i: self._apply_shortcut(i)
             )
             button.grid(row=i // 3, column=i % 3, sticky='ew', padx=5, pady=3)
             button.configure(cursor='hand2')
@@ -294,6 +300,22 @@ class CurrencyUI(ctk.CTkFrame):
                 label.configure(text='')
             else:
                 label.configure(text=f'1 {from_currency}  =  {result:.2f} {reference_currency}')
+
+
+    def _update_shortcuts(self):
+
+        for button, (from_currency, to_currency) in zip(self.shortcut_buttons, CURRENCY_SHORTCUTS):
+            button.configure(text=f'{from_currency} → {to_currency}')
+
+
+    def _apply_shortcut(self, index):
+
+        from_currency, to_currency = CURRENCY_SHORTCUTS[index]
+
+        self.from_currency_menu.set(from_currency)
+        self.to_currency_menu.set(to_currency)
+
+        self._convert()
 
 
     def _set_result(self, text):
