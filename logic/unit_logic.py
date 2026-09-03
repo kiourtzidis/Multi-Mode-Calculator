@@ -34,6 +34,7 @@ UNIT_CATEGORIES = {
         'Square Meters': 1.0,
         'Square Kilometers': 1_000_000.0,
         'Hectares': 10_000.0,
+        'Square Centimeters': 0.0001,
         'Square Inches': 0.00064516,
         'Square Feet': 0.09290304,
         'Square Yards': 0.83612736,
