@@ -1,5 +1,4 @@
 import customtkinter as ctk
-from matplotlib.pyplot import flag
 
 CURRENCY_FLAGS = {
     'USD': '🇺🇸', 'EUR': '🇪🇺', 'GBP': '🇬🇧', 'JPY': '🇯🇵', 'CAD': '🇨🇦',
@@ -7,6 +6,8 @@ CURRENCY_FLAGS = {
     'MXN': '🇲🇽', 'KRW': '🇰🇷', 'SGD': '🇸🇬', 'NZD': '🇳🇿', 'SEK': '🇸🇪',
     'NOK': '🇳🇴', 'DKK': '🇩🇰', 'ZAR': '🇿🇦', 'HKD': '🇭🇰', 'TRY': '🇹🇷',
     'PLN': '🇵🇱', 'THB': '🇹🇭', 'IDR': '🇮🇩', 'AED': '🇦🇪', 'SAR': '🇸🇦',
+    'CZK': '🇨🇿', 'HUF': '🇭🇺', 'ILS': '🇮🇱', 'ISK': '🇮🇸', 'MYR': '🇲🇾',
+    'PHP': '🇵🇭', 'RON': '🇷🇴'
 }
 
 REFERENCE_CURRENCIES = ('USD', 'EUR', 'GBP', 'JPY')
