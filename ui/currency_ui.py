@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from matplotlib.pyplot import flag
 
 CURRENCY_FLAGS = {
     'USD': '🇺🇸', 'EUR': '🇪🇺', 'GBP': '🇬🇧', 'JPY': '🇯🇵', 'CAD': '🇨🇦',
@@ -241,11 +242,12 @@ class CurrencyUI(ctk.CTkFrame):
     def _populate_currency_menus(self):
 
             currencies = self.logic.get_currencies()
+            display_currencies = [self._display_currency(c) for c in currencies]
 
-            self.from_currency_menu.configure(values=currencies)
-            self.to_currency_menu.configure(values=currencies)
-            self.from_currency_menu.set(currencies[0])
-            self.to_currency_menu.set(currencies[1])
+            self.from_currency_menu.configure(values=display_currencies)
+            self.to_currency_menu.configure(values=display_currencies)
+            self.from_currency_menu.set(display_currencies[0])
+            self.to_currency_menu.set(display_currencies[1])
 
             self._convert()
 
@@ -261,8 +263,8 @@ class CurrencyUI(ctk.CTkFrame):
             self._set_result('')
             return
 
-        from_currency = self.from_currency_menu.get()
-        to_currency = self.to_currency_menu.get()
+        from_currency = self._currency_from_display(self.from_currency_menu.get())
+        to_currency = self._currency_from_display(self.to_currency_menu.get())
 
         result = self.logic.convert(value, from_currency, to_currency)
 
@@ -277,12 +279,12 @@ class CurrencyUI(ctk.CTkFrame):
 
     def _swap_currencies(self):
     
-            from_currency = self.from_currency_menu.get()
-            to_currency = self.to_currency_menu.get()
-    
-            self.from_currency_menu.set(to_currency)
-            self.to_currency_menu.set(from_currency)
-    
+            from_currency = self._currency_from_display(self.from_currency_menu.get())
+            to_currency = self._currency_from_display(self.to_currency_menu.get())
+
+            self.from_currency_menu.set(self._display_currency(to_currency))
+            self.to_currency_menu.set(self._display_currency(from_currency))
+
             self.from_entry.delete(0, 'end')
             self.from_entry.insert(0, self.to_entry.get())
     
@@ -291,7 +293,7 @@ class CurrencyUI(ctk.CTkFrame):
 
     def _update_reference_table(self):
 
-        from_currency = self.from_currency_menu.get()
+        from_currency = self._currency_from_display(self.from_currency_menu.get())
 
         for label, reference_currency in zip(self.reference_labels, REFERENCE_CURRENCIES):
             if reference_currency == from_currency:
@@ -315,8 +317,8 @@ class CurrencyUI(ctk.CTkFrame):
 
         from_currency, to_currency = CURRENCY_SHORTCUTS[index]
 
-        self.from_currency_menu.set(from_currency)
-        self.to_currency_menu.set(to_currency)
+        self.from_currency_menu.set(self._display_currency(from_currency))
+        self.to_currency_menu.set(self._display_currency(to_currency))
 
         self._convert()
 
@@ -327,6 +329,15 @@ class CurrencyUI(ctk.CTkFrame):
         self.to_entry.delete(0, 'end')
         self.to_entry.insert(0, text)
         self.to_entry.configure(state='readonly')
+
+
+    def _display_currency(self, currency):
+        flag = CURRENCY_FLAGS.get(currency, '')
+        return f'{flag} {currency}'.strip()
+
+
+    def _currency_from_display(self, display_value):
+        return display_value.split()[-1]
 
 
     def _handle_outside_click(self, event):
