@@ -311,7 +311,9 @@ class CurrencyUI(ctk.CTkFrame):
     def _populate_shortcuts(self):
 
         for button, (from_currency, to_currency) in zip(self.shortcut_buttons, CURRENCY_SHORTCUTS):
-            button.configure(text=f'{from_currency} → {to_currency}')
+            from_display = self._display_currency(from_currency)
+            to_display = self._display_currency(to_currency)
+            button.configure(text=f'{from_display} → {to_display}')
 
 
     def _apply_shortcut(self, index):
