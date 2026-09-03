@@ -1,13 +1,13 @@
-A multi-mode calculator application built in Python using CustomTkinter, featuring a custom expression evaluation engine. Currently under development. Additional features and documentation will be added as development progresses.
+A multi-mode calculator application built in Python using CustomTkinter, featuring a custom expression evaluation engine. Currently under development. Additional features will be added as development progresses.
 
 ## Current Features
 - Basic Mode
 - Scientific Mode
 - Unit Conversion Mode
+- Currency Conversion Mode
 
 ## Unfinished Features
 - Graph Mode
-- Currency Conversion Mode
 
 ## Planned Features
 - Date Calculation Mode
